@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const scenarios = await getCollection('scenarii', ({ data }) => !data.draft);
+---
+
+<BaseLayout title="Сценарии" description="13 сценариев роста карточки на Wildberries через контролируемый оборот." path="/scenarii">
+  <div class="container section">
+    <h1 class="mb-12">Сценарии</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {scenarios.map((s) => (
+        <a href={`/scenarii/${s.slug}`} class="block border rounded-xl p-6 hover:shadow-md transition-shadow">
+          <h2 class="text-lg font-semibold mb-2">{s.data.title}</h2>
+          <p class="text-gray-600 text-sm">{s.data.pain}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

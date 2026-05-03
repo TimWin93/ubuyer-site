@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import ScenarioLayout from '@/layouts/ScenarioLayout.astro';
+
+export async function getStaticPaths() {
+  const scenarios = await getCollection('scenarii', ({ data }) => !data.draft);
+  return scenarios.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { title, h1, description, slug } = entry.data;
+---
+
+<ScenarioLayout title={title} h1={h1} description={description} slug={entry.slug}>
+  <div class="prose max-w-3xl">
+    <Content />
+  </div>
+</ScenarioLayout>

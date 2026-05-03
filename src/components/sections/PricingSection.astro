@@ -1,0 +1,112 @@
+---
+import { CONTACTS } from '@/consts';
+import CheckCircle2 from '@lucide/astro/icons/circle-check';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import Search from '@lucide/astro/icons/search';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Warehouse from '@lucide/astro/icons/warehouse';
+import Package from '@lucide/astro/icons/package';
+import Truck from '@lucide/astro/icons/truck';
+import Star from '@lucide/astro/icons/star';
+
+const tiers = [
+  { volume: 'от 100 выкупов', price: '500', popular: false },
+  { volume: 'от 500 выкупов', price: '470', popular: true  },
+  { volume: 'от 1000 выкупов',price: '450', popular: false },
+];
+
+const included = [
+  { Icon: Search,    label: 'Поиск и заказ' },
+  { Icon: MapPin,    label: 'Забор из ПВЗ' },
+  { Icon: Warehouse, label: 'Хранение на ФФ' },
+  { Icon: Package,   label: 'Переупаковка' },
+  { Icon: Truck,     label: 'Отгрузка на WB' },
+];
+---
+
+<section id="pricing" class="section border-t border-brand-border bg-brand-surface/30">
+  <div class="container">
+    <div class="max-w-2xl mx-auto text-center mb-14">
+      <div class="tag mb-5">Стоимость</div>
+      <h2 class="text-brand-text mb-4">Прозрачная стоимость</h2>
+      <p class="text-brand-muted text-lg">
+        В цену входит полный цикл — от заказа до отгрузки на склад.<br />
+        Никаких скрытых платежей.
+      </p>
+    </div>
+
+    <!-- что входит -->
+    <div class="flex flex-wrap justify-center gap-3 mb-4">
+      {included.map(({ Icon, label }) => (
+        <div class="flex items-center gap-2 rounded-xl border border-brand-border
+                    bg-brand-surface px-4 py-2.5 text-sm text-brand-muted">
+          <Icon size={14} class="text-brand-accent" />
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+    <p class="text-center text-xs text-brand-muted mb-12">
+      * Упаковочный материал оплачивается отдельно — у каждого товара своя упаковка.
+    </p>
+
+    <!-- тарифы -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
+      {tiers.map((t) => (
+        <div class={`relative rounded-2xl p-6 text-center flex flex-col items-center gap-3 transition-all ${
+          t.popular
+            ? 'bg-brand-accent border border-brand-accent shadow-btn scale-[1.04]'
+            : 'card'
+        }`}>
+          {t.popular && (
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2
+                         text-xs font-semibold bg-brand-accent-2 text-brand-bg
+                         px-3 py-1 rounded-full">
+              популярный
+            </span>
+          )}
+          <span class={`text-xs font-medium ${t.popular ? 'text-white/70' : 'text-brand-muted'}`}>
+            {t.volume}
+          </span>
+          <div class="flex items-end gap-1">
+            <span class={`text-4xl font-bold font-mono ${t.popular ? 'text-white' : 'text-brand-text'}`}>
+              {t.price}
+            </span>
+            <span class={`text-sm mb-2 ${t.popular ? 'text-white/60' : 'text-brand-muted'}`}>
+              руб./шт
+            </span>
+          </div>
+          <CheckCircle2 size={16} class={t.popular ? 'text-white/50' : 'text-brand-accent'} />
+        </div>
+      ))}
+    </div>
+
+    <!-- отзывы -->
+    <div class="max-w-sm mx-auto rounded-2xl border border-brand-border bg-brand-surface
+                p-5 text-center mb-12">
+      <div class="flex items-center justify-center gap-1.5 mb-2">
+        <Star size={14} class="text-brand-accent-2" />
+        <p class="text-sm font-semibold text-brand-text">
+          Отзывы — <span class="text-brand-accent">100 руб./шт</span>
+        </p>
+      </div>
+      <p class="text-xs text-brand-muted">
+        Текст и фото предоставляете вы &nbsp;·&nbsp; Не более 20% от объёма выкупов
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center">
+      <p class="text-brand-muted mb-6 text-sm">
+        Точная стоимость зависит от категории и артикула —<br />
+        рассчитаем бесплатно за 15 минут.
+      </p>
+      <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-primary">
+        Получить точный расчёт
+        <ArrowRight size={16} />
+      </a>
+      <p class="mt-3 text-xs text-brand-muted">
+        Считаем бесплатно &nbsp;·&nbsp; Без обязательств &nbsp;·&nbsp; Ответим в Telegram
+      </p>
+    </div>
+  </div>
+</section>

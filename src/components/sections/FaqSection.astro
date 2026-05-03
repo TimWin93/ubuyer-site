@@ -1,0 +1,73 @@
+---
+const faqs = [
+  {
+    q: 'Не забанят ли карточку после самовыкупов?',
+    a: 'За 3 года работы ни один клиент не получил блокировку по нашей вине. Мы минимизируем риски через живую инфраструктуру: 3 000+ уникальных аккаунтов, разные устройства и IP, натуральные паузы между заказами, реальный процент отказов. Поведение идентично живым покупателям — WB не видит разницы.',
+  },
+  {
+    q: 'Что входит в стоимость услуги?',
+    a: 'В цену включён полный цикл: поиск и заказ, забор из ПВЗ, хранение на нашем ФФ, переупаковка, маркировка и отгрузка обратно на склад WB. Дополнительно оплачивается только упаковочный материал — у каждого товара своя специфика.',
+  },
+  {
+    q: 'Можно ли направить выкупы по конкретным ключевым запросам?',
+    a: 'Да, это одно из наших ключевых преимуществ. Мы распределяем заказы по конкретным запросам в нужной пропорции — карточка получает направленный сигнал и поднимается именно по тем ключам, которые важны для вашей ниши.',
+  },
+  {
+    q: 'Каков минимальный объём для старта?',
+    a: 'Минимум 50 выкупов на 1 артикул — это нижняя граница, при которой алгоритм WB замечает изменения. Договор заключаем от 100 заказов. Объём меньше 50 не даёт статистически значимого сигнала и смысла в нём нет.',
+  },
+  {
+    q: 'Как быстро видны результаты?',
+    a: 'Первые изменения позиций обычно заметны через 1–2 недели после начала выкупов. Устойчивый рост — от 3–4 недель. Скорость зависит от конкурентности ниши, объёма и того, насколько карточка подготовлена: фото, SEO, описание, отзывы.',
+  },
+  {
+    q: 'Работаете ли вы с OZON?',
+    a: 'Да, работаем с обеими платформами — Wildberries и OZON. Условия и цена рассчитываются индивидуально, так как механика алгоритмов и структура ПВЗ отличается.',
+  },
+  {
+    q: 'Гарантируете ли вы результат?',
+    a: 'Мы не даём гарантий конкретных позиций — алгоритм WB динамичен и зависит от десятков факторов. Мы гарантируем выполнение объёма согласно ТЗ, прозрачный отчёт и возврат товара в оборот. Реалистичные ожидания мы обсуждаем на этапе расчёта.',
+  },
+  {
+    q: 'Как вы работаете — официально?',
+    a: 'Полностью официально: заключаем договор, предоставляем акты выполненных работ, работаем по безналичному расчёту. Товар оформляется через ваш личный кабинет, финансовая прозрачность — без скрытых комиссий.',
+  },
+];
+---
+
+<section class="section border-t border-brand-border" itemscope itemtype="https://schema.org/FAQPage">
+  <div class="container">
+    <div class="max-w-2xl mx-auto text-center mb-12">
+      <div class="tag mb-5">FAQ</div>
+      <h2 class="text-brand-text">Частые вопросы</h2>
+    </div>
+
+    <div class="max-w-3xl mx-auto space-y-3">
+      {faqs.map((item, i) => (
+        <details
+          class="group rounded-2xl border border-brand-border bg-brand-surface
+                 open:border-brand-border-2 transition-all"
+          itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"
+        >
+          <summary
+            class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer
+                   list-none text-brand-text font-medium select-none
+                   hover:text-brand-accent transition-colors"
+          >
+            <span itemprop="name">{item.q}</span>
+            <span class="shrink-0 w-6 h-6 rounded-full border border-brand-border-2
+                         flex items-center justify-center text-brand-muted text-sm
+                         group-open:rotate-45 group-open:border-brand-accent
+                         group-open:text-brand-accent transition-all duration-200">
+              +
+            </span>
+          </summary>
+
+          <div class="px-6 pb-5" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p class="text-brand-muted text-sm leading-relaxed" itemprop="text">{item.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+---
+import { CONTACTS } from '@/consts';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import MessageCircle from '@lucide/astro/icons/message-circle';
+---
+
+<section class="relative overflow-hidden pt-24 pb-20 lg:pt-32 lg:pb-28">
+  <!-- фоновое свечение -->
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px]
+                rounded-full opacity-20 blur-[120px]
+                bg-gradient-to-b from-brand-accent to-transparent"></div>
+  </div>
+
+  <!-- сетка точек -->
+  <div class="pointer-events-none absolute inset-0 opacity-[0.06]"
+       style="background-image: radial-gradient(circle, #3D8EF8 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+  <div class="container relative">
+    <div class="max-w-3xl">
+
+      <!-- бейдж -->
+      <div class="tag mb-7 reveal">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
+        Wildberries · OZON · Живая инфраструктура
+      </div>
+
+      <!-- заголовок -->
+      <h1 class="text-brand-text mb-6 reveal text-[2.2rem] sm:text-5xl lg:text-6xl" style="animation-delay:0.1s">
+        Поднимаем карточки
+        в топ выдачи на WB
+        и OZON через
+        <span class="text-brand-accent text-glow"> живые самовыкупы</span>
+      </h1>
+
+      <!-- инфраструктура -->
+      <ul class="flex flex-col gap-2.5 mb-8 reveal" style="animation-delay:0.2s">
+        {[
+          '3 000+ уникальных аккаунтов',
+          '3 000+ ПВЗ по Москве и МО',
+          '100+ человек в команде',
+          'Свой склад и автопарк',
+        ].map((item) => (
+          <li class="flex items-center gap-3 text-base text-brand-muted">
+            <span class="w-1 h-1 rounded-full bg-brand-accent shrink-0"></span>
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <!-- доверие -->
+      <div class="inline-flex items-center gap-2 rounded-xl border border-brand-border
+                  bg-brand-surface px-4 py-2.5 text-sm text-brand-muted mb-10 reveal"
+           style="animation-delay:0.25s">
+        <span class="text-brand-accent-2">✓</span>
+        Работаем официально — договор, акты, закрывающие документы
+      </div>
+
+      <!-- CTA -->
+      <div class="flex flex-col sm:flex-row gap-3 reveal" style="animation-delay:0.3s">
+        <a href="#pricing" class="btn-primary">
+          Рассчитать стоимость
+          <ArrowRight size={16} />
+        </a>
+        <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost">
+          <MessageCircle size={16} />
+          Написать в Telegram
+        </a>
+      </div>
+
+      <p class="mt-5 text-xs text-brand-muted reveal" style="animation-delay:0.35s">
+        Минимум 100 заказов &nbsp;·&nbsp; Ответим за 15 минут &nbsp;·&nbsp; Работаем с ИП и ООО
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // scroll reveal
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>

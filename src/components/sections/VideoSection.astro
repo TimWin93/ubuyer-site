@@ -1,0 +1,72 @@
+---
+// Плейсхолдер — видео о компании появится позже
+---
+
+<section class="section border-t border-brand-border bg-brand-surface/30">
+  <div class="container">
+    <div class="max-w-3xl mx-auto text-center mb-10">
+      <div class="tag mb-5">О компании</div>
+      <h2 class="text-brand-text mb-4">
+        Посмотрите как это<br />работает изнутри
+      </h2>
+      <p class="text-brand-muted text-lg">
+        Показываем реальную инфраструктуру: склад, маршруты водителей,
+        работу с ПВЗ и возврат товара на WB.
+      </p>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto rounded-3xl overflow-hidden border border-brand-border
+                group cursor-pointer" id="video-placeholder">
+
+      <!-- многослойный градиентный фон -->
+      <div class="absolute inset-0 bg-gradient-to-br from-[#0C1530] via-[#08112A] to-[#04091A]"></div>
+      <div class="absolute inset-0"
+           style="background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(61,142,248,0.12) 0%, transparent 70%)"></div>
+
+      <!-- анимированное свечение за кнопкой -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-48 h-48 rounded-full bg-brand-accent opacity-10 blur-[60px]
+                    group-hover:opacity-20 transition-opacity duration-500"></div>
+      </div>
+
+      <!-- сетка точек -->
+      <div class="absolute inset-0 opacity-[0.04]"
+           style="background-image: radial-gradient(circle, #3D8EF8 1px, transparent 1px); background-size: 32px 32px;"></div>
+
+      <!-- контент -->
+      <div class="relative flex flex-col items-center justify-center py-16 sm:py-20 px-8">
+
+        <!-- кнопка play -->
+        <div class="w-20 h-20 rounded-full bg-brand-accent shadow-btn flex items-center justify-center
+                    group-hover:shadow-btn-hover group-hover:scale-110 transform transition-all duration-300 mb-7">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" class="translate-x-0.5">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+        </div>
+
+        <p class="text-brand-text font-semibold text-lg mb-2">Видео о компании UBuyer</p>
+        <p class="text-brand-muted text-sm mb-5">Склад, команда, маршруты — как всё устроено внутри</p>
+
+        <div class="tag">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-pulse"></span>
+          Скоро
+        </div>
+      </div>
+
+      <!-- нижняя полоса -->
+      <div class="relative border-t border-brand-border grid grid-cols-3 divide-x divide-brand-border">
+        {[
+          { v: '100+',   l: 'человек в команде' },
+          { v: '3 000+', l: 'ПВЗ-маршрутов' },
+          { v: '3+',     l: 'года на рынке' },
+        ].map((s) => (
+          <div class="py-4 text-center">
+            <p class="font-bold font-mono text-brand-text text-base sm:text-lg">{s.v}</p>
+            <p class="text-brand-muted text-xs">{s.l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

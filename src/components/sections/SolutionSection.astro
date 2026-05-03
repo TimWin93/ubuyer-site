@@ -1,0 +1,62 @@
+---
+const pillars = [
+  {
+    img: '/images/icons/shopping-3d.jpg',
+    alt: '3D иконка покупок',
+    title: 'Живые покупатели',
+    text: '3 000+ уникальных аккаунтов с реальной историей. Разные устройства, IP, геолокации. Не боты — люди.',
+    accent: 'За каждой покупкой стоят 80 человек: кликеры, водители, упаковщики, логисты.',
+  },
+  {
+    img: '/images/icons/logistics-3d.jpg',
+    alt: '3D логистика склад',
+    title: 'Полная логистика',
+    text: 'Заказ → забор из ПВЗ → хранение → переупаковка → отгрузка обратно на WB. Товар не сжигается — он возвращается в оборот.',
+    accent: 'Раздачи теряют товар. Самовыкупы возвращают его в оборот. Посчитайте сами.',
+  },
+  {
+    img: '/images/icons/search-3d.jpg',
+    alt: '3D лупа поиск',
+    title: 'Управляем ключами',
+    text: 'Распределяем объём по конкретным ключевым запросам с нужной скоростью и расписанием. Не просто объём — направленный сигнал алгоритму.',
+    accent: 'Можем поднять карточку по конкретному запросу, а не просто "нагнать оборот".',
+  },
+];
+---
+
+<section class="section border-t border-brand-border">
+  <div class="container">
+    <div class="max-w-2xl mx-auto text-center mb-14">
+      <div class="tag mb-5">Как это работает</div>
+      <h2 class="text-brand-text mb-4">
+        Контролируемый оборот —<br />это не накрутка
+      </h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        Алгоритм WB ранжирует по обороту, поведению покупателей и динамике ключевых запросов.
+        Мы создаём именно этот сигнал — через живую инфраструктуру, не программный код.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      {pillars.map((p) => (
+        <div class="card group flex flex-col">
+          <!-- 3D иконка в светлом контейнере -->
+          <div class="w-full h-36 rounded-xl mb-5 overflow-hidden bg-white/5 border border-brand-border flex items-center justify-center">
+            <img
+              src={p.img}
+              alt={p.alt}
+              class="h-full w-full object-cover opacity-90 mix-blend-luminosity group-hover:opacity-100 transition-opacity"
+              loading="lazy"
+            />
+          </div>
+          <h3 class="text-brand-text mb-2">{p.title}</h3>
+          <p class="text-brand-muted text-sm leading-relaxed mb-4">{p.text}</p>
+          <!-- акцентная цитата -->
+          <div class="mt-auto pt-4 border-t border-brand-border">
+            <p class="text-xs text-brand-accent leading-relaxed">"{p.accent}"</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

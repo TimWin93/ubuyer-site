@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { CONTACTS } from '@/consts';
+---
+
+<BaseLayout title="Контакты" description="Оставьте заявку или свяжитесь с командой UBuyer." path="/kontakty">
+  <div class="container section">
+    <h1 class="mb-8">Контакты</h1>
+    <p>Telegram: <a href={CONTACTS.telegram} class="text-brand-accent">{CONTACTS.telegram}</a></p>
+  </div>
+</BaseLayout>

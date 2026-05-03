@@ -1,0 +1,82 @@
+---
+import Rocket from '@lucide/astro/icons/rocket';
+import TrendingUp from '@lucide/astro/icons/trending-up';
+import PiggyBank from '@lucide/astro/icons/piggy-bank';
+import CalendarCheck from '@lucide/astro/icons/calendar-check';
+import RefreshCw from '@lucide/astro/icons/refresh-cw';
+import LayoutGrid from '@lucide/astro/icons/layout-grid';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+
+const scenarios = [
+  {
+    Icon: Rocket,
+    slug: 'zapusk-novoy-kartochki',
+    title: 'Запуск новой карточки',
+    text: 'Новый товар без истории. Нужно быстро набрать оборот и войти в индексацию.',
+  },
+  {
+    Icon: TrendingUp,
+    slug: 'rost-po-klyucham',
+    title: 'Рост по ключевым запросам',
+    text: 'Карточка есть, но стоит не там. Нужно подняться по конкретным поисковым запросам.',
+  },
+  {
+    Icon: PiggyBank,
+    slug: 'snizhenie-drr',
+    title: 'Снижение ДРР',
+    text: 'Реклама съедает маржу. Органика не работает без оборота — замкнутый круг.',
+  },
+  {
+    Icon: CalendarCheck,
+    slug: 'podgotovka-k-sezonu',
+    title: 'Подготовка к сезону',
+    text: 'Пик продаж через 4–8 недель. Войти в топ заранее, пока конкуренты спят.',
+  },
+  {
+    Icon: RefreshCw,
+    slug: 'vosstanovlenie-posle-prosadki',
+    title: 'Восстановление карточки',
+    text: 'Просадка позиций после акции, изменения алгоритма или паузы в продажах.',
+  },
+];
+---
+
+<section class="section border-t border-brand-border">
+  <div class="container">
+    <div class="max-w-2xl mx-auto text-center mb-14">
+      <div class="tag mb-5">Сценарии</div>
+      <h2 class="text-brand-text">Под какую задачу мы работаем</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {scenarios.map(({ Icon, slug, title, text }) => (
+        <a href={`/scenarii/${slug}`} class="card group flex flex-col">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20
+                      flex items-center justify-center mb-5">
+            <Icon size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text mb-2 group-hover:text-brand-accent transition-colors">{title}</h3>
+          <p class="text-brand-muted text-sm leading-relaxed flex-1">{text}</p>
+          <div class="mt-4 flex items-center gap-1.5 text-brand-accent text-xs font-semibold">
+            Подробнее
+            <ArrowRight size={12} />
+          </div>
+        </a>
+      ))}
+
+      <!-- все сценарии -->
+      <a href="/scenarii"
+         class="card flex flex-col items-center justify-center text-center min-h-[200px] group
+                border-dashed hover:border-brand-accent/50">
+        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20
+                    flex items-center justify-center mb-4">
+          <LayoutGrid size={18} class="text-brand-accent" />
+        </div>
+        <p class="text-brand-muted text-sm mb-2">Ещё 8 сценариев</p>
+        <span class="text-brand-accent text-sm font-semibold group-hover:underline">
+          Все сценарии →
+        </span>
+      </a>
+    </div>
+  </div>
+</section>

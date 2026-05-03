@@ -1,0 +1,49 @@
+---
+import { CONTACTS } from '@/consts';
+import MessageCircle from '@lucide/astro/icons/message-circle';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import BadgeCheck from '@lucide/astro/icons/badge-check';
+---
+
+<section class="section border-t border-brand-border relative overflow-hidden">
+  <!-- свечение снизу -->
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px]
+                rounded-full opacity-15 blur-[100px]
+                bg-gradient-to-t from-brand-accent to-transparent"></div>
+  </div>
+
+  <div class="container relative">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="tag mb-6">Начать сейчас</div>
+      <h2 class="text-brand-text mb-5">
+        Готовы разобрать<br />вашу карточку?
+      </h2>
+      <p class="text-brand-muted text-lg mb-10 leading-relaxed">
+        Расскажите про задачу — посчитаем объём, объясним механику
+        и ответим на вопросы.<br />Без давления. Без скриптов.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+        <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-primary">
+          <MessageCircle size={16} />
+          Написать в Telegram
+        </a>
+        <a href="#pricing" class="btn-ghost">
+          Рассчитать стоимость
+          <ArrowRight size={16} />
+        </a>
+      </div>
+
+      <!-- три гарантии -->
+      <div class="flex flex-wrap justify-center gap-5 text-xs text-brand-muted">
+        {['Работаем с ИП и ООО', 'Договор и закрывающие документы', 'Ответим за 15 минут'].map((item) => (
+          <div class="flex items-center gap-1.5">
+            <BadgeCheck size={13} class="text-brand-accent" />
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

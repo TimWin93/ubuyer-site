@@ -1,0 +1,15 @@
+---
+import { NAV_LINKS } from '@/consts';
+
+interface Props {
+  class?: string;
+}
+---
+
+<nav class:list={['flex gap-6', Astro.props.class]}>
+  {NAV_LINKS.map((link) => (
+    <a href={link.href} class="hover:text-brand-accent transition-colors font-medium">
+      {link.label}
+    </a>
+  ))}
+</nav>

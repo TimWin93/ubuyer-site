@@ -1,0 +1,59 @@
+---
+import ShieldCheck from '@lucide/astro/icons/shield-check';
+import CheckCircle2 from '@lucide/astro/icons/circle-check';
+
+const points = [
+  '3 000+ уникальных аккаунтов с реальной историей покупок',
+  'Разные устройства, IP-адреса и геолокации',
+  'Случайные интервалы между заказами — как у живых людей',
+  'Поведенческий паттерн: просмотр → корзина → покупка',
+  'Реальная доставка через ПВЗ, не фиктивные статусы',
+  'Объём согласовывается индивидуально — не выше безопасного порога',
+];
+---
+
+<section class="section border-t border-brand-border bg-brand-surface/30">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+
+      <!-- левая колонка -->
+      <div>
+        <div class="tag mb-6">Безопасность</div>
+        <h2 class="text-brand-text mb-5">
+          Почему риски минимальны
+        </h2>
+        <p class="text-brand-muted text-lg leading-relaxed mb-8">
+          WB борется с накруткой — мы это знаем. Именно поэтому мы построили
+          инфраструктуру, которая неотличима от живых покупок.
+        </p>
+
+        <!-- ключевой факт -->
+        <div class="rounded-2xl border border-brand-accent/25 bg-brand-accent-dim p-5 mb-6">
+          <div class="flex items-start gap-3">
+            <ShieldCheck size={20} class="text-brand-accent shrink-0 mt-0.5" />
+            <p class="text-brand-text font-medium leading-relaxed text-sm">
+              3 года работы — ни один клиент не получил блокировку по нашей вине.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-brand-muted text-xs leading-relaxed">
+          Мы честно говорим о рисках и не берём заявки, если видим
+          противопоказания для конкретной карточки.
+        </p>
+      </div>
+
+      <!-- правая колонка - чеклист -->
+      <div class="space-y-3">
+        {points.map((point) => (
+          <div class="flex items-start gap-3 rounded-xl border border-brand-border
+                      bg-brand-surface px-4 py-3 hover:border-brand-border-2 transition-colors">
+            <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+            <span class="text-brand-muted text-sm leading-relaxed">{point}</span>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>

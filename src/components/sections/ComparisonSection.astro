@@ -1,0 +1,157 @@
+---
+const tabs = [
+  {
+    id: 'bots',
+    label: 'vs. ПО и боты',
+    them: [
+      'Единообразные аккаунты — WB давно видит этот паттерн',
+      'Нет реальной доставки — только имитация статусов',
+      'Ноль логистики — товар не уходит и не возвращается',
+      'Один IP, одно устройство, одна сессия = моментальный флаг',
+      'Нет договора, нет актов, нет ответственности',
+    ],
+    us: [
+      '3 000+ уникальных аккаунтов с разными устройствами и IP',
+      'Реальная доставка через ПВЗ — живые статусы, живые люди',
+      'Полный логистический цикл: забор → склад → отгрузка на WB',
+      'Естественное поведение: просмотр, корзина, покупка, отказ',
+      'Договор, акты, закрывающие документы — всё официально',
+    ],
+    verdict: 'ПО — дешевле. Но WB заблокирует карточку быстрее, чем вы окупите вложения.',
+  },
+  {
+    id: 'giveaways',
+    label: 'vs. Раздачи',
+    them: [
+      'Товар уходит к неизвестным людям — в большинстве не возвращается',
+      'Нет контроля над исполнителем и результатом',
+      'Конкуренты видят раздачу и могут скопировать или пожаловаться',
+      'Раздачи видны WB — алгоритм учитывает их отдельно от органики',
+      'Нельзя направить рост по конкретным ключевым запросам',
+    ],
+    us: [
+      'Товар возвращается в оборот и отгружается обратно на WB-склад',
+      'Полный контроль: ТЗ → запуск → отчёт. Вы видите всё в таблице',
+      'Закрытая инфраструктура — конкуренты не видят вашу стратегию',
+      'Поведение идентично живым покупателям — сигнал воспринимается как органика',
+      'Распределяем заказы по конкретным ключевым запросам',
+    ],
+    verdict: 'Раздачи теряют товар. Самовыкупы возвращают его в оборот. Посчитайте сами.',
+  },
+  {
+    id: 'cheap',
+    label: 'vs. Дешёвые сервисы',
+    them: [
+      'Те же скрипты и боты — просто с красивым сайтом',
+      'Нет собственных ПВЗ-маршрутов и логистики',
+      'Скрытые комиссии вскрываются после оплаты',
+      'Нет полного цикла: товар не возвращается на склад WB',
+      'Нет договора — нет ответственности при бане',
+    ],
+    us: [
+      'Ручная работа: каждый аккаунт уникален, каждый сценарий прописан',
+      '3 000+ собственных ПВЗ-маршрутов, свой автопарк и склад',
+      'Прозрачное ценообразование: 450–500 руб./шт, без скрытых наценок',
+      'Полный цикл: заказ → ПВЗ → склад → переупаковка → отгрузка на WB',
+      'Официальный договор, акты выполненных работ',
+    ],
+    verdict: 'Дёшево = дороже. Один штраф или бан перекроет всю экономию от низкой цены.',
+  },
+];
+---
+
+<section class="section border-t border-brand-border bg-brand-surface/30">
+  <div class="container">
+    <div class="max-w-2xl mx-auto text-center mb-12">
+      <div class="tag mb-5">Сравнение</div>
+      <h2 class="text-brand-text mb-4">Чем мы отличаемся<br />от альтернатив</h2>
+      <p class="text-brand-muted text-lg">
+        Не все методы продвижения одинаково безопасны для карточки. Разберём честно.
+      </p>
+    </div>
+
+    <!-- табы — горизонтальный скролл на мобильном -->
+    <div class="flex gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none justify-start sm:justify-center" id="comp-tabs">
+      {tabs.map((t, i) => (
+        <button
+          data-tab={t.id}
+          class={`comp-tab shrink-0 px-5 py-2.5 rounded-xl text-sm font-semibold border transition-all duration-150
+            ${i === 0
+              ? 'bg-brand-accent text-white border-brand-accent'
+              : 'text-brand-muted border-brand-border hover:border-brand-border-2 hover:text-brand-text'
+            }`}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- контент табов -->
+    {tabs.map((t, i) => (
+      <div
+        id={`tab-${t.id}`}
+        class={`comp-panel max-w-4xl mx-auto ${i !== 0 ? 'hidden' : ''}`}
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <!-- Они -->
+          <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-6">
+            <div class="flex items-center gap-2 mb-5">
+              <span class="w-2 h-2 rounded-full bg-red-400"></span>
+              <span class="text-sm font-semibold text-red-400 uppercase tracking-wider">Альтернатива</span>
+            </div>
+            <ul class="space-y-3">
+              {t.them.map((item) => (
+                <li class="flex items-start gap-3 text-sm text-brand-muted leading-relaxed">
+                  <span class="text-red-400 shrink-0 mt-0.5">✗</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Мы -->
+          <div class="rounded-2xl border border-brand-accent/25 bg-brand-accent-dim p-6">
+            <div class="flex items-center gap-2 mb-5">
+              <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
+              <span class="text-sm font-semibold text-brand-accent uppercase tracking-wider">UBuyer</span>
+            </div>
+            <ul class="space-y-3">
+              {t.us.map((item) => (
+                <li class="flex items-start gap-3 text-sm text-brand-text leading-relaxed">
+                  <span class="text-brand-accent shrink-0 mt-0.5">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- вердикт -->
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-5 text-center">
+          <p class="text-brand-text font-medium">"{t.verdict}"</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const tabs = document.querySelectorAll('.comp-tab');
+  const panels = document.querySelectorAll('.comp-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const id = (tab as HTMLElement).dataset.tab;
+
+      tabs.forEach(t => {
+        t.classList.remove('bg-brand-accent', 'text-white', 'border-brand-accent');
+        t.classList.add('text-brand-muted', 'border-brand-border');
+      });
+      tab.classList.add('bg-brand-accent', 'text-white', 'border-brand-accent');
+      tab.classList.remove('text-brand-muted', 'border-brand-border');
+
+      panels.forEach(p => p.classList.add('hidden'));
+      document.getElementById(`tab-${id}`)?.classList.remove('hidden');
+    });
+  });
+</script>

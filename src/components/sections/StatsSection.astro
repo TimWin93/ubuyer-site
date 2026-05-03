@@ -1,0 +1,55 @@
+---
+const stats = [
+  { value: 3000, suffix: '+', label: 'уникальных аккаунтов' },
+  { value: 3000, suffix: '+', label: 'ПВЗ в Москве и МО' },
+  { value: 100,  suffix: '+', label: 'человек в команде' },
+  { value: 3,    suffix: '+', label: 'года на рынке' },
+];
+---
+
+<section class="border-y border-brand-border bg-brand-surface/50">
+  <div class="container py-8">
+    <div class="grid grid-cols-2 md:grid-cols-4">
+      {stats.map((s, i) => (
+        <div class={`flex flex-col items-center text-center py-6 px-4 ${
+          i < stats.length - 1 ? 'md:border-r border-brand-border' : ''
+        }`}>
+          <span
+            class="text-3xl md:text-4xl font-bold text-brand-text mb-1 font-mono counter"
+            data-target={s.value}
+            data-suffix={s.suffix}
+          >0{s.suffix}</span>
+          <span class="text-xs text-brand-muted leading-snug">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  function animateCounter(el: HTMLElement) {
+    const target = parseInt(el.dataset.target || '0');
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const start = performance.now();
+    function step(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString('ru') + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(e.target as HTMLElement);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.counter').forEach(el => observer.observe(el));
+</script>

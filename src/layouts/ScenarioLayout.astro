@@ -1,0 +1,41 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { SITE_URL } from '@/consts';
+
+interface Props {
+  title: string;
+  h1: string;
+  description: string;
+  slug: string;
+}
+
+const { title, h1, description, slug } = Astro.props;
+const path = `/scenarii/${slug}`;
+---
+
+<BaseLayout title={title} description={description} path={path}>
+  <nav class="container py-3 text-sm text-gray-500" aria-label="Хлебные крошки">
+    <ol class="flex items-center gap-2" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item" class="hover:text-brand-accent"><span itemprop="name">Главная</span></a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li>/</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/scenarii" itemprop="item" class="hover:text-brand-accent"><span itemprop="name">Сценарии</span></a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li>/</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">{title}</span>
+        <meta itemprop="position" content="3" />
+        <meta itemprop="id" content={`${SITE_URL}${path}`} />
+      </li>
+    </ol>
+  </nav>
+
+  <article class="container section">
+    <h1 class="mb-8">{h1}</h1>
+    <slot />
+  </article>
+</BaseLayout>

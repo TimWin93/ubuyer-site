@@ -1,0 +1,45 @@
+---
+import { SITE_NAME, CONTACTS, NAV_LINKS } from '@/consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-brand-surface border-t border-brand-border mt-0">
+  <div class="container py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+    <div>
+      <p class="font-bold text-lg text-brand-text mb-2">
+        <span class="text-brand-accent">U</span>Buyer
+      </p>
+      <p class="text-sm text-brand-muted leading-relaxed">
+        Управляем ростом карточки на WB и OZON<br />через контролируемый оборот.
+      </p>
+    </div>
+
+    <nav class="flex flex-col gap-2 text-sm">
+      <p class="text-xs text-brand-muted uppercase tracking-widest font-semibold mb-2">Навигация</p>
+      {NAV_LINKS.map((link) => (
+        <a href={link.href} class="text-brand-muted hover:text-brand-text transition-colors">{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="text-sm">
+      <p class="text-xs text-brand-muted uppercase tracking-widest font-semibold mb-3">Контакты</p>
+      <a href={CONTACTS.telegram} target="_blank" rel="noopener"
+         class="text-brand-muted hover:text-brand-accent transition-colors block mb-2">
+        Telegram
+      </a>
+      <a href={`mailto:${CONTACTS.email}`}
+         class="text-brand-muted hover:text-brand-accent transition-colors block">
+        {CONTACTS.email}
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t border-brand-border">
+    <div class="container py-4 flex flex-col sm:flex-row items-center justify-between
+                text-xs text-brand-muted gap-2">
+      <span>© {year} {SITE_NAME}. Все права защищены.</span>
+      <a href="/politika" class="hover:text-brand-text transition-colors">Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>

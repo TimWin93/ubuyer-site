@@ -1,0 +1,55 @@
+---
+import TrendingDown from '@lucide/astro/icons/trending-down';
+import DollarSign from '@lucide/astro/icons/dollar-sign';
+import SearchX from '@lucide/astro/icons/search-x';
+import Users from '@lucide/astro/icons/users';
+
+const pains = [
+  { icon: TrendingDown, text: 'Запускаете рекламу — расход растёт, позиции не двигаются.' },
+  { icon: DollarSign,   text: 'Поднимаете ставки — ДРР уходит в минус, маржа съедается.' },
+  { icon: SearchX,      text: 'Карточка не индексируется по нужным ключевым запросам.' },
+  { icon: Users,        text: 'Конкуренты обгоняют, хотя товар ничем не хуже вашего.' },
+];
+---
+
+<section class="section relative overflow-hidden">
+  <!-- фон -->
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute bottom-0 right-0 w-[600px] h-[400px] rounded-full
+                opacity-10 blur-[100px] bg-red-500"></div>
+  </div>
+
+  <div class="container relative">
+    <div class="max-w-2xl mx-auto text-center mb-14">
+      <div class="tag mb-5">Знакомо?</div>
+      <h2 class="text-brand-text mb-4">
+        Карточка стоит —<br />реклама дорожает
+      </h2>
+      <p class="text-brand-muted text-lg">
+        Проблема не в рекламе. Алгоритм WB ранжирует по обороту —
+        без оборота карточка не растёт, сколько бы вы ни тратили.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto mb-12">
+      {pains.map(({ icon: Icon, text }) => (
+        <div class="card flex items-start gap-4">
+          <div class="shrink-0 w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20
+                      flex items-center justify-center">
+            <Icon size={16} class="text-red-400" />
+          </div>
+          <p class="text-brand-muted text-sm leading-relaxed pt-1">{text}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- акцент -->
+    <div class="max-w-xl mx-auto rounded-2xl border border-brand-accent/30
+                bg-brand-accent-dim p-6 text-center">
+      <p class="text-brand-text font-medium text-lg leading-relaxed">
+        "Без оборота карточка не растёт.<br />
+        <span class="text-brand-accent">С правильным оборотом — растёт быстро.</span>"
+      </p>
+    </div>
+  </div>
+</section>

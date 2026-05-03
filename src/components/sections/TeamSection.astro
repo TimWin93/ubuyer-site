@@ -1,0 +1,67 @@
+---
+const points = [
+  'Кликеры, водители, упаковщики, логисты — всё внутри',
+  'Свой склад фулфилмента и автопарк в Москве',
+  'Работаем 3+ года — выстроили систему, а не хаос',
+  'Все сотрудники обучаются за счёт компании',
+];
+---
+
+<section class="section border-t border-brand-border">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+      <!-- фото -->
+      <div class="relative">
+        <div class="rounded-2xl overflow-hidden border border-brand-border">
+          <img
+            src="/images/team-photo.jpg"
+            alt="Команда UBuyer — 100+ человек, Москва"
+            width="1600"
+            height="1067"
+            class="w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+        <!-- бейдж поверх фото -->
+        <div class="absolute -bottom-4 -right-4 bg-brand-surface border border-brand-border
+                    rounded-2xl px-5 py-3 shadow-card">
+          <p class="text-2xl font-bold font-mono text-brand-text">100+</p>
+          <p class="text-xs text-brand-muted">человек в команде</p>
+        </div>
+      </div>
+
+      <!-- текст -->
+      <div>
+        <div class="tag mb-6">Наша команда</div>
+        <h2 class="text-brand-text mb-4">
+          За каждой покупкой<br />стоят 80 человек
+        </h2>
+        <p class="text-brand-muted text-lg leading-relaxed mb-8">
+          Это не сервис из двух человек с базой аккаунтов.
+          Это слаженная операционная система: свои люди, свои маршруты,
+          свой склад, своя логистика — всё под одной крышей.
+        </p>
+
+        <ul class="space-y-3 mb-8">
+          {points.map((p) => (
+            <li class="flex items-start gap-3 text-sm text-brand-muted">
+              <span class="w-1 h-1 rounded-full bg-brand-accent shrink-0 mt-2"></span>
+              {p}
+            </li>
+          ))}
+        </ul>
+
+        <!-- цитата-принцип -->
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
+          <p class="text-brand-muted text-sm leading-relaxed italic">
+            "Мы прошли через все плохие модели рынка — ПО, партнёрский
+            фулфилмент, хаос, провалы на складе. Именно поэтому наша
+            модель работает."
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
