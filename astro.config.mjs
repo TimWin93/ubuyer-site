@@ -8,5 +8,5 @@ export default defineConfig({
     tailwind(),
     sitemap(),
   ],
-  output: 'hybrid',
+  output: 'static',
 });
