@@ -80,10 +80,14 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
           {link.label}
         </a>
       ))}
-      <div class="pt-3 border-t border-brand-border mt-2">
+      <div class="pt-3 border-t border-brand-border mt-2 flex flex-col gap-2">
         <a href={CONTACTS.telegram} target="_blank" rel="noopener"
            class="btn-primary w-full justify-center text-sm">
-          Получить расчёт
+          Написать менеджеру
+        </a>
+        <a href={CONTACTS.channel} target="_blank" rel="noopener"
+           class="btn-ghost w-full justify-center text-sm">
+          Telegram-канал
         </a>
       </div>
     </nav>

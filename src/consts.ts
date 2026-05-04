@@ -4,7 +4,8 @@ export const SITE_DESCRIPTION =
   'Управляем ростом карточки на Wildberries через контролируемый оборот и живую инфраструктуру.';
 
 export const CONTACTS = {
-  telegram: 'https://t.me/ubuyer',
+  telegram: 'https://t.me/Manager_UBuyer',
+  channel: 'https://t.me/YourBuyer_WB',
   email: 'info@ubuyer.ru',
   phone: '+7 (978) 567-27-45',
   phoneTel: '+79785672745',
