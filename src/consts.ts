@@ -6,6 +6,8 @@ export const SITE_DESCRIPTION =
 export const CONTACTS = {
   telegram: 'https://t.me/ubuyer',
   email: 'info@ubuyer.ru',
+  phone: '+7 (999) 000-00-00',
+  phoneTel: '+79990000000',
 } as const;
 
 export const STATS = {

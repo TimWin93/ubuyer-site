@@ -2,7 +2,7 @@
 import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
 ---
 
-<header class="sticky top-0 z-50 border-b border-brand-border bg-brand-bg/80 backdrop-blur-md">
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-brand-border bg-brand-bg/90 backdrop-blur-md">
   <div class="container flex items-center justify-between h-16">
 
     <!-- лого -->
@@ -18,10 +18,39 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
     </nav>
 
     <div class="flex items-center gap-3">
+      <!-- телефон -->
+      <a href={`tel:${CONTACTS.phoneTel}`}
+         class="phone-btn hidden sm:inline-flex items-center gap-2 text-sm font-semibold
+                text-brand-text hover:text-brand-accent transition-colors">
+        <span class="phone-icon-wrap relative flex items-center justify-center w-8 h-8 rounded-lg
+                     bg-brand-accent/10 border border-brand-accent/30">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+               class="text-brand-accent relative z-10">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <!-- свечение -->
+          <span class="absolute inset-0 rounded-lg bg-brand-accent/20 animate-phone-glow"></span>
+        </span>
+        {CONTACTS.phone}
+      </a>
+
       <!-- desktop CTA -->
       <a href={CONTACTS.telegram} target="_blank" rel="noopener"
          class="hidden md:inline-flex btn-primary text-sm py-2.5 px-5">
         Получить расчёт
+      </a>
+
+      <!-- mobile: кнопка-звонок -->
+      <a href={`tel:${CONTACTS.phoneTel}`}
+         class="sm:hidden flex items-center justify-center w-10 h-10 rounded-xl
+                border border-brand-accent/30 bg-brand-accent/10 hover:bg-brand-accent/20 transition-colors"
+         aria-label="Позвонить">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             class="text-brand-accent">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
       </a>
 
       <!-- mobile burger -->

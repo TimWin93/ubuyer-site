@@ -1,6 +1,7 @@
-﻿# build output
+# build output
 dist/
 .output/
+.astro/
 
 # dependencies
 node_modules/
@@ -25,5 +26,4 @@ Thumbs.db
 .idea/
 
 # Vercel
-.vercel
-.vercel
+.vercel/

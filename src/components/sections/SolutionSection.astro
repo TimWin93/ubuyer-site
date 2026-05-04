@@ -19,7 +19,7 @@ const pillars = [
     alt: '3D лупа поиск',
     title: 'Управляем ключами',
     text: 'Распределяем объём по конкретным ключевым запросам с нужной скоростью и расписанием. Не просто объём — направленный сигнал алгоритму.',
-    accent: 'Можем поднять карточку по конкретному запросу, а не просто "нагнать оборот".',
+    accent: 'Можем поднять карточку по конкретному запросу, а не просто «нагнать оборот».',
   },
 ];
 ---
@@ -31,9 +31,9 @@ const pillars = [
       <h2 class="text-brand-text mb-4">
         Контролируемый оборот —<br />это не накрутка
       </h2>
-      <p class="text-brand-muted text-lg leading-relaxed">
+      <p class="text-brand-muted text-lg leading-normal text-left">
         Алгоритм WB ранжирует по обороту, поведению покупателей и динамике ключевых запросов.
-        Мы создаём именно этот сигнал — через живую инфраструктуру, не программный код.
+        Мы создаём именно этот сигнал — через живую инфраструктуру, не программный&nbsp;код.
       </p>
     </div>
 
@@ -45,7 +45,7 @@ const pillars = [
             <img
               src={p.img}
               alt={p.alt}
-              class="h-full w-full object-cover opacity-90 mix-blend-luminosity group-hover:opacity-100 transition-opacity"
+              class="h-full w-full object-cover opacity-95 group-hover:opacity-100 transition-opacity"
               loading="lazy"
             />
           </div>
@@ -53,7 +53,7 @@ const pillars = [
           <p class="text-brand-muted text-sm leading-relaxed mb-4">{p.text}</p>
           <!-- акцентная цитата -->
           <div class="mt-auto pt-4 border-t border-brand-border">
-            <p class="text-xs text-brand-accent leading-relaxed">"{p.accent}"</p>
+            <p class="text-xs text-brand-accent leading-relaxed">«{p.accent}»</p>
           </div>
         </div>
       ))}
