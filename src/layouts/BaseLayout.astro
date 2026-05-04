@@ -43,6 +43,15 @@ const seo = buildSeo(Astro.props);
         k.src=r,a.parentNode.insertBefore(k,a)})(window,document,'script',
         'https://mc.yandex.ru/metrika/tag.js','ym');
         ym(ymId,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+
+        document.addEventListener('click', function(e) {
+          var a = e.target.closest('a');
+          if (!a) return;
+          var href = a.getAttribute('href') || '';
+          if (href.indexOf('t.me') !== -1)  ym(ymId,'reachGoal','click_telegram');
+          if (href.indexOf('tel:') !== -1)   ym(ymId,'reachGoal','click_phone');
+          if (href.indexOf('#pricing') !== -1) ym(ymId,'reachGoal','click_pricing');
+        });
       </script>
     )}
   </head>
