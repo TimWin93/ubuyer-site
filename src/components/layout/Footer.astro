@@ -47,7 +47,34 @@ const year = new Date().getFullYear();
     <div class="container py-4 flex flex-col sm:flex-row items-center justify-between
                 text-xs text-brand-muted gap-2">
       <span>© {year} {SITE_NAME}. Все права защищены.</span>
-      <a href="/politika" class="hover:text-brand-text transition-colors">Политика конфиденциальности</a>
+      <div class="flex items-center gap-4">
+        <button
+          id="requisites-toggle"
+          class="hover:text-brand-text transition-colors underline underline-offset-2 decoration-dashed"
+        >
+          Реквизиты
+        </button>
+        <a href="/politika" class="hover:text-brand-text transition-colors">Политика конфиденциальности</a>
+      </div>
+    </div>
+
+    <!-- реквизиты — раскрывается по кнопке -->
+    <div id="requisites-panel" class="hidden border-t border-brand-border/50">
+      <div class="container py-4 text-xs text-brand-muted leading-relaxed">
+        ИП Кирилюк Никита Сергеевич &nbsp;·&nbsp;
+        ИНН: 920253709740 &nbsp;·&nbsp;
+        ОГРНИП: 323920000002117 &nbsp;·&nbsp;
+        359231, Республика Калмыкия, Черноземельский р-н, п. Артезиан, ул. Школьная д. 4
+      </div>
     </div>
   </div>
 </footer>
+
+<script>
+  const toggle = document.getElementById('requisites-toggle');
+  const panel  = document.getElementById('requisites-panel');
+  toggle?.addEventListener('click', () => {
+    panel?.classList.toggle('hidden');
+    if (toggle) toggle.textContent = panel?.classList.contains('hidden') ? 'Реквизиты' : 'Скрыть реквизиты';
+  });
+</script>
