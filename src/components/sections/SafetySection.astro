@@ -3,12 +3,19 @@ import ShieldCheck from '@lucide/astro/icons/shield-check';
 import CheckCircle2 from '@lucide/astro/icons/circle-check';
 
 const points = [
-  '3 000+ уникальных аккаунтов с реальной историей покупок',
-  'Разные устройства, IP-адреса и геолокации',
-  'Случайные интервалы между заказами — как у живых людей',
-  'Поведенческий паттерн: просмотр → корзина → покупка',
-  'Реальная доставка через ПВЗ, не фиктивные статусы',
-  'Объём согласовывается индивидуально — не выше безопасного порога',
+  'Каждый аккаунт делает заказ не чаще одного раза в 16 дней',
+  'Аккаунтам по 3+ лет — ежедневно добавляется по 3–4 новых профиля',
+  'Корзина из нескольких товаров — не один артикул, как у ботов',
+  'Реальный процент отказов — не 100% забор, что сразу видно WB',
+  'Реальная доставка через ПВЗ — живые статусы, живые люди',
+  'Разные устройства, IP и геолокации — ни один профиль не повторяется',
+];
+
+const metrics = [
+  { value: '16',    unit: ' дней', target: 16,   suffix: '',  thousands: false, desc: 'минимальный интервал заказа с одного аккаунта' },
+  { value: '80',    unit: ' дней', target: 80,   suffix: '',  thousands: false, desc: 'один курьер на одном ПВЗ — не чаще' },
+  { value: '3 000+', unit: '',     target: 3000, suffix: '+', thousands: true,  desc: 'профилей: своя SIM, банковская карта, адрес — аккаунтам 3+ лет' },
+  { value: '0',     unit: '',     target: 0,    suffix: '',  thousands: false, desc: 'блокировок клиентов по нашей вине за 3 года работы' },
 ];
 ---
 
@@ -55,5 +62,57 @@ const points = [
       </div>
 
     </div>
+
+    <!-- цифры безопасности -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-10 pt-10 border-t border-brand-border">
+      {metrics.map((m) => (
+        <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-5 text-center
+                    hover:border-brand-border-2 transition-colors">
+          <div class="font-mono font-bold text-2xl md:text-3xl text-brand-text mb-1">
+            <span
+              class="safety-counter"
+              data-target={m.target}
+              data-suffix={m.suffix}
+              data-thousands={m.thousands ? '1' : ''}
+            >{m.value}</span><span class="text-brand-accent">{m.unit}</span>
+          </div>
+          <p class="text-xs text-brand-muted leading-snug">{m.desc}</p>
+        </div>
+      ))}
+    </div>
   </div>
 </section>
+
+<script>
+  function animateSafetyCounter(el: HTMLElement) {
+    const target = parseInt(el.dataset.target || '0');
+    const suffix = el.dataset.suffix || '';
+    const thousands = el.dataset.thousands === '1';
+    if (target === 0) { el.textContent = '0' + suffix; return; }
+    const duration = 1600;
+    const start = performance.now();
+    function fmt(n: number) {
+      if (thousands) return n.toLocaleString('ru').replace(',', ' ');
+      return String(n);
+    }
+    function step(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = fmt(Math.floor(eased * target)) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateSafetyCounter(e.target as HTMLElement);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.safety-counter').forEach(el => observer.observe(el));
+</script>

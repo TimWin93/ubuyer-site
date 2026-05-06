@@ -4,7 +4,7 @@ import TrendingUp from '@lucide/astro/icons/trending-up';
 import PiggyBank from '@lucide/astro/icons/piggy-bank';
 import CalendarCheck from '@lucide/astro/icons/calendar-check';
 import RefreshCw from '@lucide/astro/icons/refresh-cw';
-import LayoutGrid from '@lucide/astro/icons/layout-grid';
+import Users from '@lucide/astro/icons/users';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
 
 const scenarios = [
@@ -38,6 +38,12 @@ const scenarios = [
     title: 'Восстановление карточки',
     text: 'Просадка позиций после акции, изменения алгоритма или паузы в продажах.',
   },
+  {
+    Icon: Users,
+    slug: 'zahvat-polok',
+    title: 'Захват полок конкурентов',
+    text: 'Конкурент тратит деньги на рекламу. Вы стоите в его рекомендациях и перехватываете покупателей, которые его не выбрали — бесплатно.',
+  },
 ];
 ---
 
@@ -63,19 +69,14 @@ const scenarios = [
           </div>
         </a>
       ))}
+    </div>
 
-      <!-- все сценарии -->
+    <div class="text-center mt-8">
       <a href="/scenarii"
-         class="card flex flex-col items-center justify-center text-center min-h-[200px] group
-                border-dashed hover:border-brand-accent/50">
-        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20
-                    flex items-center justify-center mb-4">
-          <LayoutGrid size={18} class="text-brand-accent" />
-        </div>
-        <p class="text-brand-muted text-sm mb-2">Ещё 8 сценариев</p>
-        <span class="text-brand-accent text-sm font-semibold group-hover:underline">
-          Все сценарии →
-        </span>
+         class="inline-flex items-center gap-2 text-brand-accent text-sm font-semibold
+                hover:opacity-80 transition-opacity">
+        Смотреть все сценарии
+        <ArrowRight size={14} />
       </a>
     </div>
   </div>

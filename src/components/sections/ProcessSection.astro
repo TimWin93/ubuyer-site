@@ -3,6 +3,46 @@ import MessageSquare from '@lucide/astro/icons/message-square';
 import FileText from '@lucide/astro/icons/file-text';
 import Zap from '@lucide/astro/icons/zap';
 import BarChart2 from '@lucide/astro/icons/chart-bar';
+import MousePointer2 from '@lucide/astro/icons/mouse-pointer-2';
+import ShoppingCart from '@lucide/astro/icons/shopping-cart';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Truck from '@lucide/astro/icons/truck';
+import Package from '@lucide/astro/icons/package';
+import TrendingUp from '@lucide/astro/icons/trending-up';
+
+const bars = [
+  { day: '1', h: 40 },
+  { day: '2', h: 50 },
+  { day: '3', h: 65 },
+  { day: '4', h: 100 },
+  { day: '5', h: 100 },
+  { day: '6', h: 95 },
+  { day: '7', h: 50 },
+];
+
+const stratPoints = [
+  {
+    title: 'Нарастание → плато → выход',
+    text: 'Объём плавно растёт, держится на пике и снижается — в расчёте на то, что органика начинает подхватывать позицию.',
+  },
+  {
+    title: 'Забор растянут на 3 дня',
+    text: 'Заказы одного дня разбиваются на 3 дня забора. Нет аномалии «100 человек заказали — все пришли в один день».',
+  },
+  {
+    title: 'Реклама включена с первого дня',
+    text: 'Товар виден на рекламных позициях — органические переходы размывают выкупной трафик и снимают подозрения алгоритма.',
+  },
+];
+
+const flowNodes = [
+  { Icon: MousePointer2, label: 'Кликер',   sub: 'Профиль 3+ лет\nсвоя SIM и карта', highlight: false },
+  { Icon: ShoppingCart,  label: 'Заказ',    sub: 'Оформление\nна WB / OZON',          highlight: false },
+  { Icon: MapPin,        label: 'ПВЗ',      sub: 'Покупатель\nзабирает товар',        highlight: false },
+  { Icon: Truck,         label: 'Курьер',   sub: 'Доставка на\nнаш склад',            highlight: false },
+  { Icon: Package,       label: 'Склад',    sub: 'Приёмка и\nконтроль качества',      highlight: false },
+  { Icon: TrendingUp,    label: 'Выкуп ✓',  sub: 'Позиция растёт\nрейтинг выше',      highlight: true  },
+];
 
 const steps = [
   {
@@ -66,5 +106,132 @@ const steps = [
     <p class="text-center text-xs text-brand-muted mt-8">
       Минимальный заказ: 100 выкупов &nbsp;·&nbsp; Минимум 50 выкупов на 1 артикул
     </p>
+
+    <!-- визуализация стратегии -->
+    <div class="mt-12 rounded-2xl border border-brand-border bg-brand-surface p-6 sm:p-10
+                grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+      <!-- бар-чарт -->
+      <div>
+        <p class="text-xs text-brand-muted uppercase tracking-wider font-semibold mb-6">
+          Пример: 1 000 выкупов за 7 дней
+        </p>
+        <div class="flex items-end gap-2 h-24 mb-2">
+          {bars.map((b) => (
+            <div
+              class="flex-1 rounded-t-md bg-brand-accent/50 hover:bg-brand-accent transition-colors duration-150"
+              style={`height: ${b.h}%`}
+            ></div>
+          ))}
+        </div>
+        <div class="flex gap-2">
+          {bars.map((b) => (
+            <div class="flex-1 text-center text-[10px] text-brand-muted font-mono">{b.day}</div>
+          ))}
+        </div>
+        <div class="flex items-center gap-4 mt-4 text-[10px] text-brand-muted">
+          <span class="flex items-center gap-1.5">
+            <span class="w-3 h-3 rounded-sm bg-brand-accent/50 inline-block shrink-0"></span>
+            заказы / день
+          </span>
+          <span>нарастание → плато → выход</span>
+        </div>
+      </div>
+
+      <!-- объяснение -->
+      <div class="space-y-6">
+        {stratPoints.map((p) => (
+          <div class="flex items-start gap-3">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2"></span>
+            <div>
+              <p class="text-brand-text text-sm font-semibold mb-1">{p.title}</p>
+              <p class="text-brand-muted text-sm leading-relaxed">{p.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+
+    <!-- Flow-диаграмма полного цикла -->
+    <div class="mt-14">
+      <div class="max-w-2xl mx-auto text-center mb-10">
+        <p class="text-xs text-brand-muted uppercase tracking-wider font-semibold mb-2">Полный цикл</p>
+        <h3 class="text-brand-text text-xl sm:text-2xl font-semibold">Как работает каждый выкуп</h3>
+        <p class="text-brand-muted text-sm mt-3">От нажатия кнопки «Купить» до роста позиции в выдаче</p>
+      </div>
+
+      <div class="rounded-2xl border border-brand-border bg-brand-surface p-6 sm:p-10 overflow-x-auto">
+        <div class="flex items-start gap-0 min-w-[680px] lg:min-w-0" id="flow-diagram">
+          {flowNodes.map(({ Icon, label, sub, highlight }, i) => (
+            <>
+              <div
+                class="flow-node flex flex-col items-center text-center flex-1 px-1"
+                style={`--i: ${i}`}
+              >
+                <div class={`w-12 h-12 rounded-xl flex items-center justify-center mb-3 transition-colors
+                  ${highlight
+                    ? 'bg-brand-accent/20 border border-brand-accent/50 shadow-[0_0_16px_rgba(61,142,248,0.25)]'
+                    : 'bg-brand-accent/10 border border-brand-accent/20'}`}>
+                  <Icon size={20} class={highlight ? 'text-brand-accent-2' : 'text-brand-accent'} />
+                </div>
+                <p class={`text-sm font-semibold mb-1 ${highlight ? 'text-brand-accent-2' : 'text-brand-text'}`}>
+                  {label}
+                </p>
+                <p class="text-brand-muted text-[11px] leading-snug whitespace-pre-line">{sub}</p>
+              </div>
+
+              {i < flowNodes.length - 1 && (
+                <div
+                  class="flow-arr flex items-center justify-center shrink-0 mt-4 px-0.5"
+                  style={`--i: ${i + 0.5}`}
+                >
+                  <svg width="28" height="14" viewBox="0 0 28 14" fill="none" aria-hidden="true">
+                    <line x1="2" y1="7" x2="21" y2="7"
+                      stroke="#3D8EF8" stroke-width="1.5"
+                      stroke-dasharray="4 3" stroke-opacity="0.55" />
+                    <path d="M18 4L23 7L18 10"
+                      stroke="#3D8EF8" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </div>
+              )}
+            </>
+          ))}
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<script>
+  const diagram = document.getElementById('flow-diagram');
+  if (diagram) {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('flow-active');
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    obs.observe(diagram);
+  }
+</script>
+
+<style>
+  .flow-node,
+  .flow-arr {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition-delay: calc(var(--i) * 110ms);
+  }
+  .flow-active .flow-node,
+  .flow-active .flow-arr {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

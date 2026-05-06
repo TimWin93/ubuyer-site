@@ -8,6 +8,7 @@ import Warehouse from '@lucide/astro/icons/warehouse';
 import Package from '@lucide/astro/icons/package';
 import Truck from '@lucide/astro/icons/truck';
 import Star from '@lucide/astro/icons/star';
+import Info from '@lucide/astro/icons/info';
 
 const tiers = [
   { volume: 'от 100 выкупов', price: '500', popular: false },
@@ -92,6 +93,39 @@ const included = [
       <p class="text-xs text-brand-muted">
         Текст и фото предоставляете вы &nbsp;·&nbsp; Не более 20% от объёма выкупов
       </p>
+    </div>
+
+    <!-- оборотные средства -->
+    <div class="max-w-2xl mx-auto rounded-2xl border border-brand-border bg-brand-surface p-5 mb-10">
+      <div class="flex items-start gap-4">
+        <div class="w-9 h-9 rounded-xl bg-brand-accent/10 border border-brand-accent/20
+                    flex items-center justify-center shrink-0 mt-0.5">
+          <Info size={16} class="text-brand-accent" />
+        </div>
+        <div>
+          <p class="text-brand-text text-sm font-semibold mb-2">Про оборотные средства</p>
+          <p class="text-brand-muted text-sm leading-relaxed mb-3">
+            Помимо оплаты услуг вносятся <span class="text-brand-text font-medium">оборотные средства</span> —
+            деньги на покупку ваших товаров. Через реальные покупки они поступают
+            на ваш кабинет WB, а не к нам. Неизрасходованный остаток возвращается полностью
+            по завершении стратегии.
+          </p>
+          <div class="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-brand-muted">
+            <span class="flex items-center gap-1.5">
+              <CheckCircle2 size={12} class="text-brand-accent" />
+              Комиссия 1% от фактически потраченной суммы
+            </span>
+            <span class="flex items-center gap-1.5">
+              <CheckCircle2 size={12} class="text-brand-accent" />
+              Остаток возвращается полностью
+            </span>
+            <span class="flex items-center gap-1.5">
+              <CheckCircle2 size={12} class="text-brand-accent" />
+              Все движения денег — в вашей таблице ежедневно
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- CTA -->

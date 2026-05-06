@@ -1,6 +1,6 @@
 ---
-const stats = [
-  { value: 3000, suffix: '+', label: 'уникальных аккаунтов' },
+const stats: { value: number; suffix: string; label: string; sub?: string }[] = [
+  { value: 3000, suffix: '+', label: 'покупательских профилей', sub: 'SIM · карта · адрес · 3+ лет каждому' },
   { value: 3000, suffix: '+', label: 'ПВЗ в Москве и МО' },
   { value: 100,  suffix: '+', label: 'человек в команде' },
   { value: 3,    suffix: '+', label: 'года на рынке' },
@@ -20,6 +20,7 @@ const stats = [
             data-suffix={s.suffix}
           >0{s.suffix}</span>
           <span class="text-xs text-brand-muted leading-snug">{s.label}</span>
+          {s.sub && <span class="text-[10px] text-brand-muted/50 leading-tight mt-0.5">{s.sub}</span>}
         </div>
       ))}
     </div>

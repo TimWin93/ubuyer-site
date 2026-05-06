@@ -1,17 +1,19 @@
 ---
 const reviews = [
-  { src: '/images/reviews/review-1.jpg', alt: 'Отзыв клиента UBuyer' },
-  { src: '/images/reviews/review-2.jpg', alt: 'Отзыв клиента UBuyer' },
-  { src: '/images/reviews/review-3.jpg', alt: 'Отзыв клиента UBuyer' },
-  { src: '/images/reviews/review-4.jpg', alt: 'Отзыв клиента UBuyer' },
-  { src: '/images/reviews/review-5.jpg', alt: 'Отзыв клиента UBuyer' },
-  { src: '/images/reviews/review-6.jpg', alt: 'Отзыв клиента UBuyer' },
+  { src: '/images/reviews/review-1.jpg', alt: 'Отзыв клиента UBuyer 1' },
+  { src: '/images/reviews/review-2.jpg', alt: 'Отзыв клиента UBuyer 2' },
+  { src: '/images/reviews/review-3.jpg', alt: 'Отзыв клиента UBuyer 3' },
+  { src: '/images/reviews/review-4.jpg', alt: 'Отзыв клиента UBuyer 4' },
+  { src: '/images/reviews/review-5.jpg', alt: 'Отзыв клиента UBuyer 5' },
+  { src: '/images/reviews/review-6.jpg', alt: 'Отзыв клиента UBuyer 6' },
 ];
+
+const row1 = reviews.slice(0, 3);
+const row2 = reviews.slice(3);
 ---
 
 <section class="section border-t border-brand-border">
   <div class="container">
-
     <div class="max-w-2xl mx-auto text-center mb-14">
       <div class="tag mb-5">Отзывы клиентов</div>
       <h2 class="text-brand-text">Что говорят продавцы</h2>
@@ -19,21 +21,34 @@ const reviews = [
         Скриншоты из наших рабочих чатов — без редактуры и постановки
       </p>
     </div>
+  </div>
 
-    <div class="columns-1 sm:columns-2 lg:columns-3 gap-5">
-      {reviews.map((r) => (
-        <div class="break-inside-avoid mb-5 rounded-2xl overflow-hidden border border-brand-border
-                    hover:border-brand-border-2 transition-colors">
-          <img
-            src={r.src}
-            alt={r.alt}
-            class="w-full h-auto block"
-            loading="lazy"
-          />
+  <!-- marquee — полная ширина -->
+  <div class="marquee-wrapper">
+    <!-- маски по краям -->
+    <div class="mask-left"></div>
+    <div class="mask-right"></div>
+
+    <!-- ряд 1: влево -->
+    <div class="marquee-track track-left mb-4">
+      {[...row1, ...row1, ...row1, ...row1].map((r, i) => (
+        <div class="review-card">
+          <img src={r.src} alt={r.alt} loading="lazy" />
         </div>
       ))}
     </div>
 
+    <!-- ряд 2: вправо -->
+    <div class="marquee-track track-right">
+      {[...row2, ...row2, ...row2, ...row2].map((r, i) => (
+        <div class="review-card">
+          <img src={r.src} alt={r.alt} loading="lazy" />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container">
     <div class="text-center mt-10">
       <a
         href="https://t.me/Ubuyer_feedback"
@@ -44,6 +59,62 @@ const reviews = [
         Смотреть все отзывы в Telegram
       </a>
     </div>
-
   </div>
 </section>
+
+<style>
+  .marquee-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: 4px 0;
+  }
+
+  .mask-left,
+  .mask-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 120px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .mask-left  { left: 0;  background: linear-gradient(to right,  #04091A, transparent); }
+  .mask-right { right: 0; background: linear-gradient(to left, #04091A, transparent); }
+
+  .marquee-track {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+
+  .track-left  { animation: scroll-left  40s linear infinite; }
+  .track-right { animation: scroll-right 45s linear infinite; }
+
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes scroll-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  .review-card {
+    width: 220px;
+    height: 300px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #1A2B4A;
+    transition: border-color 0.2s;
+  }
+  .review-card:hover { border-color: #243A60; }
+
+  .review-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>
