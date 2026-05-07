@@ -17,55 +17,79 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
        style="background-image: radial-gradient(circle, #3D8EF8 1px, transparent 1px); background-size: 40px 40px;"></div>
 
   <div class="container relative">
-    <div class="max-w-3xl">
+    <div class="xl:grid xl:grid-cols-[1fr_360px] xl:items-center xl:gap-16">
 
-      <!-- бейдж -->
-      <div class="tag mb-7 reveal">
-        <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
-        Wildberries · OZON · Живая инфраструктура
+      <!-- левая колонка -->
+      <div class="max-w-3xl xl:max-w-none">
+
+        <!-- бейдж -->
+        <div class="tag mb-7 reveal">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
+          Wildberries · OZON · Живая инфраструктура
+        </div>
+
+        <!-- заголовок -->
+        <h1 class="text-brand-text mb-6 reveal text-[2.2rem] sm:text-5xl lg:text-6xl" style="animation-delay:0.1s">
+          Поднимаем карточки
+          в топ выдачи на WB
+          и OZON через
+          <span class="text-brand-accent text-glow"> живые самовыкупы</span>
+        </h1>
+
+        <!-- инфраструктура -->
+        <ul class="flex flex-col gap-2.5 mb-8 reveal" style="animation-delay:0.2s">
+          {[
+            'WB видит живых покупателей — аккаунты с многолетней историей',
+            'Каждый заказ в отдельном ПВЗ — никакой кластеризации, никаких паттернов',
+            'Товар не сжигается — возвращается в оборот и отгружается обратно на склад WB',
+            'Полный цикл внутри — своя команда, склад и автопарк, не субподряд',
+          ].map((item) => (
+            <li class="flex items-center gap-3 text-base text-brand-muted">
+              <span class="w-1 h-1 rounded-full bg-brand-accent shrink-0"></span>
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <!-- доверие -->
+        <div class="inline-flex items-center gap-2 rounded-xl border border-brand-border
+                    bg-brand-surface px-4 py-2.5 text-sm text-brand-muted mb-10 reveal"
+             style="animation-delay:0.25s">
+          <span class="text-brand-accent-2">✓</span>
+          Работаем официально — договор, акты, закрывающие документы
+        </div>
+
+        <!-- CTA -->
+        <div class="flex flex-col sm:flex-row gap-3 reveal" style="animation-delay:0.3s">
+          <a href="#pricing" class="btn-primary">
+            Рассчитать стоимость
+            <ArrowRight size={16} />
+          </a>
+          <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost">
+            <MessageCircle size={16} />
+            Написать в Telegram
+          </a>
+        </div>
+
       </div>
 
-      <!-- заголовок -->
-      <h1 class="text-brand-text mb-6 reveal text-[2.2rem] sm:text-5xl lg:text-6xl" style="animation-delay:0.1s">
-        Поднимаем карточки
-        в топ выдачи на WB
-        и OZON через
-        <span class="text-brand-accent text-glow"> живые самовыкупы</span>
-      </h1>
-
-      <!-- инфраструктура -->
-      <ul class="flex flex-col gap-2.5 mb-8 reveal" style="animation-delay:0.2s">
+      <!-- правая колонка: статы + стоимость (только xl+) -->
+      <div class="hidden xl:flex flex-col gap-3 reveal" style="animation-delay:0.35s">
         {[
-          'WB видит живых покупателей — аккаунты с многолетней историей',
-          'Каждый заказ в отдельном ПВЗ — никакой кластеризации, никаких паттернов',
-          'Товар не сжигается — возвращается в оборот и отгружается обратно на склад WB',
-          'Полный цикл внутри — своя команда, склад и автопарк, не субподряд',
-        ].map((item) => (
-          <li class="flex items-center gap-3 text-base text-brand-muted">
-            <span class="w-1 h-1 rounded-full bg-brand-accent shrink-0"></span>
-            {item}
-          </li>
+          { value: '3000+', label: 'покупательских профилей', sub: 'с историей 3+ лет' },
+          { value: '2600+', label: 'ПВЗ в зоне охвата',       sub: 'Москва и МО' },
+          { value: '100+',  label: 'человек в команде',        sub: 'кликеры, водители, склад' },
+          { value: '0',     label: 'блокировок клиентов',      sub: 'за 3 года работы' },
+        ].map((s) => (
+          <div class="flex items-center gap-4 rounded-2xl border border-brand-border bg-brand-surface px-5 py-4">
+            <span class="text-2xl font-bold font-mono text-brand-accent shrink-0 whitespace-nowrap min-w-[4rem] text-right leading-none">{s.value}</span>
+            <div class="border-l border-brand-border pl-4">
+              <p class="text-sm font-semibold text-brand-text leading-snug">{s.label}</p>
+              <p class="text-xs text-brand-muted mt-0.5">{s.sub}</p>
+            </div>
+          </div>
         ))}
-      </ul>
 
-      <!-- доверие -->
-      <div class="inline-flex items-center gap-2 rounded-xl border border-brand-border
-                  bg-brand-surface px-4 py-2.5 text-sm text-brand-muted mb-10 reveal"
-           style="animation-delay:0.25s">
-        <span class="text-brand-accent-2">✓</span>
-        Работаем официально — договор, акты, закрывающие документы
-      </div>
-
-      <!-- CTA -->
-      <div class="flex flex-col sm:flex-row gap-3 reveal" style="animation-delay:0.3s">
-        <a href="#pricing" class="btn-primary">
-          Рассчитать стоимость
-          <ArrowRight size={16} />
-        </a>
-        <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost">
-          <MessageCircle size={16} />
-          Написать в Telegram
-        </a>
       </div>
 
     </div>

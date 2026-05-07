@@ -22,21 +22,24 @@ import { CONTACTS } from '@/consts';
 >
   <HeroSection />
   <FlowSection />
-  <StatsSection />
+  <PricingSection />
   <QuizSection />
 
   <ComparisonSection />
 
-  <div class="border-t border-brand-border">
-    <div class="container py-10 text-center">
-      <p class="text-brand-muted text-sm mb-4">
-        Есть вопросы по конкретной карточке? Разберём бесплатно — без обязательств.
+  <div class="border-t border-brand-border bg-brand-surface/30">
+    <div class="container py-12 text-center">
+      <p class="text-brand-text font-semibold text-base mb-1.5">
+        Есть вопросы по конкретной карточке?
+      </p>
+      <p class="text-brand-muted text-sm mb-6">
+        Разберём бесплатно — без звонков, без обязательств. Ответим в Telegram за 15 минут.
       </p>
       <a
         href={CONTACTS.telegram}
         target="_blank"
         rel="noopener"
-        class="btn-ghost inline-flex items-center gap-2"
+        class="btn-primary inline-flex items-center gap-2"
       >
         Задать вопрос в Telegram
       </a>
@@ -47,7 +50,6 @@ import { CONTACTS } from '@/consts';
   <CasesSection />
   <ReviewsSection />
   <FaqSection />
-  <PricingSection />
   <CtaSection />
   <StickyCta />
 </BaseLayout>

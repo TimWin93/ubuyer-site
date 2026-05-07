@@ -58,7 +58,7 @@ const flowNodes = [
 ];
 ---
 
-<section class="section border-t border-brand-border">
+<section class="section border-t border-brand-border bg-brand-surface/20">
   <div class="container">
 
     <!-- переходный заголовок -->
@@ -77,8 +77,8 @@ const flowNodes = [
 
       <!-- Узлы + fade-маска справа на мобильном -->
       <div class="relative">
-        <div class="scroll-fade pointer-events-none absolute right-0 top-0 h-full w-16
-                    bg-gradient-to-l from-brand-surface to-transparent z-10 lg:hidden"></div>
+        <div class="scroll-fade pointer-events-none absolute right-0 top-0 h-full w-20
+                    bg-gradient-to-l from-brand-surface to-transparent z-10 transition-opacity duration-300"></div>
 
         <div class="overflow-x-auto scroll-smooth" id="flow-scroll">
           <div class="flex items-start gap-0 min-w-[680px] lg:min-w-0" id="flow-diagram">
@@ -191,10 +191,16 @@ const flowNodes = [
   }
 
   if (scrollWrap && fadeMask) {
-    scrollWrap.addEventListener('scroll', () => {
-      const atEnd = scrollWrap.scrollLeft + scrollWrap.clientWidth >= scrollWrap.scrollWidth - 8;
-      fadeMask.style.opacity = atEnd ? '0' : '1';
-    }, { passive: true });
+    const wrap = scrollWrap;
+    const mask = fadeMask;
+    function checkFade() {
+      const hasOverflow = wrap.scrollWidth > wrap.clientWidth + 8;
+      const atEnd = wrap.scrollLeft + wrap.clientWidth >= wrap.scrollWidth - 8;
+      mask.style.opacity = (hasOverflow && !atEnd) ? '1' : '0';
+    }
+    wrap.addEventListener('scroll', checkFade, { passive: true });
+    window.addEventListener('resize', checkFade, { passive: true });
+    setTimeout(checkFade, 300);
   }
 
   const panel      = document.getElementById('flow-panel');
