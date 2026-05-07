@@ -1,9 +1,7 @@
 ---
-import { CONTACTS } from '@/consts';
 import CheckCircle2 from '@lucide/astro/icons/circle-check';
-import ArrowRight from '@lucide/astro/icons/arrow-right';
 import Star from '@lucide/astro/icons/star';
-import Info from '@lucide/astro/icons/info';
+import Wallet from '@lucide/astro/icons/wallet';
 
 const tiers = [
   { volume: 'от 100 выкупов', price: '500', popular: false },
@@ -89,51 +87,37 @@ const tiers = [
     </div>
 
     <!-- оборотные средства -->
-    <div class="max-w-2xl mx-auto rounded-2xl border border-brand-border bg-brand-surface p-5 mb-10">
+    <div class="max-w-2xl mx-auto rounded-2xl border border-emerald-500/20 bg-brand-surface p-5 mb-10">
       <div class="flex items-start gap-4">
-        <div class="w-9 h-9 rounded-xl bg-brand-accent/10 border border-brand-accent/20
+        <div class="w-9 h-9 rounded-xl bg-emerald-400/10 border border-emerald-400/20
                     flex items-center justify-center shrink-0 mt-0.5">
-          <Info size={16} class="text-brand-accent" />
+          <Wallet size={16} class="text-emerald-400" />
         </div>
         <div>
-          <p class="text-brand-text text-sm font-semibold mb-2">Про оборотные средства</p>
+          <p class="text-brand-text text-sm font-semibold mb-2">Ваши деньги — под вашим контролем</p>
           <p class="text-brand-muted text-sm leading-relaxed mb-3">
-            Помимо оплаты услуг вносятся <span class="text-brand-text font-medium">оборотные средства</span> —
-            деньги на покупку ваших товаров. Через реальные покупки они поступают
-            на ваш кабинет WB, а не к нам. Неизрасходованный остаток возвращается полностью
-            по завершении стратегии.
+            <span class="text-brand-text font-medium">Оборотные средства</span> — деньги на покупку ваших товаров на WB.
+            Они идут на ваш кабинет напрямую через реальные покупки, а не к нам.
+            Нам достаётся только 1% комиссии от фактически потраченной суммы.
+            Неизрасходованный остаток возвращается полностью.
           </p>
           <div class="flex flex-wrap gap-x-5 gap-y-1.5 text-xs text-brand-muted">
             <span class="flex items-center gap-1.5">
-              <CheckCircle2 size={12} class="text-brand-accent" />
-              Комиссия 1% от фактически потраченной суммы
-            </span>
-            <span class="flex items-center gap-1.5">
-              <CheckCircle2 size={12} class="text-brand-accent" />
+              <CheckCircle2 size={12} class="text-emerald-400" />
               Остаток возвращается полностью
             </span>
             <span class="flex items-center gap-1.5">
-              <CheckCircle2 size={12} class="text-brand-accent" />
-              Все движения денег — в вашей таблице ежедневно
+              <CheckCircle2 size={12} class="text-emerald-400" />
+              Каждое движение — в вашей таблице ежедневно
+            </span>
+            <span class="flex items-center gap-1.5">
+              <CheckCircle2 size={12} class="text-emerald-400" />
+              Все условия фиксируются в договоре до старта
             </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CTA -->
-    <div class="text-center">
-      <p class="text-brand-muted mb-6 text-sm">
-        Точная стоимость зависит от категории и артикула —<br />
-        рассчитаем бесплатно за 15 минут.
-      </p>
-      <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-primary">
-        Получить точный расчёт
-        <ArrowRight size={16} />
-      </a>
-      <p class="mt-3 text-xs text-brand-muted">
-        Считаем бесплатно &nbsp;·&nbsp; Без обязательств &nbsp;·&nbsp; Ответим в Telegram
-      </p>
-    </div>
   </div>
 </section>
