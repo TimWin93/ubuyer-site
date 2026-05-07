@@ -100,28 +100,63 @@
         </div>
       </div>
 
-      <!-- ===== STEP 2: Context ===== -->
+      <!-- ===== STEP 2: Form ===== -->
       <div id="qstep-2" class="p-6 sm:p-10 hidden">
 
-        <div class="space-y-8">
+        <div class="mb-8">
+          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-2">Шаг 2 из 3</p>
+          <h3 class="text-brand-text font-bold text-xl mb-2">Товар и ситуация</h3>
+          <p class="text-brand-muted text-sm">Менеджер изучит ваш товар заранее и ответит по делу</p>
+        </div>
 
+        <div class="space-y-5">
+
+          <!-- Name -->
           <div>
-            <p class="text-brand-text font-semibold mb-1">Сколько артикулов продвигаете?</p>
-            <p class="text-brand-muted text-sm mb-4">Поможет подобрать формат работы</p>
-            <div class="flex flex-wrap gap-2" data-pill-group="articles">
-              <button class="qpill-opt" data-val="1 артикул">1 артикул</button>
-              <button class="qpill-opt" data-val="2–5 артикулов">2–5 артикулов</button>
-              <button class="qpill-opt" data-val="6 и больше">6 и больше</button>
+            <label for="q-name" class="block text-brand-text text-sm font-semibold mb-2">
+              Как к вам обращаться? <span class="text-red-400 ml-0.5">*</span>
+            </label>
+            <input id="q-name" type="text" placeholder="Имя" autocomplete="given-name" class="qinput" />
+          </div>
+
+          <!-- Product -->
+          <div>
+            <label for="q-product" class="block text-brand-text text-sm font-semibold mb-2">Товар</label>
+            <input id="q-product" type="text" placeholder="Например: женский костюм, лампа для маникюра" class="qinput" />
+          </div>
+
+          <!-- Price + Stock -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="q-price" class="block text-brand-text text-sm font-semibold mb-2">Цена до СПП, ₽</label>
+              <input id="q-price" type="number" placeholder="1500" min="0" class="qinput" />
+            </div>
+            <div>
+              <label for="q-stock" class="block text-brand-text text-sm font-semibold mb-2">Остатки на WB, шт</label>
+              <input id="q-stock" type="number" placeholder="500" min="0" class="qinput" />
             </div>
           </div>
 
+          <!-- Card type -->
           <div>
-            <p class="text-brand-text font-semibold mb-1">Уже работали с самовыкупами?</p>
-            <p class="text-brand-muted text-sm mb-4">Разберём что пошло не так, если пробовали</p>
-            <div class="flex flex-wrap gap-2" data-pill-group="experience">
-              <button class="qpill-opt" data-val="Нет, первый раз">Нет, первый раз</button>
-              <button class="qpill-opt" data-val="Да, пробовали">Да, пробовали</button>
-              <button class="qpill-opt" data-val="Работаем сейчас">Работаем сейчас</button>
+            <label class="block text-brand-text text-sm font-semibold mb-3">
+              Карточка <span class="text-red-400 ml-0.5">*</span>
+            </label>
+            <div class="grid grid-cols-2 gap-3">
+              <button class="qcard-radio" data-card="new">
+                <span class="qcr-dot"></span>
+                <div>
+                  <span class="qcr-title">Новая</span>
+                  <span class="qcr-sub">Продаж ещё нет</span>
+                </div>
+              </button>
+              <button class="qcard-radio" data-card="existing">
+                <span class="qcr-dot"></span>
+                <div>
+                  <span class="qcr-title">Уже продаётся</span>
+                  <span class="qcr-sub">Есть статистика</span>
+                </div>
+              </button>
             </div>
           </div>
 
@@ -182,18 +217,22 @@
           </p>
         </div>
 
+        <!-- Final CTA → Telegram -->
         <a id="quiz-tg-btn"
            href="https://t.me/Manager_UBuyer"
-           target="_blank" rel="noopener"
-           class="btn-primary flex w-full justify-center text-base py-4 mb-3">
-          Обсудить стратегию в Telegram
+           target="_blank" rel="noopener noreferrer"
+           class="quiz-final-cta">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="white" class="shrink-0">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.41 13.982l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.738.577z"/>
+          </svg>
+          <div>
+            <div class="font-bold text-base leading-tight">Обсудить стратегию с менеджером</div>
+            <div class="cta-sub">БЕСПЛАТНО · ОТВЕТИМ ЗА 15 МИНУТ</div>
+          </div>
         </a>
-        <p class="text-center text-brand-muted text-xs mb-8">
-          Бесплатно · Без звонков · Отвечаем за 15 минут
-        </p>
 
         <button id="quiz-restart"
-          class="block w-full text-center text-brand-muted text-xs
+          class="block w-full text-center text-brand-muted text-xs mt-5
                  hover:text-brand-text transition-colors underline underline-offset-2">
           ← Начать заново
         </button>
@@ -301,7 +340,7 @@
   };
 
   const selectedGoals = new Set<GoalId>();
-  const pillSelections: Record<string, string> = {};
+  let selectedCard: string | null = null;
 
   /* ---- helpers ---- */
   function setStep(n: number) {
@@ -317,7 +356,6 @@
       }
     });
 
-    // progress dots
     [1, 2, 3].forEach(i => {
       const dot = document.getElementById(`qdot-${i}`);
       if (!dot) return;
@@ -349,9 +387,29 @@
   function syncNextBtn2() {
     const btn = document.getElementById('q2-next') as HTMLButtonElement | null;
     if (!btn) return;
-    const ok = !!(pillSelections['articles'] && pillSelections['experience']);
+    const name = (document.getElementById('q-name') as HTMLInputElement | null)?.value.trim();
+    const ok = !!(name && selectedCard);
     btn.disabled = !ok;
     btn.classList.toggle('qbtn-disabled', !ok);
+  }
+
+  function buildTgUrl(): string {
+    const goals = Array.from(selectedGoals).map(g => goalData[g].title).join(', ');
+    const name    = (document.getElementById('q-name')    as HTMLInputElement | null)?.value.trim() ?? '';
+    const product = (document.getElementById('q-product') as HTMLInputElement | null)?.value.trim() ?? '';
+    const price   = (document.getElementById('q-price')   as HTMLInputElement | null)?.value.trim() ?? '';
+    const stock   = (document.getElementById('q-stock')   as HTMLInputElement | null)?.value.trim() ?? '';
+    const card    = selectedCard === 'new' ? 'Новая (продаж ещё нет)' : 'Уже продаётся';
+
+    const lines: string[] = ['Здравствуйте! Хочу обсудить стратегию самовыкупов.', ''];
+    lines.push(`Цели: ${goals}`);
+    if (name)    lines.push(`Имя: ${name}`);
+    if (product) lines.push(`Товар: ${product}`);
+    if (price)   lines.push(`Цена до СПП: ${price} ₽`);
+    if (stock)   lines.push(`Остатки на WB: ${stock} шт`);
+    lines.push(`Карточка: ${card}`);
+
+    return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(lines.join('\n'))}`;
   }
 
   /* ---- goal cards ---- */
@@ -371,16 +429,18 @@
     });
   });
 
-  /* ---- pill options ---- */
-  document.querySelectorAll<HTMLButtonElement>('.qpill-opt').forEach(pill => {
-    pill.addEventListener('click', () => {
-      const group = (pill.closest('[data-pill-group]') as HTMLElement | null)?.dataset.pillGroup ?? '';
-      pill.closest('[data-pill-group]')?.querySelectorAll('.qpill-opt').forEach(p => p.classList.remove('qpill-selected'));
-      pill.classList.add('qpill-selected');
-      pillSelections[group] = pill.dataset.val ?? '';
+  /* ---- card radio ---- */
+  document.querySelectorAll<HTMLButtonElement>('.qcard-radio').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.qcard-radio').forEach(b => b.classList.remove('qcard-selected'));
+      btn.classList.add('qcard-selected');
+      selectedCard = btn.dataset.card ?? null;
       syncNextBtn2();
     });
   });
+
+  /* ---- name input ---- */
+  document.getElementById('q-name')?.addEventListener('input', syncNextBtn2);
 
   /* ---- navigation ---- */
   document.getElementById('q1-next')?.addEventListener('click', () => setStep(2));
@@ -391,9 +451,13 @@
   });
   document.getElementById('quiz-restart')?.addEventListener('click', () => {
     selectedGoals.clear();
-    Object.keys(pillSelections).forEach(k => delete pillSelections[k]);
+    selectedCard = null;
     document.querySelectorAll('.qgoal-card').forEach(c => c.classList.remove('qgoal-selected'));
-    document.querySelectorAll('.qpill-opt').forEach(p => p.classList.remove('qpill-selected'));
+    document.querySelectorAll('.qcard-radio').forEach(b => b.classList.remove('qcard-selected'));
+    (['q-name', 'q-product', 'q-price', 'q-stock'] as const).forEach(id => {
+      const el = document.getElementById(id) as HTMLInputElement | null;
+      if (el) el.value = '';
+    });
     const cnt = document.getElementById('goal-count');
     if (cnt) cnt.textContent = '0';
     const b1 = document.getElementById('q1-next') as HTMLButtonElement | null;
@@ -434,6 +498,10 @@
         </li>`
       ).join('');
     }
+
+    // Проставляем ссылку с предзаполненным сообщением
+    const tgBtn = document.getElementById('quiz-tg-btn') as HTMLAnchorElement | null;
+    if (tgBtn) tgBtn.href = buildTgUrl();
   }
 </script>
 
@@ -466,21 +534,96 @@
               background: rgba(61,142,248,0.15); color: #3D8EF8;
               padding: 0.1rem 0.5rem; border-radius: 9999px; }
 
-  .qpill-opt {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+  /* ----- form inputs ----- */
+  .qinput {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.625rem;
     border: 1px solid #1A2B4A;
-    color: #6680A8;
-    font-size: 0.875rem;
-    background: transparent;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    background: rgba(4, 9, 26, 0.6);
+    color: #E4ECFF;
+    font-size: 0.9375rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
   }
-  .qpill-opt:hover { border-color: rgba(61,142,248,0.4); color: #E4ECFF; }
-  .qpill-opt.qpill-selected {
-    border-color: rgba(61,142,248,0.6);
-    color: #4DD9FF;
-    background: rgba(61,142,248,0.1);
+  .qinput::-webkit-outer-spin-button,
+  .qinput::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .qinput::placeholder { color: #3A5070; }
+  .qinput:focus {
+    border-color: rgba(61, 142, 248, 0.55);
+    box-shadow: 0 0 0 3px rgba(61, 142, 248, 0.1);
+  }
+
+  /* ----- card radio ----- */
+  .qcard-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #1A2B4A;
+    background: rgba(4, 9, 26, 0.6);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .qcard-radio:hover {
+    border-color: rgba(61, 142, 248, 0.4);
+    background: rgba(61, 142, 248, 0.05);
+  }
+  .qcard-radio.qcard-selected {
+    border-color: rgba(61, 142, 248, 0.65);
+    background: rgba(61, 142, 248, 0.09);
+  }
+  .qcr-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #1A2B4A;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .qcard-selected .qcr-dot {
+    border-color: #3D8EF8;
+  }
+  .qcard-selected .qcr-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #3D8EF8;
+  }
+  .qcr-title { display: block; font-size: 0.875rem; font-weight: 600; color: #E4ECFF; line-height: 1.3; }
+  .qcr-sub   { display: block; font-size: 0.75rem; color: #6680A8; margin-top: 0.1rem; }
+
+  /* ----- final CTA button ----- */
+  .quiz-final-cta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.1rem 1.5rem;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #229ED9 0%, #1a7ab8 100%);
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s;
+    margin-bottom: 0.75rem;
+  }
+  .quiz-final-cta:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+  .cta-sub {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-top: 0.2rem;
   }
 
   .qbtn-disabled { opacity: 0.4; cursor: not-allowed; }
