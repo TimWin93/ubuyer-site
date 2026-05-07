@@ -91,25 +91,25 @@ const steps = [
     Icon: MessageSquare,
     num: '01',
     title: 'Заявка и расчёт',
-    text: 'Вы оставляете заявку. Мы считаем оптимальный объём под ваш артикул и задачу.',
+    text: 'Оставляете заявку. Менеджер считает оптимальный объём под ваш артикул, нишу и цель. Отвечаем в течение 15 минут.',
   },
   {
     Icon: FileText,
     num: '02',
     title: 'ТЗ и договор',
-    text: 'Фиксируем в техническом задании. Подписываем договор. Всё официально.',
+    text: 'Фиксируем ключи, полки, темп, объём. Подписываем договор — работаем официально, с актами и безналом.',
   },
   {
     Icon: Zap,
     num: '03',
     title: 'Запуск',
-    text: 'Наши люди делают заказы. Следим за каждым этапом — заказ, выкуп, возврат.',
+    text: 'Через 24 часа после оплаты кликеры уже в работе. Каждый заказ, каждое ПВЗ, каждый день — в вашей таблице.',
   },
   {
     Icon: BarChart2,
     num: '04',
-    title: 'Отчёт и рост',
-    text: 'Получаете отчёт по каждому артикулу. Видите рост позиций в динамике.',
+    title: 'Рост позиций',
+    text: 'Видите динамику по каждому ключу ежедневно. Корректировки стратегии — в реальном времени через Telegram-чат.',
   },
 ];
 ---
@@ -158,11 +158,12 @@ const steps = [
         <p class="text-xs text-brand-muted uppercase tracking-wider font-semibold mb-6">
           Пример: 1 000 выкупов за 7 дней
         </p>
-        <div class="flex items-end gap-2 h-24 mb-2">
-          {bars.map((b) => (
+        <div class="bar-chart-container flex items-end gap-2 h-24 mb-2">
+          {bars.map((b, i) => (
             <div
-              class="flex-1 rounded-t-md bg-brand-accent/50 hover:bg-brand-accent transition-colors duration-150"
-              style={`height: ${b.h}%`}
+              class="flex-1 rounded-t-md bg-brand-accent/50 hover:bg-brand-accent"
+              style={`--bar-i: ${i}; height: 0; transition: height 0.6s ease; transition-delay: calc(var(--bar-i) * 80ms)`}
+              data-h={b.h}
             ></div>
           ))}
         </div>
@@ -328,6 +329,18 @@ const steps = [
       text: 'WB записывает продажу в алгоритм в момент забора с ПВЗ. Позиция начинает расти с первых дней стратегии. Цель — раскачать карточку до уровня, где органика перебивает выкупной трафик. Мы незаметно уходим. Вы остаётесь наверху.',
     },
   ];
+
+  // Анимация бар-чарта при скролле
+  const barObs = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('[data-h]').forEach(bar => {
+        (bar as HTMLElement).style.height = (bar as HTMLElement).dataset.h + '%';
+      });
+      barObs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  const chartEl = document.querySelector('.bar-chart-container');
+  if (chartEl) barObs.observe(chartEl);
 
   // Intersection Observer — stagger-анимация появления
   const diagram    = document.getElementById('flow-diagram');

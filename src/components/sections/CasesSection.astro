@@ -1,6 +1,5 @@
 ---
 import TrendingUp from '@lucide/astro/icons/trending-up';
-import ImageIcon from '@lucide/astro/icons/image';
 
 const cases = [
   {
@@ -52,16 +51,12 @@ const cases = [
               </div>
             ))}
           </div>
-
-          <!-- плейсхолдер скриншота -->
-          <div class="mt-5 rounded-xl border border-dashed border-brand-border
-                      bg-brand-surface/50 flex items-center justify-center gap-2 h-24
-                      text-brand-muted text-xs">
-            <ImageIcon size={14} class="opacity-40" />
-            <span class="opacity-40">Скриншот аналитики WB (до / после)</span>
-          </div>
         </div>
       ))}
     </div>
+
+    <p class="text-center text-xs text-brand-muted mt-6 opacity-50">
+      Скриншоты аналитики WB — публикуем с согласия клиентов по мере накопления
+    </p>
   </div>
 </section>

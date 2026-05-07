@@ -8,15 +8,13 @@ import ProcessSection from '@/components/sections/ProcessSection.astro';
 import ScenariosSection from '@/components/sections/ScenariosSection.astro';
 import ComparisonSection from '@/components/sections/ComparisonSection.astro';
 import SafetySection from '@/components/sections/SafetySection.astro';
-import TeamSection from '@/components/sections/TeamSection.astro';
-import WarehouseSection from '@/components/sections/WarehouseSection.astro';
-import VideoSection from '@/components/sections/VideoSection.astro';
 import CasesSection from '@/components/sections/CasesSection.astro';
 import ReviewsSection from '@/components/sections/ReviewsSection.astro';
 import FaqSection from '@/components/sections/FaqSection.astro';
 import PricingSection from '@/components/sections/PricingSection.astro';
 import CtaSection from '@/components/sections/CtaSection.astro';
 import StickyCta from '@/components/ui/StickyCta.astro';
+import { CONTACTS } from '@/consts';
 ---
 
 <BaseLayout
@@ -29,12 +27,44 @@ import StickyCta from '@/components/ui/StickyCta.astro';
   <ProblemSection />
   <SolutionSection />
   <ProcessSection />
+
+  <div class="border-t border-brand-border bg-brand-surface/20">
+    <div class="container py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <p class="text-brand-text font-semibold mb-1">Готовы к запуску?</p>
+        <p class="text-brand-muted text-sm">Рассчитаем объём и стоимость под ваш артикул — бесплатно за 15 минут.</p>
+      </div>
+      <a
+        href={CONTACTS.telegram}
+        target="_blank"
+        rel="noopener"
+        class="btn-primary shrink-0"
+      >
+        Написать менеджеру
+      </a>
+    </div>
+  </div>
+
   <ScenariosSection />
   <ComparisonSection />
+
+  <div class="border-t border-brand-border">
+    <div class="container py-10 text-center">
+      <p class="text-brand-muted text-sm mb-4">
+        Есть вопросы по конкретной карточке? Разберём бесплатно — без обязательств.
+      </p>
+      <a
+        href={CONTACTS.telegram}
+        target="_blank"
+        rel="noopener"
+        class="btn-ghost inline-flex items-center gap-2"
+      >
+        Задать вопрос в Telegram
+      </a>
+    </div>
+  </div>
+
   <SafetySection />
-  <TeamSection />
-  <WarehouseSection />
-  <VideoSection />
   <CasesSection />
   <ReviewsSection />
   <FaqSection />
