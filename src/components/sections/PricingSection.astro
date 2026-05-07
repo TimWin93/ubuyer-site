@@ -2,11 +2,6 @@
 import { CONTACTS } from '@/consts';
 import CheckCircle2 from '@lucide/astro/icons/circle-check';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
-import Search from '@lucide/astro/icons/search';
-import MapPin from '@lucide/astro/icons/map-pin';
-import Warehouse from '@lucide/astro/icons/warehouse';
-import Package from '@lucide/astro/icons/package';
-import Truck from '@lucide/astro/icons/truck';
 import Star from '@lucide/astro/icons/star';
 import Info from '@lucide/astro/icons/info';
 
@@ -14,14 +9,6 @@ const tiers = [
   { volume: 'от 100 выкупов', price: '500', popular: false },
   { volume: 'от 500 выкупов', price: '470', popular: true  },
   { volume: 'от 1000 выкупов',price: '450', popular: false },
-];
-
-const included = [
-  { Icon: Search,    label: 'Поиск и заказ' },
-  { Icon: MapPin,    label: 'Забор из ПВЗ' },
-  { Icon: Warehouse, label: 'Хранение на ФФ' },
-  { Icon: Package,   label: 'Переупаковка' },
-  { Icon: Truck,     label: 'Отгрузка на WB' },
 ];
 ---
 
@@ -36,16 +23,6 @@ const included = [
       </p>
     </div>
 
-    <!-- что входит -->
-    <div class="flex flex-wrap justify-center gap-3 mb-4">
-      {included.map(({ Icon, label }) => (
-        <div class="flex items-center gap-2 rounded-xl border border-brand-border
-                    bg-brand-surface px-4 py-2.5 text-sm text-brand-muted">
-          <Icon size={14} class="text-brand-accent" />
-          <span>{label}</span>
-        </div>
-      ))}
-    </div>
     <p class="text-center text-xs text-brand-muted mb-12">
       * Упаковочный материал оплачивается отдельно — у каждого товара своя упаковка.
     </p>
