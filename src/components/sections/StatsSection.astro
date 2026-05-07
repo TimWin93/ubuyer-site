@@ -1,26 +1,50 @@
 ---
-const stats: { value: number; suffix: string; label: string; sub?: string }[] = [
-  { value: 3000, suffix: '+', label: 'покупательских профилей' },
-  { value: 2600, suffix: '+', label: 'ПВЗ в Москве и МО' },
-  { value: 100,  suffix: '+', label: 'человек в команде' },
-  { value: 3,    suffix: '+', label: 'года на рынке' },
+const stats = [
+  {
+    value: 3000,
+    suffix: '+',
+    label: 'покупательских профилей',
+    sub: 'У каждого — своя история, устройство, поведение',
+  },
+  {
+    value: 2600,
+    suffix: '+',
+    label: 'ПВЗ в зоне охвата',
+    sub: '1 заказ = 1 точка = 1 район Москвы',
+  },
+  {
+    value: 100,
+    suffix: '+',
+    label: 'человек в живой команде',
+    sub: 'Кликеры, водители, склад — всё своё',
+  },
+  {
+    value: 3,
+    suffix: '+',
+    label: 'года на рынке',
+    sub: 'Ни одной блокировки по нашей вине',
+  },
 ];
 ---
 
 <section class="border-y border-brand-border bg-brand-surface/50">
-  <div class="container py-8">
+  <div class="container py-2">
     <div class="grid grid-cols-2 md:grid-cols-4">
       {stats.map((s, i) => (
-        <div class={`flex flex-col items-center text-center py-6 px-4 ${
+        <div class={`relative flex flex-col items-center text-center py-8 px-4 ${
           i < stats.length - 1 ? 'md:border-r border-brand-border' : ''
         }`}>
+          <!-- accent line top -->
+          <span class="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-0.5 rounded-full bg-brand-accent/40"></span>
+
           <span
-            class="text-3xl md:text-4xl font-bold text-brand-text mb-1 font-mono counter"
+            class="text-4xl md:text-5xl font-bold text-brand-text mb-1.5 font-mono counter"
             data-target={s.value}
             data-suffix={s.suffix}
           >0{s.suffix}</span>
-          <span class="text-xs text-brand-muted leading-snug">{s.label}</span>
-          {s.sub && <span class="text-[10px] text-brand-muted/50 leading-tight mt-0.5">{s.sub}</span>}
+
+          <span class="text-sm font-medium text-brand-text/80 leading-snug mb-1">{s.label}</span>
+          <span class="text-[11px] text-brand-muted/60 leading-snug">{s.sub}</span>
         </div>
       ))}
     </div>
