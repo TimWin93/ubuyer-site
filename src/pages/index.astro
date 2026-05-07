@@ -2,11 +2,8 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import HeroSection from '@/components/sections/HeroSection.astro';
 import StatsSection from '@/components/sections/StatsSection.astro';
-import ProblemSection from '@/components/sections/ProblemSection.astro';
-import SolutionSection from '@/components/sections/SolutionSection.astro';
-import ProcessSection from '@/components/sections/ProcessSection.astro';
 import FlowSection from '@/components/sections/FlowSection.astro';
-import ScenariosSection from '@/components/sections/ScenariosSection.astro';
+import QuizSection from '@/components/sections/QuizSection.astro';
 import ComparisonSection from '@/components/sections/ComparisonSection.astro';
 import SafetySection from '@/components/sections/SafetySection.astro';
 import CasesSection from '@/components/sections/CasesSection.astro';
@@ -26,9 +23,7 @@ import { CONTACTS } from '@/consts';
   <HeroSection />
   <FlowSection />
   <StatsSection />
-  <ProblemSection />
-  <SolutionSection />
-  <ProcessSection />
+  <QuizSection />
 
   <div class="border-t border-brand-border bg-brand-surface/20">
     <div class="container py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -47,7 +42,6 @@ import { CONTACTS } from '@/consts';
     </div>
   </div>
 
-  <ScenariosSection />
   <ComparisonSection />
 
   <div class="border-t border-brand-border">
