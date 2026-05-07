@@ -8,18 +8,16 @@
       <div class="tag mb-5">Подбор стратегии</div>
       <h2 class="text-brand-text mb-4">Под какую задачу подбираем выкупы?</h2>
       <p class="text-brand-muted leading-relaxed">
-        Выберите цель — получите персональный расчёт прямо здесь.<br class="hidden sm:block">
-        <span class="text-brand-text font-semibold">Без форм и звонков — за 2 минуты.</span>
+        Выберите цель — менеджер подготовит расчёт и ответит за 15 минут.<br class="hidden sm:block">
+        <span class="text-brand-text font-semibold">Без звонков — сразу по делу.</span>
       </p>
     </div>
 
-    <!-- Progress indicator -->
+    <!-- Progress indicator: 2 шага -->
     <div class="flex items-center justify-center mb-8">
       <div id="qdot-1" class="w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center bg-brand-accent text-white transition-all duration-300 shrink-0">1</div>
       <div id="qline-1" class="w-12 sm:w-20 h-px bg-brand-border transition-colors duration-500 shrink-0"></div>
       <div id="qdot-2" class="w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center bg-brand-surface border border-brand-border text-brand-muted transition-all duration-300 shrink-0">2</div>
-      <div id="qline-2" class="w-12 sm:w-20 h-px bg-brand-border transition-colors duration-500 shrink-0"></div>
-      <div id="qdot-3" class="w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center bg-brand-surface border border-brand-border text-brand-muted transition-all duration-300 shrink-0">3</div>
     </div>
 
     <!-- Quiz card -->
@@ -100,11 +98,11 @@
         </div>
       </div>
 
-      <!-- ===== STEP 2: Form ===== -->
+      <!-- ===== STEP 2: Form + CTA ===== -->
       <div id="qstep-2" class="p-6 sm:p-10 hidden">
 
         <div class="mb-8">
-          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-2">Шаг 2 из 3</p>
+          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-2">Шаг 2 из 2</p>
           <h3 class="text-brand-text font-bold text-xl mb-2">Товар и ситуация</h3>
           <p class="text-brand-muted text-sm">Менеджер изучит ваш товар заранее и ответит по делу</p>
         </div>
@@ -162,80 +160,28 @@
 
         </div>
 
-        <div class="flex items-center justify-between mt-10">
-          <button id="q2-back" class="btn-ghost text-sm">← Назад</button>
-          <button id="q2-next" class="btn-primary qbtn-disabled" disabled>
-            Получить расчёт →
-          </button>
-        </div>
-      </div>
-
-      <!-- ===== STEP 3: Result ===== -->
-      <div id="qstep-3" class="p-6 sm:p-10 hidden">
-
-        <div class="flex items-center gap-3 mb-8">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-               style="background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                 stroke="#4ade80" stroke-width="2.5"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 6L9 17l-5-5"/>
+        <!-- CTA → Telegram -->
+        <div class="mt-8">
+          <a id="quiz-tg-btn"
+             href="https://t.me/Manager_UBuyer"
+             target="_blank" rel="noopener noreferrer"
+             class="quiz-final-cta qcta-disabled"
+             aria-disabled="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="white" class="shrink-0">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.41 13.982l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.738.577z"/>
             </svg>
-          </div>
-          <div>
-            <p class="text-brand-text font-semibold">Персональная стратегия готова</p>
-            <p class="text-brand-muted text-xs">На основе ваших ответов</p>
-          </div>
+            <div>
+              <div class="font-bold text-base leading-tight">Написать менеджеру в Telegram</div>
+              <div class="cta-sub">БЕСПЛАТНО · ОТВЕТИМ ЗА 15 МИНУТ</div>
+            </div>
+          </a>
         </div>
 
-        <!-- Result card -->
-        <div class="rounded-xl border relative overflow-hidden mb-6 p-5 sm:p-7"
-             style="border-color:rgba(61,142,248,0.25);background:rgba(61,142,248,0.05)">
-          <div class="absolute top-0 left-0 right-0 h-px"
-               style="background:linear-gradient(90deg,transparent,rgba(61,142,248,0.5),transparent)"></div>
-
-          <div class="mb-5">
-            <p class="text-brand-muted text-[10px] uppercase tracking-wider font-semibold mb-2">Ваши цели</p>
-            <div id="result-goals" class="flex flex-wrap gap-2"></div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3 mb-5">
-            <div class="rounded-lg p-3" style="background:rgba(8,15,36,0.8);border:1px solid rgba(26,43,74,1)">
-              <p class="text-brand-muted text-[10px] uppercase tracking-wider mb-1">Объём</p>
-              <p id="result-volume" class="text-brand-text font-bold text-lg leading-tight"></p>
-            </div>
-            <div class="rounded-lg p-3" style="background:rgba(8,15,36,0.8);border:1px solid rgba(26,43,74,1)">
-              <p class="text-brand-muted text-[10px] uppercase tracking-wider mb-1">Период</p>
-              <p id="result-period" class="text-brand-text font-bold text-lg leading-tight"></p>
-            </div>
-          </div>
-
-          <ul id="result-bullets" class="space-y-2.5 mb-5"></ul>
-
-          <p class="text-brand-muted text-xs border-t pt-3" style="border-color:rgba(26,43,74,0.6)">
-            Точные цифры зависят от ниши и текущей позиции — уточним за 15 минут
-          </p>
-        </div>
-
-        <!-- Final CTA → Telegram -->
-        <a id="quiz-tg-btn"
-           href="https://t.me/Manager_UBuyer"
-           target="_blank" rel="noopener noreferrer"
-           class="quiz-final-cta">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="white" class="shrink-0">
-            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.41 13.982l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.738.577z"/>
-          </svg>
-          <div>
-            <div class="font-bold text-base leading-tight">Обсудить стратегию с менеджером</div>
-            <div class="cta-sub">БЕСПЛАТНО · ОТВЕТИМ ЗА 15 МИНУТ</div>
-          </div>
-        </a>
-
-        <button id="quiz-restart"
-          class="block w-full text-center text-brand-muted text-xs mt-5
-                 hover:text-brand-text transition-colors underline underline-offset-2">
-          ← Начать заново
+        <button id="q2-back" class="block w-full text-center text-brand-muted text-xs mt-4
+               hover:text-brand-text transition-colors underline underline-offset-2">
+          ← Назад
         </button>
+
       </div>
 
     </div><!-- /quiz card -->
@@ -246,105 +192,24 @@
 <script>
   type GoalId = 'launch'|'keys'|'reviews'|'conversion'|'funnel'|'iu'|'shelves'|'promo'|'other';
 
-  const goalData: Record<GoalId, { title: string; volume: string; period: string; bullets: string[] }> = {
-    launch: {
-      title: 'Запуск новой карточки',
-      volume: '150–300 выкупов',
-      period: '7–10 дней',
-      bullets: [
-        'Стратегия нарастание → плато → выход под алгоритм WB',
-        'Реклама с первого дня — органика разбавляет выкупной трафик',
-        '10–20 отзывов с живых аккаунтов для конверсии с первых дней',
-      ],
-    },
-    keys: {
-      title: 'Прокачка ключей',
-      volume: '300–600 выкупов',
-      period: '12–18 дней',
-      bullets: [
-        'Поисковые сессии с точными запросами из вашей семантики',
-        'Распределение по 3–5 приоритетным ключевым словам',
-        'Органическое поведение: листают конкурентов, читают отзывы',
-      ],
-    },
-    reviews: {
-      title: 'Банк отзывов',
-      volume: '30–60 отзывов',
-      period: '10–14 дней',
-      bullets: [
-        'Реальные аккаунты с 3+ летней историей покупок',
-        'Тексты и фото по вашему ТЗ — или составим сами',
-        'Параллельно с выкупами или отдельным пакетом',
-      ],
-    },
-    conversion: {
-      title: 'Улучшение конверсии',
-      volume: '200–400 выкупов',
-      period: '10–14 дней',
-      bullets: [
-        'Долгие сессии: читают описание, листают фото, изучают инфографику',
-        'Поведенческий сигнал корзина → заказ без аномалий',
-        'Снижает ДРР за счёт роста органического трафика',
-      ],
-    },
-    funnel: {
-      title: 'Подтягивание воронки',
-      volume: '200–500 выкупов',
-      period: '14–21 день',
-      bullets: [
-        'Добавление в корзину с задержкой — имитация нерешительного покупателя',
-        'Нормализуем соотношение корзина → заказ',
-        'Снижаем процент брошенных корзин и отмен',
-      ],
-    },
-    iu: {
-      title: 'Выполнение ИУ WB',
-      volume: 'По расчёту',
-      period: 'До конца ИУ',
-      bullets: [
-        'Рассчитываем точный объём под недостающий оборот за сутки',
-        'Запуск в течение 24 часов после оплаты',
-        'Приоритетная очередь — укладываемся в дедлайн ИУ',
-      ],
-    },
-    shelves: {
-      title: 'Рекомендательные полки',
-      volume: '400–800 выкупов',
-      period: '15–25 дней',
-      bullets: [
-        'Совместные заказы с конкурентами по ТЗ',
-        'Устойчивое попадание в блок «С этим покупают»',
-        'Перехват тёплого трафика без затрат на рекламу',
-      ],
-    },
-    promo: {
-      title: 'Вход в акцию WB',
-      volume: '200–500 выкупов',
-      period: '7–14 дней',
-      bullets: [
-        'Набираем оборот до старта акции по расписанию WB',
-        'Входим в акцию без снижения РРЦ',
-        'Сохраняем маржу и получаем продвижение от WB',
-      ],
-    },
-    other: {
-      title: 'Индивидуальная задача',
-      volume: 'По расчёту',
-      period: 'Обсудим',
-      bullets: [
-        'Разбираем задачу на бесплатной 15-минутной сессии',
-        'Составляем стратегию под ваш артикул и нишу',
-        'Первый ответ за 15 минут в Telegram',
-      ],
-    },
+  const GOAL_TITLES: Record<GoalId, string> = {
+    launch:     'Запуск новой карточки',
+    keys:       'Прокачка ключей',
+    reviews:    'Банк отзывов',
+    conversion: 'Улучшение конверсии',
+    funnel:     'Подтягивание воронки',
+    iu:         'Выполнение ИУ WB',
+    shelves:    'Рекомендательные полки',
+    promo:      'Вход в акцию WB',
+    other:      'Другая задача',
   };
 
   const selectedGoals = new Set<GoalId>();
   let selectedCard: string | null = null;
 
-  /* ---- helpers ---- */
+  /* ---- step switch ---- */
   function setStep(n: number) {
-    [1, 2, 3].forEach(i => {
+    [1, 2].forEach(i => {
       const el = document.getElementById(`qstep-${i}`);
       if (!el) return;
       if (i === n) {
@@ -356,7 +221,7 @@
       }
     });
 
-    [1, 2, 3].forEach(i => {
+    [1, 2].forEach(i => {
       const dot = document.getElementById(`qdot-${i}`);
       if (!dot) return;
       if (i < n) {
@@ -370,13 +235,13 @@
         dot.textContent = String(i);
       }
     });
-    [1, 2].forEach(i => {
-      const line = document.getElementById(`qline-${i}`);
-      if (line) line.style.backgroundColor = n > i ? 'rgba(61,142,248,0.35)' : '';
-    });
+
+    const line = document.getElementById('qline-1');
+    if (line) line.style.backgroundColor = n > 1 ? 'rgba(61,142,248,0.35)' : '';
   }
 
-  function syncNextBtn1() {
+  /* ---- validation ---- */
+  function syncBtn1() {
     const btn = document.getElementById('q1-next') as HTMLButtonElement | null;
     if (!btn) return;
     const ok = selectedGoals.size > 0;
@@ -384,17 +249,24 @@
     btn.classList.toggle('qbtn-disabled', !ok);
   }
 
-  function syncNextBtn2() {
-    const btn = document.getElementById('q2-next') as HTMLButtonElement | null;
-    if (!btn) return;
+  function syncCta() {
+    const cta = document.getElementById('quiz-tg-btn') as HTMLAnchorElement | null;
+    if (!cta) return;
     const name = (document.getElementById('q-name') as HTMLInputElement | null)?.value.trim();
     const ok = !!(name && selectedCard);
-    btn.disabled = !ok;
-    btn.classList.toggle('qbtn-disabled', !ok);
+    if (ok) {
+      cta.href = buildTgUrl();
+      cta.classList.remove('qcta-disabled');
+      cta.removeAttribute('aria-disabled');
+    } else {
+      cta.classList.add('qcta-disabled');
+      cta.setAttribute('aria-disabled', 'true');
+    }
   }
 
+  /* ---- build Telegram URL ---- */
   function buildTgUrl(): string {
-    const goals = Array.from(selectedGoals).map(g => goalData[g].title).join(', ');
+    const goals   = Array.from(selectedGoals).map(g => GOAL_TITLES[g]).join(', ');
     const name    = (document.getElementById('q-name')    as HTMLInputElement | null)?.value.trim() ?? '';
     const product = (document.getElementById('q-product') as HTMLInputElement | null)?.value.trim() ?? '';
     const price   = (document.getElementById('q-price')   as HTMLInputElement | null)?.value.trim() ?? '';
@@ -425,7 +297,7 @@
       }
       const cnt = document.getElementById('goal-count');
       if (cnt) cnt.textContent = String(selectedGoals.size);
-      syncNextBtn1();
+      syncBtn1();
     });
   });
 
@@ -435,74 +307,22 @@
       document.querySelectorAll('.qcard-radio').forEach(b => b.classList.remove('qcard-selected'));
       btn.classList.add('qcard-selected');
       selectedCard = btn.dataset.card ?? null;
-      syncNextBtn2();
+      syncCta();
     });
   });
 
   /* ---- name input ---- */
-  document.getElementById('q-name')?.addEventListener('input', syncNextBtn2);
+  document.getElementById('q-name')?.addEventListener('input', syncCta);
+
+  /* ---- block click on disabled CTA ---- */
+  document.getElementById('quiz-tg-btn')?.addEventListener('click', e => {
+    const el = e.currentTarget as HTMLAnchorElement;
+    if (el.classList.contains('qcta-disabled')) e.preventDefault();
+  });
 
   /* ---- navigation ---- */
   document.getElementById('q1-next')?.addEventListener('click', () => setStep(2));
   document.getElementById('q2-back')?.addEventListener('click', () => setStep(1));
-  document.getElementById('q2-next')?.addEventListener('click', () => {
-    buildResult();
-    setStep(3);
-  });
-  document.getElementById('quiz-restart')?.addEventListener('click', () => {
-    selectedGoals.clear();
-    selectedCard = null;
-    document.querySelectorAll('.qgoal-card').forEach(c => c.classList.remove('qgoal-selected'));
-    document.querySelectorAll('.qcard-radio').forEach(b => b.classList.remove('qcard-selected'));
-    (['q-name', 'q-product', 'q-price', 'q-stock'] as const).forEach(id => {
-      const el = document.getElementById(id) as HTMLInputElement | null;
-      if (el) el.value = '';
-    });
-    const cnt = document.getElementById('goal-count');
-    if (cnt) cnt.textContent = '0';
-    const b1 = document.getElementById('q1-next') as HTMLButtonElement | null;
-    if (b1) { b1.disabled = true; b1.classList.add('qbtn-disabled'); }
-    const b2 = document.getElementById('q2-next') as HTMLButtonElement | null;
-    if (b2) { b2.disabled = true; b2.classList.add('qbtn-disabled'); }
-    setStep(1);
-  });
-
-  /* ---- result builder ---- */
-  function buildResult() {
-    const goals = Array.from(selectedGoals);
-    const primary = goalData[goals[0]];
-    const secondary = goals[1] ? goalData[goals[1]] : null;
-
-    const goalsEl = document.getElementById('result-goals');
-    if (goalsEl) {
-      goalsEl.innerHTML = goals.map(g =>
-        `<span style="display:inline-flex;padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.75rem;font-weight:600;background:rgba(61,142,248,0.15);color:#3D8EF8;border:1px solid rgba(61,142,248,0.3)">${goalData[g].title}</span>`
-      ).join('');
-    }
-
-    const volEl = document.getElementById('result-volume');
-    const perEl = document.getElementById('result-period');
-    if (volEl) volEl.textContent = primary.volume;
-    if (perEl) perEl.textContent = primary.period;
-
-    const bullets = secondary
-      ? [...primary.bullets.slice(0, 2), secondary.bullets[0]]
-      : primary.bullets;
-
-    const bulletsEl = document.getElementById('result-bullets');
-    if (bulletsEl) {
-      bulletsEl.innerHTML = bullets.map(b =>
-        `<li style="display:flex;align-items:flex-start;gap:0.625rem;font-size:0.875rem;color:#6680A8">
-          <span style="width:6px;height:6px;border-radius:50%;background:#3D8EF8;flex-shrink:0;margin-top:0.4rem"></span>
-          <span style="color:#E4ECFF">${b}</span>
-        </li>`
-      ).join('');
-    }
-
-    // Проставляем ссылку с предзаполненным сообщением
-    const tgBtn = document.getElementById('quiz-tg-btn') as HTMLAnchorElement | null;
-    if (tgBtn) tgBtn.href = buildTgUrl();
-  }
 </script>
 
 <style>
@@ -586,9 +406,7 @@
     position: relative;
     transition: border-color 0.2s;
   }
-  .qcard-selected .qcr-dot {
-    border-color: #3D8EF8;
-  }
+  .qcard-selected .qcr-dot { border-color: #3D8EF8; }
   .qcard-selected .qcr-dot::after {
     content: '';
     position: absolute;
@@ -599,7 +417,7 @@
   .qcr-title { display: block; font-size: 0.875rem; font-weight: 600; color: #E4ECFF; line-height: 1.3; }
   .qcr-sub   { display: block; font-size: 0.75rem; color: #6680A8; margin-top: 0.1rem; }
 
-  /* ----- final CTA button ----- */
+  /* ----- final CTA ----- */
   .quiz-final-cta {
     display: flex;
     align-items: center;
@@ -611,11 +429,15 @@
     color: white;
     text-decoration: none;
     transition: opacity 0.2s, transform 0.15s;
-    margin-bottom: 0.75rem;
   }
-  .quiz-final-cta:hover {
+  .quiz-final-cta:not(.qcta-disabled):hover {
     opacity: 0.92;
     transform: translateY(-1px);
+  }
+  .qcta-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
   }
   .cta-sub {
     font-size: 0.6875rem;
