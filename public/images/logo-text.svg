@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9DBB9D"/>
+      <stop offset="0.55" stop-color="#6F846F"/>
+      <stop offset="1" stop-color="#283128"/>
+    </linearGradient>
+    <radialGradient id="spot" cx="43%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#F5F1D8" stop-opacity="0.75"/>
+      <stop offset="0.35" stop-color="#B9C8AE" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cream" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFCEF"/>
+      <stop offset="0.55" stop-color="#F2E9C9"/>
+      <stop offset="1" stop-color="#CBBE92"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="180%">
+      <feDropShadow dx="10" dy="18" stdDeviation="10" flood-color="#11180E" flood-opacity="0.55"/>
+      <feDropShadow dx="3" dy="5" stdDeviation="2" flood-color="#000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="700" fill="url(#bg)"/>
+  <rect width="1600" height="700" fill="url(#spot)"/>
+
+  <!-- Back extrusion -->
+  <text x="800" y="400" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="800"
+        letter-spacing="-7" fill="#2B321E" stroke="#10170D" stroke-width="18" opacity="0.95"
+        transform="translate(18,22)" filter="url(#shadow)">UBuyer</text>
+
+  <!-- Outer dark bevel -->
+  <text x="800" y="400" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="800"
+        letter-spacing="-7" fill="none" stroke="#3C4528" stroke-width="24" stroke-linejoin="round">UBuyer</text>
+
+  <!-- Gold rim -->
+  <text x="800" y="400" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="800"
+        letter-spacing="-7" fill="none" stroke="#D8CFA6" stroke-width="13" stroke-linejoin="round">UBuyer</text>
+
+  <!-- Main face -->
+  <text x="800" y="400" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="800"
+        letter-spacing="-7" fill="url(#cream)" stroke="#FFF9DF" stroke-width="3" stroke-linejoin="round">UBuyer</text>
+
+  <!-- Top highlight -->
+  <text x="800" y="384" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="220" font-weight="800"
+        letter-spacing="-7" fill="none" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="2" stroke-linejoin="round">UBuyer</text>
+</svg>

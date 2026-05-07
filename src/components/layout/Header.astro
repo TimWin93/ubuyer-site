@@ -6,13 +6,13 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
   <div class="container flex items-center justify-between h-16">
 
     <!-- лого -->
-    <a href="/" class="flex items-center gap-1.5 shrink-0 group">
+    <a href="/" class="flex items-center gap-1 shrink-0 group">
       <img
-        src="/images/logo.png"
+        src="/images/logo-hand.png"
         alt=""
-        class="logo-hand h-12 w-12 object-cover shrink-0"
+        class="logo-hand h-14 w-14 object-contain shrink-0"
       />
-      <span class="font-bold text-lg text-brand-text tracking-tight -ml-1">
+      <span class="font-bold text-xl text-brand-text tracking-tight">
         <span class="text-brand-accent">U</span>Buyer
       </span>
     </a>
@@ -135,13 +135,13 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
 
 <style>
   .logo-hand {
-    object-position: center 68%;
-    -webkit-mask-image: radial-gradient(ellipse 80% 85% at 50% 60%, black 55%, transparent 80%);
-    mask-image: radial-gradient(ellipse 80% 85% at 50% 60%, black 55%, transparent 80%);
-    filter: drop-shadow(0 4px 12px rgba(61, 142, 248, 0.25));
-    transition: filter 0.2s ease;
+    -webkit-mask-image: radial-gradient(ellipse 78% 82% at 50% 50%, black 58%, transparent 80%);
+    mask-image: radial-gradient(ellipse 78% 82% at 50% 50%, black 58%, transparent 80%);
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+    transition: filter 0.2s ease, transform 0.2s ease;
   }
   .group:hover .logo-hand {
-    filter: drop-shadow(0 4px 16px rgba(61, 142, 248, 0.45));
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+    transform: translateY(-1px);
   }
 </style>
