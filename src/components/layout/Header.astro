@@ -6,16 +6,13 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
   <div class="container flex items-center justify-between h-16">
 
     <!-- лого -->
-    <a href="/" class="flex items-center gap-2.5 shrink-0 group">
-      <div class="h-9 w-9 rounded-xl bg-white/95 p-0.5 overflow-hidden shadow-sm
-                  ring-1 ring-white/20 group-hover:ring-brand-accent/50 transition-all shrink-0">
-        <img
-          src="/images/logo.png"
-          alt="UBuyer"
-          class="h-full w-full object-cover rounded-lg"
-        />
-      </div>
-      <span class="font-bold text-lg text-brand-text tracking-tight">
+    <a href="/" class="flex items-center gap-1.5 shrink-0 group">
+      <img
+        src="/images/logo.png"
+        alt=""
+        class="logo-hand h-12 w-12 object-cover shrink-0"
+      />
+      <span class="font-bold text-lg text-brand-text tracking-tight -ml-1">
         <span class="text-brand-accent">U</span>Buyer
       </span>
     </a>
@@ -135,3 +132,16 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
     });
   });
 </script>
+
+<style>
+  .logo-hand {
+    object-position: center 68%;
+    -webkit-mask-image: radial-gradient(ellipse 80% 85% at 50% 60%, black 55%, transparent 80%);
+    mask-image: radial-gradient(ellipse 80% 85% at 50% 60%, black 55%, transparent 80%);
+    filter: drop-shadow(0 4px 12px rgba(61, 142, 248, 0.25));
+    transition: filter 0.2s ease;
+  }
+  .group:hover .logo-hand {
+    filter: drop-shadow(0 4px 16px rgba(61, 142, 248, 0.45));
+  }
+</style>
