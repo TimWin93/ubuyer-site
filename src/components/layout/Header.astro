@@ -7,11 +7,14 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
 
     <!-- лого -->
     <a href="/" class="flex items-center gap-2.5 shrink-0 group">
-      <img
-        src="/images/logo.png"
-        alt="UBuyer"
-        class="h-9 w-9 rounded-full object-cover ring-1 ring-white/10 group-hover:ring-brand-accent/40 transition-all"
-      />
+      <div class="h-9 w-9 rounded-xl bg-white/95 p-0.5 overflow-hidden shadow-sm
+                  ring-1 ring-white/20 group-hover:ring-brand-accent/50 transition-all shrink-0">
+        <img
+          src="/images/logo.png"
+          alt="UBuyer"
+          class="h-full w-full object-cover rounded-lg"
+        />
+      </div>
       <span class="font-bold text-lg text-brand-text tracking-tight">
         <span class="text-brand-accent">U</span>Buyer
       </span>
