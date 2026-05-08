@@ -41,7 +41,7 @@
   }
 
   /* Секции */
-  .section { @apply py-20 lg:py-28; }
+  .section { @apply py-14 lg:py-28; }
 
   /* Карточки */
   .card {

@@ -32,7 +32,11 @@ const stats = [
     <div class="grid grid-cols-2 md:grid-cols-4">
       {stats.map((s, i) => (
         <div class={`relative flex flex-col items-center text-center py-8 px-4 ${
-          i < stats.length - 1 ? 'md:border-r border-brand-border' : ''
+          i % 2 === 0 ? 'border-r border-brand-border' : ''
+        } ${
+          i < 2 ? 'border-b border-brand-border md:border-b-0' : ''
+        } ${
+          i < stats.length - 1 ? 'md:border-r' : 'md:border-r-0'
         }`}>
           <!-- accent line top -->
           <span class="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-0.5 rounded-full bg-brand-accent/40"></span>
@@ -44,7 +48,7 @@ const stats = [
           >0{s.suffix}</span>
 
           <span class="text-sm font-medium text-brand-text leading-snug mb-1">{s.label}</span>
-          <span class="text-[11px] text-brand-muted leading-snug">{s.sub}</span>
+          <span class="text-xs text-brand-muted leading-snug">{s.sub}</span>
         </div>
       ))}
     </div>
