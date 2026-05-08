@@ -25,6 +25,9 @@ import { CONTACTS } from '@/consts';
 
 <script>
   const cta = document.getElementById('sticky-cta');
+  cta?.querySelector('a')?.addEventListener('click', () => {
+    if (window.ymGoal) window.ymGoal('sticky_telegram');
+  });
   const hero = document.querySelector('section');
 
   function update() {

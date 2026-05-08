@@ -306,14 +306,17 @@
   /* ---- name input ---- */
   document.getElementById('q-name')?.addEventListener('input', syncCta);
 
+  const ymGoal = (goal: string) => { if (window.ym && window.__ymId) window.ym(window.__ymId, 'reachGoal', goal); };
+
   /* ---- block click on disabled CTA ---- */
   document.getElementById('quiz-tg-btn')?.addEventListener('click', e => {
     const el = e.currentTarget as HTMLAnchorElement;
-    if (el.classList.contains('qcta-disabled')) e.preventDefault();
+    if (el.classList.contains('qcta-disabled')) { e.preventDefault(); return; }
+    ymGoal('quiz_complete');
   });
 
   /* ---- navigation ---- */
-  document.getElementById('q1-next')?.addEventListener('click', () => setStep(2));
+  document.getElementById('q1-next')?.addEventListener('click', () => { ymGoal('quiz_step2'); setStep(2); });
   document.getElementById('q2-back')?.addEventListener('click', () => setStep(1));
 </script>
 
