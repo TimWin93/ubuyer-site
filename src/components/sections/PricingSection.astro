@@ -46,14 +46,14 @@ const tiers = [
       {tiers.map((t) => (
         <div class={`relative rounded-2xl p-6 text-center flex flex-col items-center gap-3 transition-all ${
           t.popular
-            ? 'bg-brand-accent border border-brand-accent shadow-btn sm:scale-[1.04]'
+            ? 'bg-brand-accent border-2 border-brand-accent-2 shadow-[0_0_48px_rgba(61,142,248,0.55)] sm:scale-[1.08] z-10'
             : 'card'
         }`}>
           {t.popular && (
-            <span class="absolute -top-3 left-1/2 -translate-x-1/2
-                         text-xs font-semibold bg-brand-accent-2 text-brand-bg
-                         px-3 py-1 rounded-full">
-              популярный
+            <span class="absolute -top-3.5 left-1/2 -translate-x-1/2
+                         text-xs font-bold bg-emerald-500 text-white
+                         px-3.5 py-1 rounded-full uppercase tracking-wide whitespace-nowrap">
+              Популярный
             </span>
           )}
           <span class={`text-xs font-medium ${t.popular ? 'text-white/70' : 'text-brand-muted'}`}>

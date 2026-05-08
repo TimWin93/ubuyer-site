@@ -18,6 +18,8 @@ export default {
           'accent-dim': 'rgba(61,142,248,0.15)',
           'glow':       'rgba(61,142,248,0.3)',
           'glow-2':     'rgba(77,217,255,0.2)',
+          'cta':        '#10B981',
+          'cta-hover':  '#059669',
         },
       },
       fontFamily: {
@@ -29,6 +31,8 @@ export default {
         'card-glow':'0 0 24px rgba(61,142,248,0.12), 0 1px 3px rgba(0,0,0,0.5), 0 0 0 1px rgba(61,142,248,0.2)',
         btn:        '0 0 20px rgba(61,142,248,0.4), 0 2px 8px rgba(0,0,0,0.4)',
         'btn-hover':'0 0 32px rgba(61,142,248,0.6), 0 4px 16px rgba(0,0,0,0.5)',
+        'btn-cta':       '0 0 20px rgba(16,185,129,0.35), 0 2px 8px rgba(0,0,0,0.4)',
+        'btn-cta-hover': '0 0 32px rgba(16,185,129,0.55), 0 4px 16px rgba(0,0,0,0.5)',
         inner:      'inset 0 1px 0 rgba(255,255,255,0.05)',
       },
       backgroundImage: {

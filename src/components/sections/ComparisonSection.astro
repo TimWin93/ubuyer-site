@@ -60,7 +60,7 @@ const tabs = [
 ];
 ---
 
-<section class="pt-20 pb-28 lg:py-28 border-t border-brand-border bg-brand-surface/30">
+<section class="section border-t border-brand-border bg-brand-surface/30">
   <div class="container">
     <div class="max-w-2xl mx-auto text-center mb-12">
       <div class="tag mb-5">Сравнение</div>
@@ -75,7 +75,7 @@ const tabs = [
       {tabs.map((t, i) => (
         <button
           data-tab={t.id}
-          class={`comp-tab shrink-0 px-5 py-3.5 rounded-xl text-sm font-semibold border transition-all duration-150
+          class={`comp-tab shrink-0 px-5 py-3.5 min-h-[44px] rounded-xl text-sm font-semibold border transition-all duration-150
             ${i === 0
               ? 'bg-brand-accent text-white border-brand-accent'
               : 'text-brand-muted border-brand-border hover:border-brand-border-2 hover:text-brand-text'
@@ -92,17 +92,17 @@ const tabs = [
         id={`tab-${t.id}`}
         class={`comp-panel max-w-4xl mx-auto ${i !== 0 ? 'hidden' : ''}`}
       >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <!-- Они -->
-          <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-6">
-            <div class="flex items-center gap-2 mb-5">
-              <span class="w-2 h-2 rounded-full bg-red-400"></span>
+          <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-7">
+            <div class="flex items-center gap-2 mb-6">
+              <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
               <span class="text-sm font-semibold text-red-400 uppercase tracking-wider">Альтернатива</span>
             </div>
-            <ul class="space-y-3">
+            <ul class="space-y-4">
               {t.them.map((item) => (
                 <li class="flex items-start gap-3 text-sm text-brand-muted leading-relaxed">
-                  <span class="text-red-400 shrink-0 mt-0.5">✗</span>
+                  <span class="text-red-400/70 shrink-0 mt-0.5 text-base">✗</span>
                   {item}
                 </li>
               ))}
@@ -110,15 +110,15 @@ const tabs = [
           </div>
 
           <!-- Мы -->
-          <div class="rounded-2xl border border-brand-accent/25 bg-brand-accent-dim p-6">
-            <div class="flex items-center gap-2 mb-5">
-              <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
-              <span class="text-sm font-semibold text-brand-accent uppercase tracking-wider">UBuyer</span>
+          <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7">
+            <div class="flex items-center gap-2 mb-6">
+              <span class="w-2 h-2 rounded-full bg-brand-accent-2 shrink-0"></span>
+              <span class="text-sm font-semibold text-brand-accent-2 uppercase tracking-wider">UBuyer</span>
             </div>
-            <ul class="space-y-3">
+            <ul class="space-y-4">
               {t.us.map((item) => (
                 <li class="flex items-start gap-3 text-sm text-brand-text leading-relaxed">
-                  <span class="text-brand-accent shrink-0 mt-0.5">✓</span>
+                  <span class="text-emerald-400 shrink-0 mt-0.5 text-base">✓</span>
                   {item}
                 </li>
               ))}
@@ -127,8 +127,8 @@ const tabs = [
         </div>
 
         <!-- вердикт -->
-        <div class="rounded-2xl border border-brand-border bg-brand-surface p-5 text-left">
-          <p class="text-brand-text font-medium">«{t.verdict}»</p>
+        <div class="rounded-2xl border border-brand-border-2 bg-brand-surface px-6 py-5 text-left">
+          <p class="text-brand-text/90 font-medium leading-relaxed">«{t.verdict}»</p>
         </div>
       </div>
     ))}

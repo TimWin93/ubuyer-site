@@ -26,15 +26,15 @@
   /* Кнопки */
   .btn-primary {
     @apply relative inline-flex items-center justify-center gap-2
-           px-7 py-3.5 rounded-xl font-semibold text-white text-sm
-           bg-brand-accent shadow-btn
-           hover:bg-brand-accent-hover hover:shadow-btn-hover
+           px-7 py-3.5 min-h-[44px] rounded-xl font-semibold text-white text-sm
+           bg-brand-cta shadow-btn-cta
+           hover:bg-brand-cta-hover hover:shadow-btn-cta-hover
            active:scale-[0.97] transition-all duration-150;
   }
 
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2
-           px-7 py-3.5 rounded-xl font-semibold text-sm
+           px-7 py-3.5 min-h-[44px] rounded-xl font-semibold text-sm
            text-brand-text border border-brand-border-2
            hover:border-brand-accent hover:text-brand-accent
            active:scale-[0.97] transition-all duration-150;
@@ -42,6 +42,7 @@
 
   /* Секции */
   .section { @apply py-14 lg:py-28; }
+  .section-alt { @apply bg-brand-surface/60 border-t border-brand-border; }
 
   /* Карточки */
   .card {

@@ -1,15 +1,58 @@
 ---
 const reviews = [
-  { src: '/images/reviews/review-1.jpg', alt: 'Отзыв клиента UBuyer 1' },
-  { src: '/images/reviews/review-2.jpg', alt: 'Отзыв клиента UBuyer 2' },
-  { src: '/images/reviews/review-3.jpg', alt: 'Отзыв клиента UBuyer 3' },
-  { src: '/images/reviews/review-4.jpg', alt: 'Отзыв клиента UBuyer 4' },
-  { src: '/images/reviews/review-5.jpg', alt: 'Отзыв клиента UBuyer 5' },
-  { src: '/images/reviews/review-6.jpg', alt: 'Отзыв клиента UBuyer 6' },
+  {
+    tag: 'Безопасность',
+    quote: 'Для нас главным была безопасность выкупов — критически важно избежать штрафов. Ваша стратегия сработала отлично. Карточки вышли в топ. Органика пошла. План выполнен.',
+    author: 'Татьяна',
+    date: 'декабрь 2025',
+    color: '#22c55e',
+  },
+  {
+    tag: 'Сомневался — убедился',
+    quote: 'Скажу честно: в начале я сомневался. Думал могут обмануть, не выкупать по нужным ПЗ. Но ошибся! Всё чётко. Приятно иметь дело с профессионалами!',
+    author: 'Амрах',
+    date: 'декабрь 2025',
+    color: '#f97316',
+  },
+  {
+    tag: 'Лучше конкурентов',
+    quote: 'Работала с многими компаниями за последние несколько лет. Мне есть с чем сравнить. Просто решила один раз сэкономить. А зря.',
+    author: 'Виктория',
+    date: 'март 2026',
+    color: '#a855f7',
+  },
+  {
+    tag: 'Сервис 24/7',
+    quote: 'Всегда на связи — 24 на 7, в выходные, в праздники. Никогда не бросят, лишнего не спросят. Команда шикарная!',
+    author: 'Роман',
+    date: 'декабрь 2025',
+    color: '#3D8EF8',
+  },
+  {
+    tag: 'Органика без рекламы',
+    quote: 'Спасибо большое, пробили полки — органика пошла без рекламы. Результаты говорят сами за себя.',
+    author: 'Павел',
+    date: 'декабрь 2025',
+    color: '#3D8EF8',
+  },
+  {
+    tag: 'Конверсии ×1.5',
+    quote: 'Карточка поднята по нужным запросам, конверсии выросли в ×1.5. Всё чётко и в срок. Сделано аккуратно.',
+    author: 'Юлия',
+    date: 'ноябрь 2025',
+    color: '#22c55e',
+  },
+  {
+    tag: '300+ выкупов',
+    quote: 'Из «попробовать» в «проверенные партнёры». Оформили более 300 самовыкупов — каждый выполнен безупречно.',
+    author: 'постоянный клиент',
+    date: 'август 2025',
+    color: '#f97316',
+  },
 ];
 
-const row1 = reviews.slice(0, 3);
-const row2 = reviews.slice(3);
+const row1 = reviews.slice(0, 4);
+const row2 = reviews.slice(4);
 ---
 
 <section class="section border-t border-brand-border">
@@ -18,31 +61,46 @@ const row2 = reviews.slice(3);
       <div class="tag mb-5">Отзывы клиентов</div>
       <h2 class="text-brand-text">Что говорят продавцы</h2>
       <p class="text-brand-muted mt-4 text-lg leading-relaxed">
-        Скриншоты из наших рабочих чатов — без редактуры и постановки
+        Реальные слова из рабочих чатов — без редактуры и постановки
       </p>
     </div>
   </div>
 
-  <!-- marquee — полная ширина -->
   <div class="marquee-wrapper">
     <div class="mask-left"></div>
     <div class="mask-right"></div>
 
     <!-- ряд 1: влево -->
     <div class="marquee-track track-left mb-4">
-      {[...row1, ...row1, ...row1, ...row1].map((r, i) => (
-        <button class="review-card" data-index={i % row1.length} aria-label={`Открыть отзыв ${i % row1.length + 1}`}>
-          <img src={r.src} alt={r.alt} loading="lazy" />
-        </button>
+      {[...row1, ...row1, ...row1, ...row1].map((r) => (
+        <div class="review-card" style={`--accent: ${r.color}`}>
+          <div class="review-tag" style={`color: ${r.color}`}>
+            <span class="review-tag-dot" style={`background: ${r.color}`}></span>
+            {r.tag}
+          </div>
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">{r.quote}</p>
+          <div class="review-footer">
+            <span class="review-name">— {r.author}</span>
+          </div>
+        </div>
       ))}
     </div>
 
     <!-- ряд 2: вправо -->
     <div class="marquee-track track-right">
-      {[...row2, ...row2, ...row2, ...row2].map((r, i) => (
-        <button class="review-card" data-index={i % row2.length + row1.length} aria-label={`Открыть отзыв ${i % row2.length + row1.length + 1}`}>
-          <img src={r.src} alt={r.alt} loading="lazy" />
-        </button>
+      {[...row2, ...row2, ...row2, ...row2].map((r) => (
+        <div class="review-card" style={`--accent: ${r.color}`}>
+          <div class="review-tag" style={`color: ${r.color}`}>
+            <span class="review-tag-dot" style={`background: ${r.color}`}></span>
+            {r.tag}
+          </div>
+          <div class="review-quote-mark">"</div>
+          <p class="review-text">{r.quote}</p>
+          <div class="review-footer">
+            <span class="review-name">— {r.author}</span>
+          </div>
+        </div>
       ))}
     </div>
   </div>
@@ -61,48 +119,19 @@ const row2 = reviews.slice(3);
   </div>
 </section>
 
-<!-- Lightbox -->
-<div id="reviews-lightbox" class="lb-overlay" role="dialog" aria-modal="true" aria-hidden="true">
-  <button class="lb-close" id="lb-close" aria-label="Закрыть">
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <path d="M14 4L4 14M4 4l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-  </button>
-
-  <button class="lb-nav lb-prev" id="lb-prev" aria-label="Предыдущий отзыв">
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <path d="M14 17l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-  <div class="lb-content">
-    <img id="lb-img" src="" alt="" />
-  </div>
-
-  <button class="lb-nav lb-next" id="lb-next" aria-label="Следующий отзыв">
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <path d="M8 17l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-  <div class="lb-dots">
-    {reviews.map((_, i) => (
-      <button class="lb-dot" data-dot={i} aria-label={`Отзыв ${i + 1}`}></button>
-    ))}
-  </div>
-</div>
-
 <style>
-  /* ----- marquee ----- */
   .marquee-wrapper {
     position: relative;
     overflow: hidden;
     padding: 4px 0;
   }
-  .mask-left, .mask-right {
+
+  .mask-left,
+  .mask-right {
     position: absolute;
-    top: 0; bottom: 0;
-    width: 120px;
+    top: 0;
+    bottom: 0;
+    width: 140px;
     z-index: 10;
     pointer-events: none;
   }
@@ -114,221 +143,206 @@ const row2 = reviews.slice(3);
     gap: 16px;
     width: max-content;
   }
-  .marquee-track:hover { animation-play-state: paused; }
-  .track-left  { animation: scroll-left  40s linear infinite; }
-  .track-right { animation: scroll-right 45s linear infinite; }
+  .track-left  { animation: scroll-left  50s linear infinite; }
+  .track-right { animation: scroll-right 55s linear infinite; }
+
+  .marquee-track { cursor: grab; user-select: none; }
+  .marquee-track.is-dragging { cursor: grabbing; }
 
   @keyframes scroll-left  { from { transform: translateX(0); }    to { transform: translateX(-50%); } }
   @keyframes scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
+  /* Карточка */
   .review-card {
-    width: 220px;
-    height: 300px;
+    width: 320px;
+    min-height: 220px;
     flex-shrink: 0;
-    border-radius: 16px;
-    overflow: hidden;
+    border-radius: 20px;
+    padding: 22px 24px 20px;
+    background: #080F24;
     border: 1px solid #1A2B4A;
-    padding: 0;
-    background: none;
-    cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s;
+    border-top: 3px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .review-card:hover {
-    border-color: #3D8EF8;
-    transform: scale(1.03);
-  }
-  .review-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    pointer-events: none;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--accent);
   }
 
-  /* ----- lightbox ----- */
-  .lb-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(4, 9, 26, 0.96);
-    display: flex;
+  /* Тег */
+  .review-tag {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
-  .lb-overlay.is-open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .lb-content {
-    max-width: min(400px, calc(100vw - 130px));
-    max-height: calc(100vh - 110px);
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid #1A2B4A;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-    background: #080F24;
-  }
-  .lb-content img {
-    display: block;
-    width: 100%;
-    max-height: calc(100vh - 110px);
-    object-fit: contain;
-  }
-
-  .lb-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 40px;
-    height: 40px;
+  .review-tag-dot {
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: #0D1A35;
-    border: 1px solid #1A2B4A;
+    flex-shrink: 0;
+  }
+
+  /* Кавычка */
+  .review-quote-mark {
+    font-size: 72px;
+    line-height: 0.55;
+    color: var(--accent);
+    opacity: 0.25;
+    font-family: Georgia, 'Times New Roman', serif;
+    margin-top: 6px;
+    user-select: none;
+  }
+
+  /* Текст */
+  .review-text {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #C4D4EC;
+    flex: 1;
+  }
+
+  /* Подвал карточки */
+  .review-footer {
+    padding-top: 14px;
+    border-top: 1px solid #1A2B4A;
+    margin-top: auto;
+  }
+  .review-name {
+    font-size: 13px;
+    font-weight: 600;
     color: #E4ECFF;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, border-color 0.2s;
-    z-index: 10;
-  }
-  .lb-close:hover { background: #1A2B4A; border-color: #3D8EF8; }
-
-  .lb-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #0D1A35;
-    border: 1px solid #1A2B4A;
-    color: #E4ECFF;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, border-color 0.2s;
-    z-index: 10;
-  }
-  .lb-nav:hover { background: #3D8EF8; border-color: #3D8EF8; }
-  .lb-prev { left: 16px; }
-  .lb-next { right: 16px; }
-
-  @media (max-width: 480px) {
-    .lb-prev { left: 8px; }
-    .lb-next { right: 8px; }
-    .lb-nav { width: 40px; height: 40px; }
   }
 
-  .lb-dots {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-  }
-  .lb-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #1A2B4A;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .lb-dot.active {
-    background: #3D8EF8;
-    transform: scale(1.4);
+  /* Мобильная версия */
+  @media (max-width: 640px) {
+    .mask-left,
+    .mask-right {
+      width: 60px;
+    }
+
+    .review-card {
+      width: 260px;
+      min-height: 190px;
+      padding: 18px 20px 16px;
+      border-radius: 16px;
+    }
+
+    .review-quote-mark {
+      font-size: 56px;
+    }
+
+    .review-text {
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .review-tag {
+      font-size: 10px;
+    }
+
+    .review-name {
+      font-size: 12px;
+    }
+
+    .track-left  { animation-duration: 35s; }
+    .track-right { animation-duration: 40s; }
   }
 </style>
 
 <script>
-  const REVIEWS = [
-    { src: '/images/reviews/review-1.jpg', alt: 'Отзыв клиента UBuyer 1' },
-    { src: '/images/reviews/review-2.jpg', alt: 'Отзыв клиента UBuyer 2' },
-    { src: '/images/reviews/review-3.jpg', alt: 'Отзыв клиента UBuyer 3' },
-    { src: '/images/reviews/review-4.jpg', alt: 'Отзыв клиента UBuyer 4' },
-    { src: '/images/reviews/review-5.jpg', alt: 'Отзыв клиента UBuyer 5' },
-    { src: '/images/reviews/review-6.jpg', alt: 'Отзыв клиента UBuyer 6' },
-  ];
+  const tracks = document.querySelectorAll<HTMLElement>('.marquee-track');
 
-  let current = 0;
+  tracks.forEach(track => {
+    const isLeft   = track.classList.contains('track-left');
+    const DURATION = isLeft ? 50 : 55; // секунды — совпадают с CSS
+    const ANIM     = isLeft ? 'scroll-left' : 'scroll-right';
 
-  const overlay  = document.getElementById('reviews-lightbox') as HTMLElement;
-  const lbImg    = document.getElementById('lb-img') as HTMLImageElement;
-  const dots     = document.querySelectorAll<HTMLElement>('.lb-dot');
-  const tracks   = document.querySelectorAll<HTMLElement>('.marquee-track');
+    let isDragging   = false;
+    let startX       = 0;
+    let capturedX    = 0;
+    let dragDelta    = 0;
 
-  function open(index: number) {
-    current = index;
-    render();
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    tracks.forEach(t => { t.style.animationPlayState = 'paused'; });
-    document.body.style.overflow = 'hidden';
-  }
+    /* текущий translateX из computed style */
+    function liveX(): number {
+      const t = getComputedStyle(track).transform;
+      return t === 'none' ? 0 : new DOMMatrix(t).m41;
+    }
 
-  function close() {
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    tracks.forEach(t => { t.style.animationPlayState = ''; });
-    document.body.style.overflow = '';
-  }
+    /* нормализуем позицию в диапазон [-halfW, 0] */
+    function normalize(x: number): number {
+      const halfW = track.scrollWidth / 2;
+      let n = x % halfW;
+      if (n > 0)      n -= halfW;
+      if (n < -halfW) n += halfW;
+      return n;
+    }
 
-  function go(dir: number) {
-    current = (current + dir + REVIEWS.length) % REVIEWS.length;
-    render();
-  }
+    /* возобновляем CSS-анимацию с нужного места */
+    function resumeFrom(x: number) {
+      const halfW    = track.scrollWidth / 2;
+      const norm     = normalize(x);
+      const progress = isLeft
+        ? norm / -halfW                    // scroll-left:  0 → -halfW
+        : (norm + halfW) / halfW;          // scroll-right: -halfW → 0
+      const delayMs  = -progress * DURATION * 1000;
 
-  function render() {
-    lbImg.src = REVIEWS[current].src;
-    lbImg.alt = REVIEWS[current].alt;
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-  }
+      track.style.transform        = '';
+      track.style.animation        = `${ANIM} ${DURATION}s linear infinite`;
+      track.style.animationDelay   = `${delayMs}ms`;
+      track.style.animationPlayState = 'running';
+    }
 
-  // Открытие по клику на карточку
-  document.querySelectorAll<HTMLElement>('.review-card').forEach(card => {
-    card.addEventListener('click', () => {
-      open(parseInt(card.dataset.index ?? '0'));
+    /* ---- старт drag ---- */
+    function onStart(x: number) {
+      isDragging = true;
+      startX     = x;
+      capturedX  = liveX();
+      dragDelta  = 0;
+
+      track.classList.add('is-dragging');
+      track.style.animationPlayState = 'paused';
+      track.style.transform = `translateX(${capturedX}px)`;
+      track.style.animation = 'none';
+    }
+
+    /* ---- движение ---- */
+    function onMove(x: number) {
+      if (!isDragging) return;
+      dragDelta = x - startX;
+      track.style.transform = `translateX(${capturedX + dragDelta}px)`;
+    }
+
+    /* ---- конец drag ---- */
+    function onEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      track.classList.remove('is-dragging');
+      resumeFrom(capturedX + dragDelta);
+    }
+
+    /* ---- hover: пауза пока не тащим ---- */
+    track.addEventListener('mouseenter', () => {
+      if (!isDragging) track.style.animationPlayState = 'paused';
     });
-  });
-
-  // Закрытие
-  document.getElementById('lb-close')!.addEventListener('click', close);
-  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
-
-  // Навигация
-  document.getElementById('lb-prev')!.addEventListener('click', () => go(-1));
-  document.getElementById('lb-next')!.addEventListener('click', () => go(1));
-
-  // Точки
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      current = parseInt(dot.dataset.dot ?? '0');
-      render();
+    track.addEventListener('mouseleave', () => {
+      if (!isDragging) track.style.animationPlayState = 'running';
     });
-  });
 
-  // Клавиатура
-  document.addEventListener('keydown', e => {
-    if (!overlay.classList.contains('is-open')) return;
-    if (e.key === 'Escape')      close();
-    if (e.key === 'ArrowLeft')   go(-1);
-    if (e.key === 'ArrowRight')  go(1);
-  });
+    /* ---- mouse ---- */
+    track.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX); });
+    window.addEventListener('mousemove', e => onMove(e.clientX));
+    window.addEventListener('mouseup',   ()  => onEnd());
 
-  // Свайп на мобиле
-  let touchX = 0;
-  overlay.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
-  overlay.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+    /* ---- touch ---- */
+    track.addEventListener('touchstart', e => onStart(e.touches[0].clientX),            { passive: true });
+    track.addEventListener('touchmove',  e => onMove(e.touches[0].clientX),             { passive: true });
+    track.addEventListener('touchend',   ()  => onEnd());
   });
 </script>

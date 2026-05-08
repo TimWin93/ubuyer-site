@@ -4,7 +4,7 @@ import ArrowRight from '@lucide/astro/icons/arrow-right';
 import MessageCircle from '@lucide/astro/icons/message-circle';
 ---
 
-<section class="relative overflow-hidden pt-14 pb-20 lg:pt-20 lg:pb-28">
+<section class="relative pt-14 pb-20 lg:pt-20 lg:pb-28" style="overflow-x: clip;">
   <!-- фоновое свечение -->
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px]
@@ -23,13 +23,13 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
       <div class="max-w-3xl xl:max-w-none">
 
         <!-- бейдж -->
-        <div class="tag mb-7 reveal">
+        <div class="tag mb-7 reveal !tracking-normal !normal-case">
           <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
           Wildberries · OZON · Живая инфраструктура
         </div>
 
         <!-- заголовок -->
-        <h1 class="text-brand-text mb-6 reveal text-[2.2rem] sm:text-5xl lg:text-6xl" style="animation-delay:0.1s">
+        <h1 class="text-brand-text mb-6 reveal text-[1.875rem] sm:text-5xl lg:text-6xl" style="animation-delay:0.1s">
           Поднимаем карточки
           в топ выдачи на WB
           и OZON через
@@ -44,8 +44,8 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
             'Товар не сжигается — возвращается в оборот и отгружается обратно на склад WB',
             'Полный цикл внутри — своя команда, склад и автопарк, не субподряд',
           ].map((item) => (
-            <li class="flex items-center gap-3 text-base text-brand-muted">
-              <span class="w-1 h-1 rounded-full bg-brand-accent shrink-0"></span>
+            <li class="flex items-center gap-3 text-sm sm:text-base text-brand-text/75">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0"></span>
               {item}
             </li>
           ))}
