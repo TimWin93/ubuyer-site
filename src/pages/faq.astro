@@ -6,7 +6,7 @@ const faqItems = await getCollection('faq');
 const sorted = faqItems.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="FAQ — частые вопросы" description="Ответы на частые вопросы о самовыкупах на Wildberries." path="/faq">
+<BaseLayout title="FAQ — частые вопросы" description="Ответы на частые вопросы о самовыкупах на Wildberries." path="/faq" noindex={true}>
   <div class="container section">
     <h1 class="mb-12">Частые вопросы</h1>
     {sorted.map((cat) => (

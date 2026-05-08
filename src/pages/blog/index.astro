@@ -6,7 +6,7 @@ const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sorted = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Блог" description="Статьи о росте карточек на Wildberries через управляемый оборот." path="/blog">
+<BaseLayout title="Блог" description="Статьи о росте карточек на Wildberries через управляемый оборот." path="/blog" noindex={true}>
   <div class="container section">
     <h1 class="mb-12">Блог</h1>
     <div class="space-y-6">

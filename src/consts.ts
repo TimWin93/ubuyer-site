@@ -24,11 +24,9 @@ export const MIN_ORDER = {
 } as const;
 
 export const NAV_LINKS = [
-  { href: '/kak-rabotaem', label: 'Как работаем' },
-  { href: '/scenarii', label: 'Сценарии' },
-  { href: '/tseny', label: 'Цены' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/blog', label: 'Блог' },
+  { href: '/#kak-rabotaem', label: 'Как работаем' },
+  { href: '/#pricing', label: 'Цены' },
+  { href: '/#faq', label: 'FAQ' },
 ] as const;
 
 export const SCENARIO_SLUGS = [

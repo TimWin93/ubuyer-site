@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 const scenarios = await getCollection('scenarii', ({ data }) => !data.draft);
 ---
 
-<BaseLayout title="Сценарии" description="13 сценариев роста карточки на Wildberries через контролируемый оборот." path="/scenarii">
+<BaseLayout title="Сценарии" description="13 сценариев роста карточки на Wildberries через контролируемый оборот." path="/scenarii" noindex={true}>
   <div class="container section">
     <h1 class="mb-12">Сценарии</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
