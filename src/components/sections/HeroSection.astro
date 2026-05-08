@@ -72,19 +72,22 @@ import MessageCircle from '@lucide/astro/icons/message-circle';
         </div>
 
         <!-- Статы на мобиле/планшете (скрыты на xl где работает правая колонка) -->
-        <div class="xl:hidden mt-8 grid grid-cols-2 gap-3 reveal" style="animation-delay:0.4s">
-          {[
-            { value: '3000+', label: 'покупательских профилей', sub: 'с историей 3+ лет' },
-            { value: '2600+', label: 'ПВЗ в зоне охвата',       sub: 'Москва и МО' },
-            { value: '100+',  label: 'человек в команде',        sub: 'кликеры, водители, склад' },
-            { value: '0',     label: 'блокировок клиентов',      sub: 'за 3 года работы' },
-          ].map((s) => (
-            <div class="rounded-2xl border border-brand-border bg-brand-surface px-4 py-4">
-              <span class="text-2xl font-bold font-mono text-brand-accent block leading-none mb-1.5">{s.value}</span>
-              <p class="text-sm font-semibold text-brand-text leading-snug">{s.label}</p>
-              <p class="text-xs text-brand-muted mt-0.5">{s.sub}</p>
-            </div>
-          ))}
+        <div class="xl:hidden mt-10 pt-8 border-t border-brand-border reveal" style="animation-delay:0.4s">
+          <p class="text-xs text-brand-muted uppercase tracking-widest mb-4">Наша инфраструктура</p>
+          <div class="grid grid-cols-2 gap-3">
+            {[
+              { value: '3000+', label: 'покупательских профилей', sub: 'с историей 3+ лет' },
+              { value: '2600+', label: 'ПВЗ в зоне охвата',       sub: 'Москва и МО' },
+              { value: '100+',  label: 'человек в команде',        sub: 'кликеры, водители, склад' },
+              { value: '0',     label: 'блокировок клиентов',      sub: 'за 3 года работы' },
+            ].map((s) => (
+              <div class="rounded-2xl border border-brand-border bg-brand-surface px-4 py-4">
+                <span class="text-2xl font-bold font-mono text-brand-accent block leading-none mb-1.5">{s.value}</span>
+                <p class="text-sm font-semibold text-brand-text leading-snug">{s.label}</p>
+                <p class="text-xs text-brand-muted mt-0.5">{s.sub}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>

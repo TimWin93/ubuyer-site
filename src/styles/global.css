@@ -65,8 +65,8 @@
   .tag {
     @apply inline-flex items-center gap-1.5
            text-xs font-semibold tracking-widest uppercase
-           text-brand-accent-2 border border-brand-accent/30
-           bg-brand-accent-dim px-3 py-1.5 rounded-full;
+           text-brand-accent-2 border border-brand-accent-2/50
+           bg-brand-accent-dim px-3.5 py-1.5 rounded-full;
   }
 
   /* Сетка разделителей */
