@@ -1,110 +1,205 @@
 ---
-const points = [
-  'Кликеры, водители, упаковщики, логисты — всё внутри',
-  'Свой склад фулфилмента и автопарк в Москве',
-  'Работаем 3+ года — выстроили систему, а не хаос',
-  'Все сотрудники обучаются за счёт компании',
+import MessageSquare from '@lucide/astro/icons/message-square';
+import ShieldCheck from '@lucide/astro/icons/shield-check';
+import BarChart3 from '@lucide/astro/icons/chart-bar';
+
+const chatPoints = [
+  'Отдельный Telegram-чат на каждого клиента',
+  'В чате 15–20 человек: менеджер, бухгалтерия, логистика и фулфилмент',
+  'Ответ — почти мгновенный, в любое время',
+  'Коррективы вносятся в реальном времени',
+];
+
+const stats = [
+  { value: '100+', label: 'человек' },
+  { value: '3+', label: 'года' },
+  { value: '24/7', label: 'связь' },
+];
+
+const gridPhotos = [
+  { src: '/images/team/team-01.jpg', alt: 'Офис UBuyer' },
+  { src: '/images/team/team-02.jpg', alt: 'Команда UBuyer' },
+  { src: '/images/team/team-03.jpg', alt: 'Рабочий процесс UBuyer' },
+  { src: '/images/team/team-04.jpg', alt: 'Офис UBuyer' },
+];
+
+const stripPhotos = [
+  { src: '/images/team/team-05.jpg', alt: 'Офис UBuyer' },
+  { src: '/images/team/team-06.jpg', alt: 'Команда UBuyer' },
+  { src: '/images/team/team-07.jpg', alt: 'Рабочий процесс UBuyer' },
 ];
 ---
 
 <section class="section border-t border-brand-border">
   <div class="container">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-      <!-- фото -->
-      <div class="space-y-4">
-        <div class="relative">
-          <div class="rounded-2xl overflow-hidden border border-brand-border">
-            <img
-              src="/images/team-photo.jpg"
-              alt="Команда UBuyer — 100+ человек, Москва"
-              width="1600"
-              height="1067"
-              class="w-full object-cover"
-              loading="lazy"
-            />
-          </div>
-          <!-- бейдж поверх фото -->
-          <div class="absolute -bottom-4 -right-4 bg-brand-surface border border-brand-border
-                      rounded-2xl px-5 py-3 shadow-card">
-            <p class="text-2xl font-bold font-mono text-brand-text">100+</p>
-            <p class="text-xs text-brand-muted">человек в команде</p>
-          </div>
-        </div>
-
-        <!-- карта ПВЗ -->
-        <div class="pt-6">
-          <p class="text-xs text-brand-muted mb-3 font-semibold uppercase tracking-wider">
-            2 600+ ПВЗ по Москве и МО
-          </p>
-          <div class="rounded-2xl overflow-hidden border border-brand-border">
-            <img
-              src="/images/pvz-map.jpg"
-              alt="Карта ПВЗ UBuyer — 2600+ точек выдачи в Москве и МО"
-              class="w-full h-auto block"
-              loading="lazy"
-            />
-          </div>
-          <p class="text-xs text-brand-muted mt-2 text-center opacity-60">
-            Каждая точка — реальный ПВЗ, через который проходят выкупы
-          </p>
-        </div>
-      </div>
-
-      <!-- текст -->
-      <div>
-        <div class="tag mb-6">Наша команда</div>
-        <h2 class="text-brand-text mb-4">
-          За каждой покупкой<br />стоят 100+ человек
-        </h2>
-        <p class="text-brand-muted text-lg leading-relaxed mb-8">
-          Это не сервис из двух человек с базой аккаунтов.
-          Это слаженная операционная система: свои люди, свои маршруты,
-          свой склад, своя логистика — всё под одной крышей.
-        </p>
-
-        <ul class="space-y-3 mb-8">
-          {points.map((p) => (
-            <li class="flex items-start gap-3 text-sm text-brand-muted">
-              <span class="w-1 h-1 rounded-full bg-brand-accent shrink-0 mt-2"></span>
-              {p}
-            </li>
-          ))}
-        </ul>
-
-        <!-- цитата-принцип -->
-        <div class="rounded-2xl border border-brand-border bg-brand-surface p-5 mb-6">
-          <p class="text-brand-muted text-sm leading-relaxed italic">
-            "Мы прошли через все плохие модели рынка — ПО, партнёрский
-            фулфилмент, хаос, провалы на складе. Именно поэтому наша
-            модель работает."
-          </p>
-        </div>
-
-        <!-- Telegram канал -->
-        <a
-          href="https://t.me/YourBuyer_WB"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-3 rounded-2xl border border-brand-accent/30
-                 bg-brand-accent/5 px-5 py-4 hover:bg-brand-accent/10
-                 hover:border-brand-accent/50 transition-all group"
-        >
-          <span class="flex items-center justify-center w-9 h-9 rounded-xl
-                       bg-brand-accent/15 shrink-0">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-brand-accent">
-              <path d="M21.8 2.15a1.5 1.5 0 0 0-1.67-.32L2.8 9.13a1.5 1.5 0 0 0 .08 2.79l4.12 1.37 1.65 5.1a1 1 0 0 0 1.74.3l2.44-2.9 4.74 3.5a1.5 1.5 0 0 0 2.35-1.02l2-14a1.5 1.5 0 0 0-.12-.12Z" fill="currentColor"/>
-            </svg>
-          </span>
-          <div class="flex-1">
-            <p class="text-brand-text text-sm font-semibold">Telegram-канал UBuyer</p>
-            <p class="text-brand-muted text-xs mt-0.5">Кейсы, аналитика, обновления</p>
-          </div>
-          <span class="text-brand-accent text-xs opacity-60 group-hover:opacity-100
-                       group-hover:translate-x-1 transition-all">→</span>
-        </a>
-      </div>
-
+    <!-- Заголовок -->
+    <div class="text-center mb-8 lg:mb-10">
+      <div class="tag inline-flex mb-4">Наша команда</div>
+      <h2 class="text-brand-text mb-4">
+        За каждым выкупом<br />стоят 100+ человек
+      </h2>
+      <p class="text-brand-muted text-lg max-w-xl mx-auto">
+        Не сервис из двух человек с базой аккаунтов —
+        слаженная система со своими людьми, маршрутами, складом и логистикой.
+      </p>
     </div>
+
+    <!-- Главное фото с оверлеем -->
+    <div class="relative rounded-2xl overflow-hidden border border-brand-border mb-3">
+      <img
+        src="/images/team/team-09.jpg"
+        alt="Офис и команда UBuyer, Москва"
+        width="1400"
+        height="933"
+        class="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-bg/85 via-brand-bg/10 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 right-0 p-4">
+        <div class="flex gap-2">
+          {stats.map(s => (
+            <div class="flex-1 backdrop-blur-md bg-brand-bg/75 border border-white/10
+                        rounded-xl px-3 py-2.5 text-center">
+              <p class="text-brand-text font-bold font-mono text-xl leading-none">{s.value}</p>
+              <p class="text-brand-muted text-xs mt-0.5">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Сетка 2×2 -->
+    <div class="grid grid-cols-2 gap-3 mb-6">
+      {gridPhotos.map(p => (
+        <div class="rounded-2xl overflow-hidden border border-brand-border">
+          <img
+            src={p.src}
+            alt={p.alt}
+            width="700"
+            height="500"
+            class="w-full h-36 sm:h-44 object-cover"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- Карточка "Всегда в курсе" -->
+    <div class="rounded-2xl border border-brand-border bg-brand-surface p-5 mb-3">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent/15 shrink-0">
+          <MessageSquare size={18} class="text-brand-accent" />
+        </span>
+        <h3 class="text-brand-text font-semibold">Вы всегда в курсе</h3>
+      </div>
+      <ul class="space-y-3">
+        {chatPoints.map(p => (
+          <li class="flex items-start gap-3 text-sm text-brand-muted">
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-1.5"></span>
+            {p}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Цитата -->
+    <div class="rounded-2xl border border-brand-accent/20 bg-brand-accent/5 p-5 mb-6">
+      <p class="text-brand-muted text-sm leading-relaxed italic">
+        "Написал в чат — правка в таблице — кликеры уже работают по-новому.
+        Всё решается в реальном времени, без задержек."
+      </p>
+    </div>
+
+    <!-- Стрип 3 фото -->
+    <div class="grid grid-cols-3 gap-3 mb-6">
+      {stripPhotos.map(p => (
+        <div class="rounded-2xl overflow-hidden border border-brand-border">
+          <img
+            src={p.src}
+            alt={p.alt}
+            width="460"
+            height="340"
+            class="w-full h-28 sm:h-36 object-cover"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+
+    <!-- 2 карточки-факта -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+      <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
+        <span class="flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent/15 mb-3">
+          <BarChart3 size={18} class="text-brand-accent" />
+        </span>
+        <h4 class="text-brand-text font-semibold text-sm mb-1">Google-таблица в реальном времени</h4>
+        <p class="text-brand-muted text-xs leading-relaxed">
+          Финансы, выкупы, отзывы, ТЗ — каждый заказ прозрачен. Смотрите сами в любой момент.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
+        <span class="flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent/15 mb-3">
+          <ShieldCheck size={18} class="text-brand-accent" />
+        </span>
+        <h4 class="text-brand-text font-semibold text-sm mb-1">Только своя инфраструктура</h4>
+        <p class="text-brand-muted text-xs leading-relaxed">
+          Свой склад, свои водители, без аутсорса — пробовали отдавать, не справлялись. Только так.
+        </p>
+      </div>
+    </div>
+
+    <!-- Фото 8 + карта ПВЗ -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6">
+      <div class="rounded-2xl overflow-hidden border border-brand-border">
+        <img
+          src="/images/team/team-08.jpg"
+          alt="Команда UBuyer"
+          width="700"
+          height="470"
+          class="w-full h-52 sm:h-60 lg:h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div>
+        <p class="text-xs text-brand-muted mb-3 font-semibold uppercase tracking-wider">
+          2 600+ ПВЗ по Москве и МО
+        </p>
+        <div class="rounded-2xl overflow-hidden border border-brand-border">
+          <img
+            src="/images/pvz-map.jpg"
+            alt="Карта ПВЗ UBuyer — 2 600+ точек выдачи в Москве и МО"
+            class="w-full h-auto block"
+            loading="lazy"
+          />
+        </div>
+        <p class="text-xs text-brand-muted mt-2 text-center opacity-60">
+          Каждая точка — реальный ПВЗ, через который проходят выкупы
+        </p>
+      </div>
+    </div>
+
+    <!-- Telegram -->
+    <a
+      href="https://t.me/YourBuyer_WB"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center gap-3 rounded-2xl border border-brand-accent/30
+             bg-brand-accent/5 px-5 py-4 hover:bg-brand-accent/10
+             hover:border-brand-accent/50 transition-all group"
+    >
+      <span class="flex items-center justify-center w-9 h-9 rounded-xl bg-brand-accent/15 shrink-0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M21.8 2.15a1.5 1.5 0 0 0-1.67-.32L2.8 9.13a1.5 1.5 0 0 0 .08 2.79l4.12 1.37 1.65 5.1a1 1 0 0 0 1.74.3l2.44-2.9 4.74 3.5a1.5 1.5 0 0 0 2.35-1.02l2-14a1.5 1.5 0 0 0-.12-.12Z" fill="#3D8EF8"/>
+        </svg>
+      </span>
+      <div class="flex-1">
+        <p class="text-brand-text text-sm font-semibold">Telegram-канал UBuyer</p>
+        <p class="text-brand-muted text-xs mt-0.5">Кейсы, аналитика, обновления</p>
+      </div>
+      <span class="text-brand-accent text-xs opacity-60 group-hover:opacity-100
+                   group-hover:translate-x-1 transition-all">→</span>
+    </a>
+
   </div>
 </section>
