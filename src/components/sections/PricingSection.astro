@@ -15,6 +15,24 @@ const tiers = [
 
 <section id="pricing" class="section border-t border-brand-border bg-brand-surface/30">
   <div class="container">
+    <!-- trust bar: кратко кто мы перед показом цены -->
+    <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 mb-12 text-sm">
+      {[
+        { value: '3 года',  label: 'на рынке' },
+        { value: '0',       label: 'блокировок клиентов' },
+        { value: '100+',    label: 'человек в команде' },
+        { value: '3 000+',  label: 'покупательских профилей' },
+      ].map((item, i) => (
+        <>
+          <span class="flex items-center gap-2 text-brand-muted">
+            <span class="font-bold font-mono text-brand-text">{item.value}</span>
+            {item.label}
+          </span>
+          {i < 3 && <span class="text-brand-border hidden sm:inline">·</span>}
+        </>
+      ))}
+    </div>
+
     <div class="max-w-2xl mx-auto text-center mb-14">
       <div class="tag mb-5">Стоимость</div>
       <h2 class="text-brand-text mb-4">Прозрачная стоимость</h2>
