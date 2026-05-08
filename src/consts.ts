@@ -1,5 +1,5 @@
 export const SITE_NAME = 'UBuyer';
-export const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://ubuyer.ru';
+export const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'https://u-buyer.ru';
 export const SITE_DESCRIPTION =
   'Управляем ростом карточки на Wildberries через контролируемый оборот и живую инфраструктуру.';
 

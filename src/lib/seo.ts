@@ -11,7 +11,7 @@ interface SeoProps {
 export function buildSeo(props: SeoProps = {}) {
   const { title, description, ogImage, noindex = false, path = '' } = props;
 
-  const fullTitle = title ? `${title} — ${SITE_NAME}` : SITE_NAME;
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const fullDescription = description ?? SITE_DESCRIPTION;
   const canonical = `${SITE_URL}${path}`;
   const image = ogImage ?? `${SITE_URL}/images/og/default.jpg`;
