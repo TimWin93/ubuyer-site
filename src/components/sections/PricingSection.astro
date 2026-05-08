@@ -1,7 +1,10 @@
 ---
+import { CONTACTS } from '@/consts';
 import CheckCircle2 from '@lucide/astro/icons/circle-check';
 import Star from '@lucide/astro/icons/star';
 import Wallet from '@lucide/astro/icons/wallet';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import MessageCircle from '@lucide/astro/icons/message-circle';
 
 const tiers = [
   { volume: 'от 100 выкупов', price: '500', popular: false },
@@ -117,6 +120,22 @@ const tiers = [
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="#strategy-quiz" class="btn-primary">
+          Рассчитать под мой товар
+          <ArrowRight size={16} />
+        </a>
+        <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost">
+          <MessageCircle size={16} />
+          Написать в Telegram
+        </a>
+      </div>
+      <p class="text-xs text-brand-muted mt-4">Бесплатно · Ответим за 15 минут</p>
+      <p class="text-xs text-brand-muted/60 mt-1.5">Первые изменения позиций — через 1–2 недели после старта</p>
     </div>
 
   </div>

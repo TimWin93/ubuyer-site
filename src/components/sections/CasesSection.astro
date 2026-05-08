@@ -1,5 +1,7 @@
 ---
+import { CONTACTS } from '@/consts';
 import TrendingUp from '@lucide/astro/icons/trending-up';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
 
 const cases = [
   {
@@ -58,5 +60,12 @@ const cases = [
     <p class="text-center text-xs text-brand-muted mt-6 opacity-50">
       Скриншоты аналитики WB — публикуем с согласия клиентов по мере накопления
     </p>
+
+    <div class="text-center mt-10">
+      <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-primary">
+        Хочу такой же результат
+        <ArrowRight size={16} />
+      </a>
+    </div>
   </div>
 </section>
