@@ -58,5 +58,10 @@ export default {
       },
     },
   },
+  safelist: [
+    'rotate-45', '-rotate-45',
+    'translate-y-2', '-translate-y-2',
+    'opacity-0',
+  ],
   plugins: [],
 };
