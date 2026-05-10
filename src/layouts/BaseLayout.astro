@@ -50,6 +50,35 @@ const seo = buildSeo(Astro.props);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="yandex-verification" content="ef8c0cf052fc9f25" />
     <meta name="google-site-verification" content="q5O7wB4Av6X3vuOr95K2auaV1iRpNRvCeAuWMLfdVAA" />
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "UBuyer",
+      "url": "https://u-buyer.ru",
+      "logo": "https://u-buyer.ru/images/logo-hand.png",
+      "description": "Живые самовыкупы на Wildberries и OZON. 3 000+ покупательских профилей, собственный склад и автопарк. Работаем по договору.",
+      "email": "info@ubuyer.ru",
+      "telephone": "+79785672745",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Москва",
+        "addressRegion": "Москва и МО",
+        "addressCountry": "RU"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "https://t.me/Manager_UBuyer",
+        "availableLanguage": "Russian"
+      },
+      "sameAs": [
+        "https://t.me/YourBuyer_WB"
+      ]
+    }
+    </script>
     <link rel="preconnect" href="https://mc.yandex.ru" />
 
     <!-- Yandex Metrica -->
