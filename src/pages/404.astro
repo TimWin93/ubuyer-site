@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { CONTACTS } from '@/consts';
+---
+
+<BaseLayout
+  title="Страница не найдена"
+  description="Запрошенная страница не существует."
+  noindex={true}
+  path="/404"
+>
+  <section class="section flex flex-col items-center justify-center text-center min-h-[60vh]">
+    <div class="tag mb-6">404</div>
+    <h1 class="text-brand-text mb-4">Страница не найдена</h1>
+    <p class="text-brand-muted text-lg mb-8 max-w-md">
+      Возможно, ссылка устарела или адрес введён с ошибкой.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="/" class="btn-primary px-8 py-3">На главную</a>
+      <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost px-8 py-3">
+        Написать в Telegram
+      </a>
+    </div>
+  </section>
+</BaseLayout>
