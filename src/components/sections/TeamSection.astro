@@ -10,12 +10,6 @@ const chatPoints = [
   'Коррективы вносятся в реальном времени',
 ];
 
-const stats = [
-  { value: '100+', label: 'человек' },
-  { value: '3+', label: 'года' },
-  { value: '24/7', label: 'связь' },
-];
-
 const gridPhotos = [
   { src: '/images/team/team-01.jpg', alt: 'Офис UBuyer' },
   { src: '/images/team/team-02.jpg', alt: 'Команда UBuyer' },
@@ -55,18 +49,6 @@ const stripPhotos = [
         class="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
         loading="lazy"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-brand-bg/85 via-brand-bg/10 to-transparent"></div>
-      <div class="absolute bottom-0 left-0 right-0 p-4">
-        <div class="flex gap-2">
-          {stats.map(s => (
-            <div class="flex-1 backdrop-blur-md bg-brand-bg/75 border border-white/10
-                        rounded-xl px-3 py-2.5 text-center">
-              <p class="text-brand-text font-bold font-mono text-xl leading-none">{s.value}</p>
-              <p class="text-brand-muted text-xs mt-0.5">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
 
     <!-- Сетка 2×2: видео + 3 фото -->
