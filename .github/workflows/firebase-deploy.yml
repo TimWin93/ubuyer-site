@@ -22,6 +22,8 @@ jobs:
 
       - name: Build Astro
         run: npx astro build
+        env:
+          YANDEX_METRICA_ID: ${{ secrets.YANDEX_METRICA_ID }}
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
