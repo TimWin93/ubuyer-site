@@ -272,6 +272,7 @@
     if (price)   lines.push(`Цена до СПП: ${price} ₽`);
     if (stock)   lines.push(`Остатки на WB: ${stock} шт`);
     lines.push(`Карточка: ${card}`);
+    lines.push('', 'Источник: сайт u-buyer.ru (квиз)');
 
     return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(lines.join('\n'))}`;
   }
