@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" fill="#04091A"/>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#3D8EF8" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#04091A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="180" height="180" fill="url(#glow)"/>
+  <text x="90" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="82">
+    <tspan fill="#3D8EF8">U</tspan><tspan fill="#E4ECFF">B</tspan>
+  </text>
+</svg>

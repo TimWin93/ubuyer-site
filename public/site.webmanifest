@@ -1,0 +1,21 @@
+{
+  "name": "UBuyer — Самовыкупы на WB и OZON",
+  "short_name": "UBuyer",
+  "description": "Живые самовыкупы на Wildberries и OZON. 3 000+ покупательских профилей.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#04091A",
+  "theme_color": "#04091A",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
