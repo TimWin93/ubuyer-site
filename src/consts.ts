@@ -5,7 +5,7 @@ export const SITE_DESCRIPTION =
 
 export const CONTACTS = {
   telegram: 'https://t.me/Manager_UBuyer',
-  channel: 'https://t.me/YourBuyer_WB',
+  channel: 'https://t.me/+zTWXRN30e6UzYWZi',
   email: 'info@ubuyer.ru',
   phone: '+7 (978) 567-27-45',
   phoneTel: '+79785672745',
