@@ -140,23 +140,41 @@ const flowNodes = [
           <span id="flow-step-label" class="text-xs text-brand-muted font-mono">Шаг 1 из 6</span>
           <span id="flow-step-name" class="text-xs font-semibold text-brand-accent"></span>
         </div>
-        <div class="relative h-1.5 bg-brand-border rounded-full overflow-hidden">
-          <div id="flow-progress-bar"
-               class="h-full rounded-full transition-all duration-300"
-               style="width: 16.67%; background: linear-gradient(90deg, #3D8EF8, #4DD9FF)">
+        <div class="flex items-center gap-3">
+          <button
+            id="flow-prev"
+            type="button"
+            aria-label="Предыдущий шаг"
+            class="w-8 h-8 rounded-lg border border-brand-border bg-brand-surface flex items-center justify-center
+                   text-brand-muted hover:text-brand-text hover:border-brand-border-2 transition-colors
+                   disabled:opacity-30 disabled:pointer-events-none shrink-0"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+
+          <div class="flex-1">
+            <div class="relative h-1.5 bg-brand-border rounded-full overflow-hidden">
+              <div id="flow-progress-bar"
+                   class="h-full rounded-full transition-all duration-300"
+                   style="width: 16.67%; background: linear-gradient(90deg, #3D8EF8, #4DD9FF)">
+              </div>
+            </div>
           </div>
-        </div>
-        <!-- Невидимые tap-зоны поверх прогресс-бара -->
-        <div class="flex mt-1" id="flow-dots">
-          {flowNodes.map((node, i) => (
-            <button
-              type="button"
-              class="flow-dot-btn flex-1 py-3"
-              data-dot-index={i}
-              data-dot-label={node.label}
-              aria-label={`Шаг ${i + 1}: ${node.label}`}
-            ></button>
-          ))}
+
+          <button
+            id="flow-next"
+            type="button"
+            aria-label="Следующий шаг"
+            class="w-8 h-8 rounded-lg border border-brand-border bg-brand-surface flex items-center justify-center
+                   text-brand-muted hover:text-brand-text hover:border-brand-border-2 transition-colors
+                   disabled:opacity-30 disabled:pointer-events-none shrink-0"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -179,11 +197,6 @@ const flowNodes = [
 
     </div>
 
-    <!-- Подсказка -->
-    <div class="flex items-center justify-center gap-2 mt-4 text-xs text-brand-muted opacity-60">
-      <span class="lg:hidden">Листайте и нажимайте на шаг — узнайте что за ним стоит</span>
-      <span class="hidden lg:inline">Нажмите на любой шаг, чтобы узнать подробнее</span>
-    </div>
 
   </div>
 </section>
@@ -307,14 +320,28 @@ const flowNodes = [
     });
   });
 
-  /* ---------- клики по tap-зонам прогресс-бара ---------- */
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = parseInt(dot.getAttribute('data-dot-index') ?? '0', 10);
-      activateNode(idx);
-      document.querySelector(`[data-flow-index="${idx}"]`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    });
+  /* ---------- стрелки prev/next ---------- */
+  const prevBtn = document.getElementById('flow-prev') as HTMLButtonElement | null;
+  const nextBtn = document.getElementById('flow-next') as HTMLButtonElement | null;
+
+  function updateArrows() {
+    if (prevBtn) prevBtn.disabled = activeIndex <= 0;
+    if (nextBtn) nextBtn.disabled = activeIndex >= TOTAL - 1;
+  }
+
+  function goTo(idx: number) {
+    activateNode(idx);
+    document.querySelector(`[data-flow-index="${idx}"]`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    updateArrows();
+  }
+
+  prevBtn?.addEventListener('click', () => { if (activeIndex > 0) goTo(activeIndex - 1); });
+  nextBtn?.addEventListener('click', () => { if (activeIndex < TOTAL - 1) goTo(activeIndex + 1); });
+
+  /* ---------- обновлять стрелки при клике на узел ---------- */
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(updateArrows, 50));
   });
 </script>
 
