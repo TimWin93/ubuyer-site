@@ -1,11 +1,10 @@
 ---
-import MapPin from '@lucide/astro/icons/map-pin';
 import Star from '@lucide/astro/icons/star';
 ---
 
 <section class="section border-t border-brand-border bg-brand-surface/30">
   <div class="container">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
       <!-- левая: текст -->
       <div>
@@ -19,7 +18,7 @@ import Star from '@lucide/astro/icons/star';
         </p>
 
         <!-- цифры -->
-        <div class="grid grid-cols-2 gap-3 mb-8">
+        <div class="grid grid-cols-2 gap-3">
           <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
             <p class="text-3xl font-bold font-mono text-brand-text">2 500</p>
             <p class="text-xs text-brand-muted mt-1">м² площадь склада</p>
@@ -32,65 +31,31 @@ import Star from '@lucide/astro/icons/star';
             <p class="text-xs text-brand-muted">рейтинг на Яндекс.Картах</p>
           </div>
         </div>
-
-        <!-- адрес -->
-        <a
-          href="https://yandex.ru/maps/org/yubayyer/103132722552/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-3 rounded-xl border border-brand-border bg-brand-surface
-                 px-4 py-3 text-sm text-brand-muted hover:border-brand-border-2
-                 hover:text-brand-text transition-colors group"
-        >
-          <MapPin size={16} class="text-brand-accent shrink-0" />
-          <span>ул. Руставели, 14, стр. 12, Москва</span>
-          <span class="ml-auto text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity text-xs">
-            Открыть карту →
-          </span>
-        </a>
       </div>
 
-      <!-- правая: видео + карта -->
-      <div class="space-y-4">
-
-        <!-- видео (автоплей без звука, клик → лайтбокс) -->
-        <div
-          class="rounded-2xl overflow-hidden border border-brand-border relative group cursor-pointer"
-          id="warehouse-video-trigger"
-        >
-          <video
-            src="/videos/warehouse.mp4"
-            autoplay
-            muted
-            loop
-            playsinline
-            class="w-full h-56 sm:h-64 object-cover"
-          />
-          <!-- иконка play при наведении -->
-          <div class="absolute inset-0 flex items-center justify-center
-                      bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </div>
+      <!-- правая: видео -->
+      <div
+        class="rounded-2xl overflow-hidden border border-brand-border relative group cursor-pointer aspect-video"
+        id="warehouse-video-trigger"
+      >
+        <video
+          src="/videos/warehouse.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 flex items-center justify-center
+                    bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
+              <polygon points="5,3 19,12 5,21"/>
+            </svg>
           </div>
         </div>
-
-        <!-- Яндекс карта -->
-        <div class="rounded-2xl overflow-hidden border border-brand-border h-64 lg:h-72">
-          <iframe
-            src="https://yandex.ru/map-widget/v1/?org=103132722552&ll=37.600433%2C55.811407&z=16"
-            width="100%"
-            height="100%"
-            style="border:0"
-            allowfullscreen
-            loading="lazy"
-            title="Склад UBuyer на карте"
-          ></iframe>
-        </div>
-
       </div>
+
     </div>
   </div>
 </section>
