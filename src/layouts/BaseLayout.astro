@@ -56,7 +56,7 @@ const seo = buildSeo(Astro.props);
     <meta name="yandex-verification" content="7641db8649bd999d" />
     <meta name="google-site-verification" content="q5O7wB4Av6X3vuOr95K2auaV1iRpNRvCeAuWMLfdVAA" />
 
-    <!-- LocalBusiness Schema — телефон, часы, услуги, быстрые ссылки в Яндексе -->
+    <!-- Schema.org: LocalBusiness + Services + WebSite -->
     <script type="application/ld+json" is:inline>
     [
       {
@@ -64,53 +64,49 @@ const seo = buildSeo(Astro.props);
         "@type": "LocalBusiness",
         "@id": "https://u-buyer.ru/#organization",
         "name": "UBuyer",
-        "alternateName": "ЮБаер",
-        "description": "Живые самовыкупы на Wildberries и OZON. 3 000+ покупательских профилей с историей 3+ лет, собственный склад и автопарк. Работаем по договору с полной отчётностью. От 100 выкупов.",
+        "alternateName": "ЮБаер — самовыкупы WB и OZON",
+        "description": "Поднимаем карточки селлеров в топ Wildberries и OZON через живые самовыкупы. 3 000+ покупательских профилей с историей 3+ лет — WB видит реальных людей, не ботов. Товар не сжигается: после выкупа возвращается на ваш склад WB. Управляем конкретными ключевыми запросами. 0 блокировок клиентов за 3 года. Договор, акты, закрывающие документы.",
         "url": "https://u-buyer.ru",
         "logo": "https://u-buyer.ru/favicon.png",
         "image": "https://u-buyer.ru/images/og/default.jpg",
         "telephone": "+7-978-567-27-45",
         "email": "info@ubuyer.ru",
-        "priceRange": "уточняйте у менеджера",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Москва",
           "addressRegion": "Московская область",
           "addressCountry": "RU"
         },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "09:00",
-            "closes": "19:00"
-          }
-        ],
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
           "telephone": "+7-978-567-27-45",
           "url": "https://t.me/Manager_UBuyer",
-          "availableLanguage": "Russian",
-          "contactOption": "TollFree"
+          "availableLanguage": "Russian"
         },
         "makesOffer": [
           {
             "@type": "Offer",
             "name": "Самовыкупы Wildberries",
-            "description": "Живые выкупы карточек WB через 3 000+ профилей покупателей с историей 3+ лет. Договор, отчётность, склад.",
-            "url": "https://u-buyer.ru/tseny"
+            "description": "Карточка не растёт без оборота — мы создаём оборот живыми людьми. 3 000+ профилей, 3 000+ ПВЗ в Москве и МО. Каждый заказ с отдельного устройства, IP и района. WB не видит паттерна.",
+            "url": "https://u-buyer.ru/#pricing"
           },
           {
             "@type": "Offer",
             "name": "Самовыкупы OZON",
-            "description": "Продвижение карточек OZON в топ через органические выкупы живыми профилями.",
-            "url": "https://u-buyer.ru/tseny"
+            "description": "Продвижение карточек OZON через живые выкупы. Тот же принцип: алгоритм видит оборот — карточка растёт в выдаче. Договор и отчётность.",
+            "url": "https://u-buyer.ru/#pricing"
           },
           {
             "@type": "Offer",
-            "name": "Как работаем",
-            "description": "Схема работы: заявка → договор → выкупы → отчёт. Свой склад, автопарк, 3 000+ профилей.",
+            "name": "Управление ключевыми запросами",
+            "description": "Распределяем объём по конкретным ключевым словам с нужной скоростью. Можем поднять карточку по конкретному запросу, а не просто нагнать оборот.",
+            "url": "https://u-buyer.ru/kak-rabotaem"
+          },
+          {
+            "@type": "Offer",
+            "name": "Перехват полок конкурентов",
+            "description": "Встаём в рекомендации к топовым конкурентам. Часть их трафика уходит в ваши полки — бесплатно для вас.",
             "url": "https://u-buyer.ru/kak-rabotaem"
           }
         ],
