@@ -47,42 +47,90 @@ const seo = buildSeo(Astro.props);
     <meta name="twitter:description" content={seo.description} />
     <meta name="twitter:image" content={seo.image} />
 
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#04091A" />
     <meta name="yandex-verification" content="ef8c0cf052fc9f25" />
     <meta name="yandex-verification" content="7641db8649bd999d" />
     <meta name="google-site-verification" content="q5O7wB4Av6X3vuOr95K2auaV1iRpNRvCeAuWMLfdVAA" />
 
-    <!-- Organization Schema -->
+    <!-- LocalBusiness Schema — телефон, часы, услуги, быстрые ссылки в Яндексе -->
     <script type="application/ld+json" is:inline>
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "UBuyer",
-      "url": "https://u-buyer.ru",
-      "logo": "https://u-buyer.ru/images/logo-hand.png",
-      "description": "Живые самовыкупы на Wildberries и OZON. 3 000+ покупательских профилей, собственный склад и автопарк. Работаем по договору.",
-      "email": "info@ubuyer.ru",
-      "telephone": "+79785672745",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Москва",
-        "addressRegion": "Москва и МО",
-        "addressCountry": "RU"
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://u-buyer.ru/#organization",
+        "name": "UBuyer",
+        "alternateName": "ЮБаер",
+        "description": "Живые самовыкупы на Wildberries и OZON. 3 000+ покупательских профилей с историей 3+ лет, собственный склад и автопарк. Работаем по договору с полной отчётностью. От 100 выкупов.",
+        "url": "https://u-buyer.ru",
+        "logo": "https://u-buyer.ru/favicon.png",
+        "image": "https://u-buyer.ru/images/og/default.jpg",
+        "telephone": "+7-978-567-27-45",
+        "email": "info@ubuyer.ru",
+        "priceRange": "от 35 ₽ за выкуп",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Москва",
+          "addressRegion": "Московская область",
+          "addressCountry": "RU"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+            "opens": "09:00",
+            "closes": "19:00"
+          }
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "telephone": "+7-978-567-27-45",
+          "url": "https://t.me/Manager_UBuyer",
+          "availableLanguage": "Russian",
+          "contactOption": "TollFree"
+        },
+        "makesOffer": [
+          {
+            "@type": "Offer",
+            "name": "Самовыкупы Wildberries",
+            "description": "Живые выкупы карточек WB через 3 000+ профилей покупателей с историей 3+ лет. Договор, отчётность, склад.",
+            "url": "https://u-buyer.ru/tseny",
+            "priceCurrency": "RUB",
+            "price": "35"
+          },
+          {
+            "@type": "Offer",
+            "name": "Самовыкупы OZON",
+            "description": "Продвижение карточек OZON в топ через органические выкупы живыми профилями.",
+            "url": "https://u-buyer.ru/tseny",
+            "priceCurrency": "RUB",
+            "price": "35"
+          },
+          {
+            "@type": "Offer",
+            "name": "Как работаем",
+            "description": "Схема работы: заявка → договор → выкупы → отчёт. Свой склад, автопарк, 3 000+ профилей.",
+            "url": "https://u-buyer.ru/kak-rabotaem"
+          }
+        ],
+        "sameAs": [
+          "https://t.me/+zTWXRN30e6UzYWZi"
+        ]
       },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "url": "https://t.me/Manager_UBuyer",
-        "availableLanguage": "Russian"
-      },
-      "sameAs": [
-        "https://t.me/+zTWXRN30e6UzYWZi"
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://u-buyer.ru/#website",
+        "url": "https://u-buyer.ru",
+        "name": "UBuyer — Самовыкупы на Wildberries и OZON",
+        "publisher": { "@id": "https://u-buyer.ru/#organization" }
+      }
+    ]
     </script>
     <link rel="preconnect" href="https://mc.yandex.ru" />
 
