@@ -1,10 +1,9 @@
 ---
-import Star from '@lucide/astro/icons/star';
 ---
 
 <section class="section border-t border-brand-border bg-brand-surface/30">
   <div class="container">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
       <!-- левая: текст -->
       <div>
@@ -12,54 +11,45 @@ import Star from '@lucide/astro/icons/star';
         <h2 class="text-brand-text mb-5">
           Собственный склад<br />фулфилмента в Москве
         </h2>
-        <p class="text-brand-muted text-lg leading-relaxed mb-8">
+        <p class="text-brand-muted text-lg leading-relaxed">
           2 500 м² в Москве. Товар проходит через наши руки от приёмки до возврата на WB —
           без посредников, без сбоев. Это и есть причина нулевых блокировок за 3 года.
         </p>
-
-        <!-- цифры -->
-        <div class="grid grid-cols-2 gap-3">
-          <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
-            <p class="text-3xl font-bold font-mono text-brand-text">2 500</p>
-            <p class="text-xs text-brand-muted mt-1">м² площадь склада</p>
-          </div>
-          <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
-            <div class="flex items-center gap-1.5 mb-1">
-              <p class="text-3xl font-bold font-mono text-brand-text">4.7</p>
-              <Star size={18} class="text-yellow-400 fill-yellow-400 mb-0.5" />
-            </div>
-            <p class="text-xs text-brand-muted">рейтинг на Яндекс.Картах</p>
-          </div>
-        </div>
       </div>
 
       <!-- правая: превью → клик открывает видео -->
       <div
-        class="rounded-2xl overflow-hidden border border-brand-border relative group cursor-pointer aspect-video"
+        class="rounded-2xl border border-brand-border relative group cursor-pointer overflow-hidden"
         id="warehouse-video-trigger"
       >
-        <!-- постер вместо video — файл не скачивается до клика -->
-        <img
-          src="/images/warehouse/wh-pallets.webp"
-          alt="Склад UBuyer — нажмите чтобы посмотреть видео"
-          width="854"
-          height="480"
-          loading="lazy"
-          class="w-full h-full object-cover"
-        />
+        <!-- светлый фон под 3D-иллюстрацию -->
+        <div class="bg-[#F0F4FF] flex items-center justify-center p-6 lg:p-8">
+          <img
+            src="/images/warehouse/wh-3d.png"
+            alt="Склад UBuyer"
+            width="480"
+            height="380"
+            loading="lazy"
+            class="w-full max-w-sm mx-auto object-contain select-none
+                   group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
 
-        <!-- затемнение при hover -->
-        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-200"></div>
-
-        <!-- кнопка Play — всегда видна -->
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3">
-          <div class="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center shadow-xl
-                      group-hover:scale-110 transition-transform duration-200">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
+        <!-- полоска снизу с кнопкой -->
+        <div class="bg-brand-surface border-t border-brand-border px-5 py-4
+                    flex items-center justify-between gap-4">
+          <div>
+            <p class="text-brand-text text-sm font-semibold">Видео со склада</p>
+            <p class="text-brand-muted text-xs mt-0.5">Реальная инфраструктура — посмотрите изнутри</p>
+          </div>
+          <div class="flex items-center gap-2.5 shrink-0
+                      bg-brand-cta hover:bg-brand-cta-hover text-white text-sm font-semibold
+                      px-4 py-2.5 rounded-xl transition-colors duration-200 shadow-sm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="translate-x-0.5">
               <polygon points="5,3 19,12 5,21"/>
             </svg>
+            Смотреть
           </div>
-          <span class="text-white font-semibold text-sm tracking-wide drop-shadow">Посмотреть видео</span>
         </div>
       </div>
 
