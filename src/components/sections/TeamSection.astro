@@ -53,28 +53,28 @@ const stripPhotos = [
 
     <!-- Сетка 2×2: видео + 3 фото -->
     <div class="grid grid-cols-2 gap-3 mb-6">
-      <!-- живое видео команды — клик открывает полное видео -->
+      <!-- превью команды — клик открывает видео -->
       <div
         class="rounded-2xl overflow-hidden border border-brand-border relative group cursor-pointer"
         id="team-video-trigger"
       >
-        <video
-          src="/videos/team-office.mp4"
-          muted
-          loop
-          playsinline
-          preload="none"
-          poster="/images/team/team-01.webp"
-          class="w-full h-36 sm:h-44 object-cover team-autoplay-video"
+        <img
+          src="/images/team/team-01.webp"
+          alt="Команда UBuyer — нажмите чтобы посмотреть видео"
+          width="700"
+          height="467"
+          loading="lazy"
+          class="w-full h-36 sm:h-44 object-cover"
         />
-        <!-- иконка play поверх -->
-        <div class="absolute inset-0 flex items-center justify-center
-                    bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <div class="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-200"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-1.5">
+          <div class="w-10 h-10 rounded-full bg-white/95 flex items-center justify-center shadow-lg
+                      group-hover:scale-110 transition-transform duration-200">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
               <polygon points="5,3 19,12 5,21"/>
             </svg>
           </div>
+          <span class="text-white font-semibold text-xs drop-shadow">Видео команды</span>
         </div>
       </div>
       {gridPhotos.slice(0, 3).map(p => (
@@ -271,11 +271,4 @@ const stripPhotos = [
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
-
-  const previewVideo = document.querySelector('.team-autoplay-video') as HTMLVideoElement;
-  if (previewVideo) {
-    new IntersectionObserver((entries) => {
-      entries[0].isIntersecting ? previewVideo.play() : previewVideo.pause();
-    }, { threshold: 0.25 }).observe(previewVideo);
-  }
 </script>

@@ -33,27 +33,33 @@ import Star from '@lucide/astro/icons/star';
         </div>
       </div>
 
-      <!-- правая: видео -->
+      <!-- правая: превью → клик открывает видео -->
       <div
         class="rounded-2xl overflow-hidden border border-brand-border relative group cursor-pointer aspect-video"
         id="warehouse-video-trigger"
       >
-        <video
-          src="/videos/warehouse.mp4"
-          muted
-          loop
-          playsinline
-          preload="none"
-          poster="/images/warehouse/wh-pallets.webp"
-          class="w-full h-full object-cover warehouse-autoplay-video"
+        <!-- постер вместо video — файл не скачивается до клика -->
+        <img
+          src="/images/warehouse/wh-pallets.webp"
+          alt="Склад UBuyer — нажмите чтобы посмотреть видео"
+          width="854"
+          height="480"
+          loading="lazy"
+          class="w-full h-full object-cover"
         />
-        <div class="absolute inset-0 flex items-center justify-center
-                    bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
+
+        <!-- затемнение при hover -->
+        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors duration-200"></div>
+
+        <!-- кнопка Play — всегда видна -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3">
+          <div class="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center shadow-xl
+                      group-hover:scale-110 transition-transform duration-200">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#0A0F1E" class="translate-x-0.5">
               <polygon points="5,3 19,12 5,21"/>
             </svg>
           </div>
+          <span class="text-white font-semibold text-sm tracking-wide drop-shadow">Посмотреть видео</span>
         </div>
       </div>
 
@@ -116,11 +122,4 @@ import Star from '@lucide/astro/icons/star';
   closeBtn?.addEventListener('click', closeModal);
   backdrop?.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-  const previewVideo = document.querySelector('.warehouse-autoplay-video') as HTMLVideoElement;
-  if (previewVideo) {
-    new IntersectionObserver((entries) => {
-      entries[0].isIntersecting ? previewVideo.play() : previewVideo.pause();
-    }, { threshold: 0.25 }).observe(previewVideo);
-  }
 </script>
