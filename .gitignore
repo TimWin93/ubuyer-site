@@ -27,3 +27,10 @@ Thumbs.db
 
 # Vercel
 .vercel/
+
+# Source media / non-web assets
+Фото/
+
+# Local planning / notes
+ТЗ-правки-главной.md
+*.txt
