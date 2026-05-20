@@ -60,11 +60,12 @@ const stripPhotos = [
       >
         <video
           src="/videos/team-office.mp4"
-          autoplay
           muted
           loop
           playsinline
-          class="w-full h-36 sm:h-44 object-cover"
+          preload="none"
+          poster="/images/team/team-01.jpg"
+          class="w-full h-36 sm:h-44 object-cover team-autoplay-video"
         />
         <!-- иконка play поверх -->
         <div class="absolute inset-0 flex items-center justify-center
@@ -270,4 +271,11 @@ const stripPhotos = [
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
+
+  const previewVideo = document.querySelector('.team-autoplay-video') as HTMLVideoElement;
+  if (previewVideo) {
+    new IntersectionObserver((entries) => {
+      entries[0].isIntersecting ? previewVideo.play() : previewVideo.pause();
+    }, { threshold: 0.25 }).observe(previewVideo);
+  }
 </script>

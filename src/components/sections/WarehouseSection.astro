@@ -40,11 +40,12 @@ import Star from '@lucide/astro/icons/star';
       >
         <video
           src="/videos/warehouse.mp4"
-          autoplay
           muted
           loop
           playsinline
-          class="w-full h-full object-cover"
+          preload="none"
+          poster="/images/warehouse/wh-pallets.jpg"
+          class="w-full h-full object-cover warehouse-autoplay-video"
         />
         <div class="absolute inset-0 flex items-center justify-center
                     bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -115,4 +116,11 @@ import Star from '@lucide/astro/icons/star';
   closeBtn?.addEventListener('click', closeModal);
   backdrop?.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  const previewVideo = document.querySelector('.warehouse-autoplay-video') as HTMLVideoElement;
+  if (previewVideo) {
+    new IntersectionObserver((entries) => {
+      entries[0].isIntersecting ? previewVideo.play() : previewVideo.pause();
+    }, { threshold: 0.25 }).observe(previewVideo);
+  }
 </script>
