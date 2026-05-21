@@ -6,21 +6,20 @@
 
     <div class="max-w-2xl mx-auto text-center mb-10">
       <div class="tag mb-5">Подбор стратегии</div>
-      <h2 class="text-brand-text mb-4">Под какую задачу подбираем выкупы?</h2>
+      <h2 class="text-brand-text mb-4">Рассчитаем стратегию самовыкупов<br class="hidden sm:block"> под вашу задачу — бесплатно</h2>
       <p class="text-brand-muted leading-relaxed">
-        Выберите цель — менеджер подготовит расчёт и ответит за 15 минут.
+        Выберите до 3 целей — менеджер пришлёт готовый расчёт за 15 минут. Без форм и ожидания.
       </p>
     </div>
 
     <!-- Quiz card -->
     <div class="max-w-4xl mx-auto rounded-2xl border border-brand-border bg-brand-surface overflow-hidden">
 
-      <!-- ===== STEP 1: Goals ===== -->
-      <div id="qstep-1" class="p-6 sm:p-10">
+      <div class="p-6 sm:p-10">
         <div class="flex items-center justify-between mb-6">
-          <p class="text-brand-muted text-sm">Можно выбрать до 2 целей</p>
+          <p class="text-brand-muted text-sm">Можно выбрать до 3 целей</p>
           <p class="text-brand-muted text-sm">
-            Выбрано: <span id="goal-count" class="text-brand-text font-bold">0</span> / 2
+            Выбрано: <span id="goal-count" class="text-brand-text font-bold">0</span> / 3
           </p>
         </div>
 
@@ -83,76 +82,7 @@
 
         </div>
 
-        <div class="flex justify-end mt-8">
-          <button id="q1-next" class="btn-primary qbtn-disabled" disabled>
-            Далее →
-          </button>
-        </div>
-      </div>
-
-      <!-- ===== STEP 2: Form + CTA ===== -->
-      <div id="qstep-2" class="p-6 sm:p-10 hidden">
-
-        <div class="mb-8">
-          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-2">Шаг 2 из 2</p>
-          <h3 class="text-brand-text font-bold text-xl mb-2">Товар и ситуация</h3>
-          <p class="text-brand-muted text-sm">Менеджер изучит ваш товар заранее и ответит по делу</p>
-        </div>
-
-        <div class="space-y-5">
-
-          <!-- Name -->
-          <div>
-            <label for="q-name" class="block text-brand-text text-sm font-semibold mb-2">
-              Как к вам обращаться? <span class="text-red-400 ml-0.5">*</span>
-            </label>
-            <input id="q-name" type="text" placeholder="Имя" autocomplete="given-name" class="qinput" />
-          </div>
-
-          <!-- Product -->
-          <div>
-            <label for="q-product" class="block text-brand-text text-sm font-semibold mb-2">Товар</label>
-            <input id="q-product" type="text" placeholder="Например: женский костюм, лампа для маникюра" class="qinput" />
-          </div>
-
-          <!-- Price + Stock -->
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label for="q-price" class="block text-brand-text text-sm font-semibold mb-2">Цена до СПП, ₽</label>
-              <input id="q-price" type="number" placeholder="1500" min="0" class="qinput" />
-            </div>
-            <div>
-              <label for="q-stock" class="block text-brand-text text-sm font-semibold mb-2">Остатки на WB, шт</label>
-              <input id="q-stock" type="number" placeholder="500" min="0" class="qinput" />
-            </div>
-          </div>
-
-          <!-- Card type -->
-          <div>
-            <label class="block text-brand-text text-sm font-semibold mb-3">
-              Карточка <span class="text-red-400 ml-0.5">*</span>
-            </label>
-            <div class="grid grid-cols-2 gap-3">
-              <button class="qcard-radio" data-card="new">
-                <span class="qcr-dot"></span>
-                <div>
-                  <span class="qcr-title">Новая</span>
-                  <span class="qcr-sub">Продаж ещё нет</span>
-                </div>
-              </button>
-              <button class="qcard-radio" data-card="existing">
-                <span class="qcr-dot"></span>
-                <div>
-                  <span class="qcr-title">Уже продаётся</span>
-                  <span class="qcr-sub">Есть статистика</span>
-                </div>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- CTA → Telegram -->
+        <!-- CTA — always visible, disabled until goal selected -->
         <div class="mt-8">
           <a id="quiz-tg-btn"
              href="https://t.me/Manager_UBuyer"
@@ -163,16 +93,11 @@
               <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.41 13.982l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.738.577z"/>
             </svg>
             <div>
-              <div class="font-bold text-base leading-tight">Написать менеджеру в Telegram</div>
-              <div class="cta-sub">БЕСПЛАТНО · ОТВЕТИМ ЗА 15 МИНУТ</div>
+              <div class="font-bold text-base leading-tight">Получить расчёт в Telegram</div>
+              <div class="cta-sub">БЕСПЛАТНО · ОТВЕТ ЗА 15 МИНУТ</div>
             </div>
           </a>
         </div>
-
-        <button id="q2-back" class="block w-full text-center text-brand-muted text-xs mt-4
-               hover:text-brand-text transition-colors underline underline-offset-2">
-          ← Назад
-        </button>
 
       </div>
 
@@ -197,55 +122,23 @@
   };
 
   const selectedGoals = new Set<GoalId>();
-  let selectedCard: string | null = null;
 
-  /* ---- step switch ---- */
-  function setStep(n: number) {
-    [1, 2].forEach(i => {
-      const el = document.getElementById(`qstep-${i}`);
-      if (!el) return;
-      if (i === n) {
-        el.classList.remove('hidden');
-        el.classList.add('qstep-enter');
-        setTimeout(() => el.classList.remove('qstep-enter'), 400);
-      } else {
-        el.classList.add('hidden');
-      }
-    });
-
-    [1, 2].forEach(i => {
-      const dot = document.getElementById(`qdot-${i}`);
-      if (!dot) return;
-      if (i < n) {
-        dot.style.cssText = 'background:rgba(61,142,248,0.25);border:1px solid rgba(61,142,248,0.5);color:#3D8EF8;font-size:0.7rem';
-        dot.textContent = '✓';
-      } else if (i === n) {
-        dot.style.cssText = 'background:#3D8EF8;color:#fff';
-        dot.textContent = String(i);
-      } else {
-        dot.style.cssText = '';
-        dot.textContent = String(i);
-      }
-    });
-
-    const line = document.getElementById('qline-1');
-    if (line) line.style.backgroundColor = n > 1 ? 'rgba(61,142,248,0.35)' : '';
-  }
-
-  /* ---- validation ---- */
-  function syncBtn1() {
-    const btn = document.getElementById('q1-next') as HTMLButtonElement | null;
-    if (!btn) return;
-    const ok = selectedGoals.size > 0;
-    btn.disabled = !ok;
-    btn.classList.toggle('qbtn-disabled', !ok);
+  function buildTgUrl(): string {
+    const goals = Array.from(selectedGoals).map(g => GOAL_TITLES[g]).join(', ');
+    const lines = [
+      'Здравствуйте! Хочу получить стратегию самовыкупов.',
+      '',
+      `Цели: ${goals}`,
+      '',
+      'Источник: сайт u-buyer.ru (квиз)',
+    ];
+    return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(lines.join('\n'))}`;
   }
 
   function syncCta() {
     const cta = document.getElementById('quiz-tg-btn') as HTMLAnchorElement | null;
     if (!cta) return;
-    const name = (document.getElementById('q-name') as HTMLInputElement | null)?.value.trim();
-    const ok = !!(name && selectedCard);
+    const ok = selectedGoals.size > 0;
     if (ok) {
       cta.href = buildTgUrl();
       cta.classList.remove('qcta-disabled');
@@ -256,69 +149,29 @@
     }
   }
 
-  /* ---- build Telegram URL ---- */
-  function buildTgUrl(): string {
-    const goals   = Array.from(selectedGoals).map(g => GOAL_TITLES[g]).join(', ');
-    const name    = (document.getElementById('q-name')    as HTMLInputElement | null)?.value.trim() ?? '';
-    const product = (document.getElementById('q-product') as HTMLInputElement | null)?.value.trim() ?? '';
-    const price   = (document.getElementById('q-price')   as HTMLInputElement | null)?.value.trim() ?? '';
-    const stock   = (document.getElementById('q-stock')   as HTMLInputElement | null)?.value.trim() ?? '';
-    const card    = selectedCard === 'new' ? 'Новая (продаж ещё нет)' : 'Уже продаётся';
-
-    const lines: string[] = ['Здравствуйте! Хочу обсудить стратегию самовыкупов.', ''];
-    lines.push(`Цели: ${goals}`);
-    if (name)    lines.push(`Имя: ${name}`);
-    if (product) lines.push(`Товар: ${product}`);
-    if (price)   lines.push(`Цена до СПП: ${price} ₽`);
-    if (stock)   lines.push(`Остатки на WB: ${stock} шт`);
-    lines.push(`Карточка: ${card}`);
-    lines.push('', 'Источник: сайт u-buyer.ru (квиз)');
-
-    return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(lines.join('\n'))}`;
-  }
-
-  /* ---- goal cards ---- */
   document.querySelectorAll<HTMLButtonElement>('.qgoal-card').forEach(card => {
     card.addEventListener('click', () => {
       const goal = card.dataset.goal as GoalId;
       if (selectedGoals.has(goal)) {
         selectedGoals.delete(goal);
         card.classList.remove('qgoal-selected');
-      } else if (selectedGoals.size < 2) {
+      } else if (selectedGoals.size < 3) {
         selectedGoals.add(goal);
         card.classList.add('qgoal-selected');
       }
       const cnt = document.getElementById('goal-count');
       if (cnt) cnt.textContent = String(selectedGoals.size);
-      syncBtn1();
-    });
-  });
-
-  /* ---- card radio ---- */
-  document.querySelectorAll<HTMLButtonElement>('.qcard-radio').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.qcard-radio').forEach(b => b.classList.remove('qcard-selected'));
-      btn.classList.add('qcard-selected');
-      selectedCard = btn.dataset.card ?? null;
       syncCta();
     });
   });
 
-  /* ---- name input ---- */
-  document.getElementById('q-name')?.addEventListener('input', syncCta);
-
   const ymGoal = (goal: string) => { if (window.ym && window.__ymId) window.ym(window.__ymId, 'reachGoal', goal); };
 
-  /* ---- block click on disabled CTA ---- */
   document.getElementById('quiz-tg-btn')?.addEventListener('click', e => {
     const el = e.currentTarget as HTMLAnchorElement;
     if (el.classList.contains('qcta-disabled')) { e.preventDefault(); return; }
     ymGoal('quiz_complete');
   });
-
-  /* ---- navigation ---- */
-  document.getElementById('q1-next')?.addEventListener('click', () => { ymGoal('quiz_step2'); setStep(2); });
-  document.getElementById('q2-back')?.addEventListener('click', () => setStep(1));
 </script>
 
 <style>
@@ -350,70 +203,6 @@
               background: rgba(61,142,248,0.15); color: #3D8EF8;
               padding: 0.1rem 0.5rem; border-radius: 9999px; }
 
-  /* ----- form inputs ----- */
-  .qinput {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.625rem;
-    border: 1px solid #1A2B4A;
-    background: rgba(4, 9, 26, 0.6);
-    color: #E4ECFF;
-    font-size: 0.9375rem;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    -moz-appearance: textfield;
-  }
-  .qinput::-webkit-outer-spin-button,
-  .qinput::-webkit-inner-spin-button { -webkit-appearance: none; }
-  .qinput::placeholder { color: #3A5070; }
-  .qinput:focus {
-    border-color: rgba(61, 142, 248, 0.55);
-    box-shadow: 0 0 0 3px rgba(61, 142, 248, 0.1);
-  }
-
-  /* ----- card radio ----- */
-  .qcard-radio {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    border: 1px solid #1A2B4A;
-    background: rgba(4, 9, 26, 0.6);
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .qcard-radio:hover {
-    border-color: rgba(61, 142, 248, 0.4);
-    background: rgba(61, 142, 248, 0.05);
-  }
-  .qcard-radio.qcard-selected {
-    border-color: rgba(61, 142, 248, 0.65);
-    background: rgba(61, 142, 248, 0.09);
-  }
-  .qcr-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid #1A2B4A;
-    flex-shrink: 0;
-    position: relative;
-    transition: border-color 0.2s;
-  }
-  .qcard-selected .qcr-dot { border-color: #3D8EF8; }
-  .qcard-selected .qcr-dot::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    border-radius: 50%;
-    background: #3D8EF8;
-  }
-  .qcr-title { display: block; font-size: 0.875rem; font-weight: 600; color: #E4ECFF; line-height: 1.3; }
-  .qcr-sub   { display: block; font-size: 0.75rem; color: #6680A8; margin-top: 0.1rem; }
-
-  /* ----- final CTA ----- */
   .quiz-final-cta {
     display: flex;
     align-items: center;
@@ -431,7 +220,7 @@
     transform: translateY(-1px);
   }
   .qcta-disabled {
-    opacity: 0.4;
+    opacity: 0.35;
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -443,12 +232,4 @@
     opacity: 0.75;
     margin-top: 0.2rem;
   }
-
-  .qbtn-disabled { opacity: 0.4; cursor: not-allowed; }
-
-  @keyframes qstep-enter {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .qstep-enter { animation: qstep-enter 0.35s ease forwards; }
 </style>
