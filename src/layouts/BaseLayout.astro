@@ -80,7 +80,7 @@ const seo = buildSeo(Astro.props);
           "@type": "ContactPoint",
           "contactType": "customer service",
           "telephone": "+7-978-567-27-45",
-          "url": "https://tg.me/Manager_UBuyer",
+          "url": "https://t.me/Manager_UBuyer",
           "availableLanguage": "Russian"
         },
         "makesOffer": [
@@ -110,7 +110,7 @@ const seo = buildSeo(Astro.props);
           }
         ],
         "sameAs": [
-          "https://tg.me/+zTWXRN30e6UzYWZi"
+          "https://t.me/+zTWXRN30e6UzYWZi"
         ]
       },
       {
@@ -140,7 +140,7 @@ const seo = buildSeo(Astro.props);
           var a = e.target.closest('a');
           if (!a) return;
           var href = a.getAttribute('href') || '';
-          if (href.indexOf('t.me') !== -1 || href.indexOf('tg.me') !== -1)  ym(ymId,'reachGoal','click_telegram');
+          if (href.indexOf('t.me') !== -1)  ym(ymId,'reachGoal','click_telegram');
           if (href.indexOf('tel:') !== -1)   ym(ymId,'reachGoal','click_phone');
           if (href.indexOf('#pricing') !== -1) ym(ymId,'reachGoal','click_pricing');
         });
