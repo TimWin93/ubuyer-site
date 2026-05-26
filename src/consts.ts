@@ -13,7 +13,7 @@ export const CONTACTS = {
 
 export const STATS = {
   accounts: '3 000+',
-  pvz: '2 600+',
+  pvz: '3 000+',
   team: '100',
   years: '3+',
 } as const;

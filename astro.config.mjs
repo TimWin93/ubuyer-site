@@ -9,4 +9,16 @@ export default defineConfig({
     sitemap(),
   ],
   output: 'static',
+  vite: {
+    server: {
+      proxy: {
+        '/api/chat': {
+          target: 'https://chat-36gkdx4msq-uc.a.run.app',
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/api\/chat/, ''),
+        },
+      },
+    },
+  },
 });

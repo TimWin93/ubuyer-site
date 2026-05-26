@@ -1,0 +1,11 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Запрещаем прямой доступ из клиентов — всё пишется только из Cloud Functions
+    // (под admin-учёткой, правила игнорируются).
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

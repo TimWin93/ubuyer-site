@@ -28,6 +28,9 @@ Thumbs.db
 # Vercel
 .vercel/
 
+# Firebase deploy cache
+.firebase/
+
 # Source media / non-web assets
 Фото/
 

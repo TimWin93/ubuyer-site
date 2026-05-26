@@ -12,8 +12,11 @@
     "@astrojs/sitemap": "3.1.6",
     "@astrojs/tailwind": "^5.1.0",
     "@lucide/astro": "^1.14.0",
+    "@types/dompurify": "^3.0.5",
     "astro": "^4.15.0",
+    "dompurify": "^3.4.5",
     "lucide-astro": "^0.556.0",
+    "marked": "^18.0.4",
     "tailwindcss": "^3.4.10"
   },
   "devDependencies": {
