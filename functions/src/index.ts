@@ -2,7 +2,7 @@ import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
-import { streamClaude } from "./claude.js";
+import { askClaude } from "./claude.js";
 import { sendLeadToTelegram } from "./telegram.js";
 import type { ChatRequest, Lead } from "./types.js";
 
@@ -38,7 +38,19 @@ export const chat = onRequest(
       return;
     }
 
-    const body = req.body as Partial<ChatRequest>;
+    // Парсим body вручную: фронт шлёт Content-Type: text/plain (чтобы
+    // обойти CORS preflight на iOS Safari), Firebase auto-parser даёт строку.
+    let body: Partial<ChatRequest>;
+    try {
+      const raw = req.body;
+      if (typeof raw === "string") body = JSON.parse(raw);
+      else if (raw && typeof raw === "object") body = raw as Partial<ChatRequest>;
+      else body = {};
+    } catch {
+      res.status(400).json({ error: "invalid JSON body" });
+      return;
+    }
+
     if (!body?.sessionId || !Array.isArray(body.messages) || body.messages.length === 0) {
       res.status(400).json({ error: "sessionId and messages are required" });
       return;
@@ -47,43 +59,19 @@ export const chat = onRequest(
     const sessionId = body.sessionId;
     const messages = body.messages;
 
-    // ─── SSE headers ───
-    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
-    res.setHeader("Cache-Control", "no-cache, no-transform");
-    res.setHeader("Connection", "keep-alive");
-    res.setHeader("X-Accel-Buffering", "no");
-    res.flushHeaders?.();
-
-    const writeEvent = (data: object): void => {
-      res.write(`data: ${JSON.stringify(data)}\n\n`);
-    };
-
-    let fullReply = "";
-    let lead: Lead | null = null;
-
+    // Простой non-streaming вызов Claude: один request → полный ответ → JSON.
+    // Никакого стриминга ни внутри, ни снаружи — система максимально предсказуемая.
     try {
-      for await (const event of streamClaude(ANTHROPIC_API_KEY.value(), messages)) {
-        if (event.type === "text_delta") {
-          writeEvent({ type: "text", text: event.text });
-        } else if (event.type === "lead") {
-          // Уведомим клиента сразу, чтобы виджет переключился в success-state
-          writeEvent({ type: "lead" });
-        } else if (event.type === "done") {
-          fullReply = event.fullText;
-          if (event.lead) {
-            lead = {
-              sessionId,
-              ...event.lead,
-              createdAt: new Date().toISOString(),
-            };
-          }
-        } else if (event.type === "error") {
-          writeEvent({ type: "error", message: event.message });
-        }
-      }
+      const { fullText, lead: leadData } = await askClaude(
+        ANTHROPIC_API_KEY.value(),
+        messages,
+      );
 
-      // ─── Side-effects после стрима ───
-      const allMessages = [...messages, { role: "assistant" as const, content: fullReply }];
+      const lead: Lead | null = leadData
+        ? { sessionId, ...leadData, createdAt: new Date().toISOString() }
+        : null;
+
+      const allMessages = [...messages, { role: "assistant" as const, content: fullText }];
 
       if (lead) {
         const wasNew = await saveLeadIfNew(lead, allMessages);
@@ -100,16 +88,15 @@ export const chat = onRequest(
 
       await logConversation(sessionId, allMessages, lead !== null);
 
-      writeEvent({ type: "done" });
+      res.status(200).json({
+        reply: fullText,
+        leadSubmitted: lead !== null,
+      });
     } catch (err) {
       console.error("chat handler error", err);
-      writeEvent({
-        type: "error",
-        message: err instanceof Error ? err.message : String(err),
+      res.status(500).json({
+        error: err instanceof Error ? err.message : String(err),
       });
-      writeEvent({ type: "done" });
-    } finally {
-      res.end();
     }
   },
 );

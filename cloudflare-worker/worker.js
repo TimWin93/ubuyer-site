@@ -92,14 +92,12 @@ export default {
       );
     }
 
-    // ВАЖНО: буферизуем стрим целиком вместо chunked-проксирования.
-    // РФ-провайдеры с DPI режут длинные SSE-соединения через Cloudflare —
-    // короткий POST с готовым телом проходит, long-poll виснет.
-    // Цена: теряем UX "печатает по словам", но чат работает у всех без VPN.
+    // Простой JSON-прокси. Cloud Function отдаёт { reply, leadSubmitted } —
+    // мы пересылаем как есть. Никакого SSE/streaming.
     const fullBody = await upstreamResponse.text();
 
     const responseHeaders = new Headers();
-    responseHeaders.set('Content-Type', upstreamResponse.headers.get('Content-Type') || 'text/event-stream; charset=utf-8');
+    responseHeaders.set('Content-Type', 'application/json; charset=utf-8');
     responseHeaders.set('Cache-Control', 'no-cache, no-transform');
     for (const [key, value] of Object.entries(corsHeaders(origin))) {
       responseHeaders.set(key, value);

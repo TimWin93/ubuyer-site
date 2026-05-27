@@ -15,6 +15,11 @@ export interface LeadData {
   urgency?: "low" | "medium" | "high";
 }
 
+export interface ClaudeResult {
+  fullText: string;
+  lead: LeadData | null;
+}
+
 export type ClaudeStreamEvent =
   | { type: "text_delta"; text: string }
   | { type: "lead"; data: LeadData }
@@ -76,63 +81,46 @@ const SUBMIT_LEAD_TOOL: Anthropic.Tool = {
 const FALLBACK_AFTER_LEAD =
   "Спасибо! Передал ваш контакт менеджеру. Он напишет вам первым в течение ~15 минут.";
 
-export async function* streamClaude(
+/**
+ * Non-streaming вызов Claude: один request → полный ответ.
+ * Стрим убран на всех уровнях — он только усложнял систему, а UX-выгоды нет
+ * (CORS/SSE через CF/CDN/мобильные сети нестабилен).
+ */
+export async function askClaude(
   apiKey: string,
   messages: ChatMessage[],
-): AsyncGenerator<ClaudeStreamEvent, void, void> {
+): Promise<ClaudeResult> {
   const client = new Anthropic({ apiKey });
 
+  const response = await client.messages.create({
+    model: MODEL,
+    max_tokens: MAX_TOKENS,
+    system: [
+      {
+        type: "text",
+        text: buildSystemPrompt(),
+        cache_control: { type: "ephemeral" },
+      },
+    ],
+    tools: [SUBMIT_LEAD_TOOL],
+    messages: messages.map((m) => ({ role: m.role, content: m.content })),
+  });
+
   let fullText = "";
+  let lead: LeadData | null = null;
 
-  try {
-    const stream = client.messages.stream({
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      system: [
-        {
-          type: "text",
-          text: buildSystemPrompt(),
-          cache_control: { type: "ephemeral" },
-        },
-      ],
-      tools: [SUBMIT_LEAD_TOOL],
-      messages: messages.map((m) => ({ role: m.role, content: m.content })),
-    });
-
-    for await (const event of stream) {
-      if (
-        event.type === "content_block_delta" &&
-        event.delta.type === "text_delta"
-      ) {
-        const chunk = event.delta.text;
-        fullText += chunk;
-        yield { type: "text_delta", text: chunk };
-      }
+  for (const block of response.content) {
+    if (block.type === "text") {
+      fullText += block.text;
+    } else if (block.type === "tool_use" && block.name === "submit_lead") {
+      lead = block.input as LeadData;
     }
-
-    const final = await stream.finalMessage();
-
-    let lead: LeadData | null = null;
-    for (const block of final.content) {
-      if (block.type === "tool_use" && block.name === "submit_lead") {
-        lead = block.input as LeadData;
-      }
-    }
-
-    // Если был tool_use но ИИ не дал текст — добавим стандартное подтверждение
-    if (lead && !fullText.trim()) {
-      yield { type: "text_delta", text: FALLBACK_AFTER_LEAD };
-      fullText = FALLBACK_AFTER_LEAD;
-    }
-
-    if (lead) {
-      yield { type: "lead", data: lead };
-    }
-
-    yield { type: "done", fullText: fullText.trim(), lead };
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    yield { type: "error", message };
-    yield { type: "done", fullText: fullText.trim(), lead: null };
   }
+
+  // Если был tool_use, но текста нет — отдадим стандартное подтверждение
+  if (lead && !fullText.trim()) {
+    fullText = FALLBACK_AFTER_LEAD;
+  }
+
+  return { fullText: fullText.trim(), lead };
 }
