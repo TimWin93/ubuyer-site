@@ -12,6 +12,7 @@ export interface LeadData {
   niche: string;
   volume: string;
   situation: string;
+  urgency?: "low" | "medium" | "high";
 }
 
 export type ClaudeStreamEvent =
@@ -57,6 +58,15 @@ const SUBMIT_LEAD_TOOL: Anthropic.Tool = {
         description:
           "Краткое саммари ситуации клиента и его задачи (2-4 предложения) — " +
           "то, что менеджеру нужно знать, чтобы зайти в разговор подготовленным.",
+      },
+      urgency: {
+        type: "string",
+        enum: ["low", "medium", "high"],
+        description:
+          "Оценка срочности: 'high' если клиент сказал 'срочно/горит/" +
+          "теряю деньги/бан сегодня/пик через неделю'; 'medium' если есть " +
+          "явная задача и интерес; 'low' если просто интересуется без сроков. " +
+          "По умолчанию medium.",
       },
     },
     required: ["contact", "situation"],

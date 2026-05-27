@@ -25,8 +25,15 @@ export async function sendLeadToTelegram(
 }
 
 function formatLeadMessage(lead: Lead): string {
+  const urgencyBadge = {
+    high: "🚨 <b>СРОЧНО — горящий лид</b>",
+    medium: "🔥 <b>Новый лид от AI-менеджера</b>",
+    low: "💬 <b>Новый лид (интерес, без срочности)</b>",
+  } as const;
+  const urg = (lead.urgency ?? "medium") as keyof typeof urgencyBadge;
+
   const lines = [
-    "🔥 <b>Новый лид от AI-менеджера</b>",
+    urgencyBadge[urg],
     "",
     `<b>Имя:</b> ${escape(lead.name) || "—"}`,
     `<b>Контакт:</b> ${escape(lead.contact)}`,

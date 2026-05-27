@@ -1,5 +1,6 @@
 ---
-const CHAT_ENDPOINT = import.meta.env.PUBLIC_CHAT_ENDPOINT ?? 'https://ubuyer-site.web.app/api/chat';
+// Endpoint через наш Cloudflare Worker — работает в РФ без VPN
+const CHAT_ENDPOINT = import.meta.env.PUBLIC_CHAT_ENDPOINT ?? 'https://ai.u-buyer.ru';
 
 const STARTERS = [
   {
@@ -630,6 +631,156 @@ const PILL_PHRASES = [
     40%           { transform: scale(1);   opacity: 1;   }
   }
 
+  /* ============== CONTACT REQUEST block (trust + quick replies) ============== */
+  .chat-contact-request {
+    margin-top: 10px;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(12,21,48,0.6) 0%, rgba(8,15,36,0.9) 100%);
+    border: 1px solid rgba(36,58,96,0.7);
+    border-radius: 16px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    animation: msgIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .contact-trust-title {
+    font-size: 11px;
+    color: rgba(228,236,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .contact-trust-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .contact-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #E4ECFF;
+    line-height: 1.4;
+  }
+  .contact-trust-item .check {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(16,185,129,0.18);
+    color: #10B981;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .contact-trust-item .check svg { width: 10px; height: 10px; }
+
+  .contact-quick-replies {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .contact-quick-replies button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 10px;
+    background: rgba(61,142,248,0.10);
+    border: 1px solid rgba(61,142,248,0.25);
+    border-radius: 12px;
+    color: #E4ECFF;
+    font-size: 12.5px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 180ms ease;
+  }
+  .contact-quick-replies button:hover {
+    background: rgba(61,142,248,0.20);
+    border-color: rgba(61,142,248,0.50);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(61,142,248,0.15);
+  }
+  .contact-quick-replies button:active { transform: translateY(0) scale(0.98); }
+  .contact-quick-replies .qr-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    background: rgba(61,142,248,0.20);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #4DD9FF;
+  }
+  .contact-quick-replies .qr-icon svg { width: 12px; height: 12px; }
+  .contact-quick-replies .qr-direct-tg {
+    grid-column: 1 / -1;  /* на всю ширину */
+    background: linear-gradient(135deg, rgba(61,142,248,0.20) 0%, rgba(77,217,255,0.10) 100%);
+    border-color: rgba(77,217,255,0.40);
+  }
+  .contact-quick-replies .qr-direct-tg:hover {
+    background: linear-gradient(135deg, rgba(61,142,248,0.30) 0%, rgba(77,217,255,0.20) 100%);
+    box-shadow: 0 4px 16px rgba(77,217,255,0.25);
+  }
+  .contact-privacy-note {
+    font-size: 10.5px;
+    color: rgba(228,236,255,0.5);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    line-height: 1.3;
+  }
+  .contact-privacy-note svg {
+    width: 10px; height: 10px;
+    color: rgba(61,142,248,0.5);
+  }
+
+  /* ── QR Quick-reply buttons ── */
+  .chat-qr-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+    animation: msgIn 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .chat-qr-btn {
+    padding: 8px 14px;
+    background: rgba(61,142,248,0.12);
+    border: 1px solid rgba(61,142,248,0.35);
+    border-radius: 999px;
+    color: #E4ECFF;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 160ms ease;
+    line-height: 1.2;
+  }
+  .chat-qr-btn:hover {
+    background: rgba(61,142,248,0.22);
+    border-color: rgba(61,142,248,0.6);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(61,142,248,0.18);
+  }
+  .chat-qr-btn:active { transform: translateY(0) scale(0.97); }
+
+  /* Idle prompt — отдельный стиль (мягкая подсказка) */
+  .chat-idle-prompt {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: rgba(12,21,48,0.5);
+    border: 1px dashed rgba(36,58,96,0.7);
+    border-radius: 14px;
+    font-size: 13px;
+    color: rgba(228,236,255,0.75);
+    font-style: italic;
+    animation: msgIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   /* ============== TRUST BAR ============== */
   .trust-bar { user-select: none; }
   .trust-item {
@@ -745,14 +896,63 @@ const PILL_PHRASES = [
     'blockquote', 'code', 'pre', 'a', 's', 'del',
   ];
 
+  // Регулярка маркера CONTACT_REQUEST — case-insensitive, допускает пробелы и переносы
+  const CONTACT_MARKER_RE = /\s*\[\s*CONTACT[_\s]?REQUEST\s*\]\s*/gi;
+  // Регулярка маркера QR с вариантами: [QR: Вариант1 | Вариант2 | Вариант3]
+  const QR_MARKER_RE = /\s*\[\s*QR\s*:\s*([^\]]+?)\s*\]\s*/gi;
+
+  function parseQrOptions(text: string): string[] {
+    const matches: string[] = [];
+    let m: RegExpExecArray | null;
+    const re = new RegExp(QR_MARKER_RE.source, QR_MARKER_RE.flags);
+    while ((m = re.exec(text)) !== null) {
+      const options = m[1].split('|').map(s => s.trim()).filter(s => s.length > 0);
+      matches.push(...options);
+    }
+    return matches;
+  }
+
   function renderMarkdown(text: string): string {
-    const html = marked.parse(text, { async: false }) as string;
+    // Срезаем оба технических маркера — они не должны попасть в видимый текст
+    const cleanText = text
+      .replace(CONTACT_MARKER_RE, ' ')
+      .replace(QR_MARKER_RE, ' ')
+      .trim();
+    const html = marked.parse(cleanText, { async: false }) as string;
     const clean = DOMPurify.sanitize(html, {
       ALLOWED_TAGS,
       ALLOWED_ATTR: ['href', 'target', 'rel'],
     });
-    // Все ссылки открываем в новой вкладке
     return clean.replace(/<a\s+/g, '<a target="_blank" rel="noopener noreferrer" ');
+  }
+
+  const MANAGER_TG = 'Manager_UBuyer';
+  const IDLE_PROMPT_MS = 30000;
+  const IDLE_PROMPT_TEXT = 'Ещё что-то уточнить? Или передаю ваш контакт менеджеру?';
+
+  /** Проверка доступности Telegram — image probe (≤3 сек). */
+  function detectTelegram(): Promise<boolean> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      const timer = setTimeout(() => resolve(false), 3000);
+      img.onload = () => { clearTimeout(timer); resolve(true); };
+      img.onerror = () => { clearTimeout(timer); resolve(false); };
+      img.src = `https://telegram.org/img/t_logo.png?_=${Date.now()}`;
+    });
+  }
+
+  /** Собирает короткое саммари диалога для prefilled Telegram-ссылки. */
+  function buildTelegramSummary(history: ChatMessage[]): string {
+    const userMsgs = history.filter(m => m.role === 'user').slice(-3);
+    const lines = ['Здравствуйте! Я с сайта u-buyer.ru, общался с Анастасией в чате.'];
+    if (userMsgs.length > 0) {
+      lines.push('', 'Кратко обсуждали:');
+      userMsgs.forEach(m => {
+        const s = m.content.length > 120 ? m.content.slice(0, 117) + '…' : m.content;
+        lines.push(`— ${s}`);
+      });
+    }
+    return lines.join('\n');
   }
 
   const STORAGE_SID       = 'ubuyer_chat_sid_v3';
@@ -804,6 +1004,111 @@ const PILL_PHRASES = [
     const sessionId = sid();
     const history: ChatMessage[] = loadHistory();
     let leadSubmitted = localStorage.getItem(STORAGE_SUBMITTED) === '1';
+    let telegramAvailable: boolean | null = null;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // Параллельно проверяем доступность Telegram
+    void detectTelegram().then(ok => { telegramAvailable = ok; });
+
+    function clearIdle(): void {
+      if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+    }
+    function scheduleIdlePrompt(): void {
+      clearIdle();
+      if (leadSubmitted) return;
+      // Не лезем с подсказкой, когда клиент уже видит блок выбора контакта
+      if (messagesEl.querySelector('.chat-contact-request')) return;
+      idleTimer = setTimeout(() => {
+        if (messagesEl.querySelector('.chat-idle-prompt')) return;
+        // Повторная проверка — на случай если за 30 сек контакт-блок появился
+        if (messagesEl.querySelector('.chat-contact-request') || leadSubmitted) return;
+        const block = document.createElement('div');
+        block.className = 'chat-idle-prompt';
+        block.textContent = IDLE_PROMPT_TEXT;
+        messagesEl.appendChild(block);
+        scrollToBottom();
+      }, IDLE_PROMPT_MS);
+    }
+
+    function renderQrButtons(options: string[]): void {
+      // Удаляем предыдущие QR-кнопки (если были)
+      messagesEl.querySelector('.chat-qr-row')?.remove();
+      messagesEl.querySelector('.chat-idle-prompt')?.remove();
+      clearIdle();
+
+      const row = document.createElement('div');
+      row.className = 'chat-qr-row';
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'chat-qr-btn';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          row.remove();
+          void send(opt);
+        });
+        row.appendChild(btn);
+      });
+      messagesEl.appendChild(row);
+      scrollToBottom();
+    }
+
+    function renderContactRequest(): void {
+      // Отменяем idle — клиенту дают выбор, не отвлекать подсказкой
+      clearIdle();
+      messagesEl.querySelector('.chat-idle-prompt')?.remove();
+      messagesEl.querySelector('.chat-qr-row')?.remove();
+      // Не дублируем — если блок уже есть, удаляем старый
+      messagesEl.querySelector('.chat-contact-request')?.remove();
+
+      const block = document.createElement('div');
+      block.className = 'chat-contact-request';
+      // Кнопка «Я в Telegram» — только если detect точно подтвердил доступность.
+      // null (detect не успел / fail) или false → кнопку не показываем.
+      const showDirectTg = telegramAvailable === true;
+      block.innerHTML = `
+        <div class="contact-trust-title">МЕНЕДЖЕР ПРИШЛЁТ</div>
+        <div class="contact-trust-list">
+          <div class="contact-trust-item"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.5l2 2 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Расчёт под ваш товар</div>
+          <div class="contact-trust-item"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.5l2 2 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Стратегию по ключам</div>
+          <div class="contact-trust-item"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.5l2 2 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Пример кейса в вашей нише</div>
+        </div>
+        <div class="contact-quick-replies">
+          <button data-qr="telegram"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Telegram-ник</button>
+          <button data-qr="phone"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4c0-1 1-2 2-2h1l2 3-1.5 1.5c1 2 2 3 4 4L12 9l3 2v1c0 1-1 2-2 2C8 14 2 8 2 4z"/></svg></span>Телефон</button>
+          ${showDirectTg ? `<button data-qr="direct-tg" class="qr-direct-tg"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Я в Telegram — открыть чат с менеджером</button>` : ''}
+        </div>
+        <div class="contact-privacy-note">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1L2 3v3.5c0 2 1.5 4 4 4.5 2.5-.5 4-2.5 4-4.5V3L6 1z" stroke-linejoin="round"/></svg>
+          Не передаём третьим, спам не шлём
+        </div>`;
+
+      block.querySelectorAll<HTMLButtonElement>('[data-qr]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const action = btn.dataset.qr;
+          if (action === 'direct-tg') {
+            const summary = buildTelegramSummary(history);
+            const url = `https://t.me/${MANAGER_TG}?text=${encodeURIComponent(summary)}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+            (window as any).ymGoal?.('chat_open_direct_tg');
+          } else if (action === 'telegram') {
+            input.placeholder = '@ваш_ник в Telegram';
+            input.value = '@';
+            input.focus();
+            (window as any).ymGoal?.('chat_picked_telegram');
+          } else if (action === 'phone') {
+            input.placeholder = '+7...';
+            input.value = '';
+            input.focus();
+            (window as any).ymGoal?.('chat_picked_phone');
+          }
+          updateSendState();
+        });
+      });
+
+      messagesEl.appendChild(block);
+      scrollToBottom();
+    }
 
     // ──── PILL: динамическая ротация фраз ────
     function startPillRotation(): void {
@@ -949,6 +1254,10 @@ const PILL_PHRASES = [
     async function send(text: string): Promise<void> {
       const trimmed = text.trim();
       if (!trimmed) return;
+      clearIdle();
+      // Убираем idle-подсказку и старый contact-request блок если есть
+      messagesEl.querySelector('.chat-idle-prompt')?.remove();
+      messagesEl.querySelector('.chat-contact-request')?.remove();
       // Клиент может писать и после лида — отправляем как обычно.
       // Защита от двойного submit_lead — на бэкенде.
       hideStarters();
@@ -985,15 +1294,22 @@ const PILL_PHRASES = [
         bubbleMounted = true;
       }
 
+      // Чистим устаревший fallback-кеш если был
+      try { localStorage.removeItem('ubuyer_chat_endpoint_v1'); } catch {}
+
+      let res: Response;
       try {
-        const res = await fetch(endpoint, {
+        res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sessionId, messages: history }),
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        if (!res.body) throw new Error('no response body');
+        if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+      } catch (e) {
+        throw new Error(`fetch failed: ${e instanceof Error ? e.message : String(e)}`);
+      }
 
+      try {
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
@@ -1038,8 +1354,31 @@ const PILL_PHRASES = [
           return;
         }
 
-        history.push({ role: 'assistant', content: assistantText });
+        // Срезаем технический маркер из сохраняемой истории (визуально его и так не было)
+        const cleanedReply = assistantText.replace(CONTACT_MARKER_RE, ' ').trim();
+        history.push({ role: 'assistant', content: cleanedReply });
         saveHistory(history);
+
+        // Триггер contact-блока: либо явный маркер от Claude, либо эвристика
+        const hasMarker = CONTACT_MARKER_RE.test(assistantText);
+        CONTACT_MARKER_RE.lastIndex = 0;  // сброс — regex с /g сохраняет state
+        const lowered = assistantText.toLowerCase();
+        const hasContactHint =
+          /как удобнее связаться/.test(lowered) ||
+          /как с вами связаться/.test(lowered) ||
+          /оставьте.{0,20}(контакт|telegram|телефон|ник)/.test(lowered) ||
+          /(telegram-?ник|telegram\s+ник|телеграм-?ник)/.test(lowered) ||
+          (/номер телефона/.test(lowered) && /telegram/.test(lowered));
+
+        if ((hasMarker || hasContactHint) && !leadSubmitted) {
+          renderContactRequest();
+        } else {
+          // QR-кнопки на простой квалификационный вопрос
+          const qrOptions = parseQrOptions(assistantText);
+          if (qrOptions.length > 0 && !leadSubmitted) {
+            renderQrButtons(qrOptions);
+          }
+        }
 
         if (leadFlag) {
           leadSubmitted = true;
@@ -1047,6 +1386,9 @@ const PILL_PHRASES = [
           widget!.dataset.status = 'submitted';
           setPillSubmitted();
           (window as any).ymGoal?.('chat_lead_submitted');
+        } else {
+          // Запускаем idle-таймер только если ещё нет лида
+          scheduleIdlePrompt();
         }
       } catch (err) {
         console.error('[chat] request failed', err);
@@ -1092,6 +1434,127 @@ const PILL_PHRASES = [
     }
     updateSendState();
     startPillRotation();
+
+    // ──── Перехват ВСЕХ CTA-кнопок сайта на менеджеров ────
+    // Все ссылки на личные чаты менеджеров UBuyer открывают виджет с контекстом.
+    // Клиент не уходит со страницы, не ждёт t.me — сразу попадает в живой диалог.
+    const MANAGER_USERNAMES = [
+      'Manager_UBuyer',
+      'ROP_Helen_UBuyer',
+      'nastya_UBuyerr',
+      'Alexander_Ubuyer',
+    ];
+
+    interface CtaContext {
+      source: 'pricing' | 'quiz' | 'hero' | 'generic';
+      prefill?: string;        // первое сообщение клиента (если есть смысл)
+      autoSend?: boolean;      // отправить prefill автоматически
+    }
+
+    function detectCtaContext(link: HTMLAnchorElement, href: string): CtaContext {
+      const labelRaw = (link.textContent ?? '').trim().toLowerCase();
+      const sectionId = link.closest('section')?.id ?? '';
+      let prefill: string | undefined;
+
+      // 1. ?text=... из href (например, Quiz собирает выбранные цели)
+      try {
+        const url = new URL(href, window.location.href);
+        const tParam = url.searchParams.get('text')?.trim();
+        if (tParam && !/^Привет,?\s+пишу с сайта/i.test(tParam)) {
+          prefill = tParam;
+        }
+      } catch {}
+
+      // 2. Определяем источник по тексту кнопки или родительской секции
+      let source: CtaContext['source'] = 'generic';
+      if (prefill) {
+        source = 'quiz';  // если есть prefill — это квиз/конфигуратор
+      } else if (sectionId === 'pricing' || /рассчит/i.test(labelRaw)) {
+        source = 'pricing';
+      } else if (/получить расчёт|получить расчет/i.test(labelRaw)) {
+        source = 'quiz';
+      } else if (sectionId === 'hero' || link.closest('section')?.querySelector('h1')) {
+        source = 'hero';
+      }
+
+      return { source, prefill, autoSend: source === 'quiz' && !!prefill };
+    }
+
+    /** Применяет контекст CTA к виджету: подменяет welcome или авто-отправляет prefill. */
+    function applyCtaContext(ctx: CtaContext): void {
+      // Не трогаем существующий диалог — клиент уже общался, не сбрасываем
+      if (history.length > 0) {
+        if (ctx.prefill) {
+          setTimeout(() => {
+            input.value = ctx.prefill!;
+            autoResize();
+            updateSendState();
+            input.focus();
+          }, 350);
+        }
+        return;
+      }
+
+      // Welcome card подменяем в зависимости от источника
+      const welcomeMap: Record<CtaContext['source'], { title: string; text: string }> = {
+        pricing: {
+          title: 'Помогу с расчётом стоимости',
+          text: 'Подскажите, что продаёте и какая задача — посчитаю масштаб под вашу нишу.',
+        },
+        quiz: {
+          title: 'Принял ваш запрос',
+          text: 'Сейчас уточню пару деталей и передам менеджеру с расчётом.',
+        },
+        hero: {
+          title: 'Помогу разобраться',
+          text: 'По тарифам, стратегии, кейсам — что интересует?',
+        },
+        generic: {
+          title: WELCOME_LINE_1,
+          text: WELCOME_LINE_2,
+        },
+      };
+      // Перед подменой welcome — отмечаем что typed-эффект не нужен и останавливаем его
+      localStorage.setItem(STORAGE_WELCOMED, '1');
+      // Применяем подмену через requestAnimationFrame, чтобы перебить
+      // возможный typed-эффект который мог стартовать одновременно
+      requestAnimationFrame(() => {
+        const w = welcomeMap[ctx.source];
+        welcomeP1.textContent = w.title;
+        welcomeP2.textContent = w.text;
+      });
+
+      // Prefill ВСЕГДА кладём в input (без авто-отправки) — клиент сам жмёт Enter.
+      // Это надёжнее: нет race-condition с welcome, клиент может отредактировать.
+      if (ctx.prefill) {
+        setTimeout(() => {
+          input.value = ctx.prefill!;
+          autoResize();
+          updateSendState();
+          input.focus();
+        }, 400);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const targetEl = e.target as HTMLElement | null;
+      if (!targetEl) return;
+      const link = targetEl.closest('a') as HTMLAnchorElement | null;
+      if (!link) return;
+      const href = link.getAttribute('href') ?? '';
+      const isManagerLink = MANAGER_USERNAMES.some(u =>
+        href.includes(`t.me/${u}`) || href.includes(`tg://resolve?domain=${u}`)
+      );
+      if (!isManagerLink) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const ctx = detectCtaContext(link, href);
+      setOpen(true);
+      applyCtaContext(ctx);
+      (window as any).ymGoal?.(`site_cta_to_widget_${ctx.source}`);
+    }, true);
     void inputWrap;
   }
 </script>

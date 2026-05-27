@@ -11,6 +11,7 @@ export interface Lead {
   niche: string;
   volume: string;
   situation: string;
+  urgency?: "low" | "medium" | "high";
   createdAt: string;
 }
 
