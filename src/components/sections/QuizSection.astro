@@ -125,14 +125,10 @@
 
   function buildTgUrl(): string {
     const goals = Array.from(selectedGoals).map(g => GOAL_TITLES[g]).join(', ');
-    const lines = [
-      'Здравствуйте! Хочу получить стратегию самовыкупов.',
-      '',
-      `Цели: ${goals}`,
-      '',
-      'Источник: сайт u-buyer.ru (квиз)',
-    ];
-    return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(lines.join('\n'))}`;
+    // Только сам запрос — без «Здравствуйте» и без «Источник: сайт …»
+    // (контекст «квиз» уходит на бэк через ctaContext отдельно).
+    const text = `Хочу стратегию под цели: ${goals}`;
+    return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(text)}`;
   }
 
   function syncCta() {

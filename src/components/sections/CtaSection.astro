@@ -1,8 +1,10 @@
 ---
-import { CONTACTS } from '@/consts';
-import MessageCircle from '@lucide/astro/icons/message-circle';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
 import BadgeCheck from '@lucide/astro/icons/badge-check';
+
+// AutoSend → чат, контекст 'generic' (финальный CTA — общая квалификация)
+const FINAL_MESSAGE = 'Хочу разобрать мою карточку с менеджером';
+const FINAL_CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(FINAL_MESSAGE)}`;
 ---
 
 <section class="section section-alt relative overflow-hidden">
@@ -25,13 +27,12 @@ import BadgeCheck from '@lucide/astro/icons/badge-check';
       </p>
 
       <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
-        <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-primary">
-          <MessageCircle size={16} />
-          Написать в Telegram
+        <a href={FINAL_CHAT_URL} data-cta="final_primary" class="btn-primary">
+          Разобрать мою карточку
+          <ArrowRight size={16} />
         </a>
         <a href="#pricing" class="btn-ghost">
-          Рассчитать стоимость
-          <ArrowRight size={16} />
+          Посмотреть тарифы
         </a>
       </div>
 

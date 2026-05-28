@@ -603,6 +603,29 @@ const PILL_PHRASES = [
     box-shadow: 0 0 0 3px rgba(61,142,248,0.18),
                 inset 0 1px 0 rgba(255,255,255,0.04);
   }
+  .chat-input-wrap.chat-input-invalid {
+    border-color: rgba(239,68,68,0.55);
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.12),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  .chat-input-wrap.chat-input-invalid:focus-within {
+    border-color: rgba(239,68,68,0.7);
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.20),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  /* ============== Telegram-hint снизу инпута ============== */
+  .chat-tg-hint {
+    font-size: 11.5px;
+    line-height: 1.4;
+    margin: 6px 4px 0;
+    padding: 0 2px;
+    color: rgba(228,236,255,0.55);
+    animation: msgIn 220ms ease-out;
+  }
+  .chat-tg-hint[data-state="ok"]      { color: #10B981; }
+  .chat-tg-hint[data-state="error"]   { color: #F87171; }
+  .chat-tg-hint[data-state="pending"] { color: rgba(228,236,255,0.55); }
 
   /* ============== SEND button states ============== */
   .chat-send:not(:disabled) {
@@ -1090,14 +1113,15 @@ const PILL_PHRASES = [
             window.open(url, '_blank', 'noopener,noreferrer');
             (window as any).ymGoal?.('chat_open_direct_tg');
           } else if (action === 'telegram') {
-            input.placeholder = '@ваш_ник в Telegram';
-            input.value = '@';
+            enableTelegramValidation(input);
             input.focus();
+            // Каретку — в конец
+            input.setSelectionRange(input.value.length, input.value.length);
             (window as any).ymGoal?.('chat_picked_telegram');
           } else if (action === 'phone') {
-            input.placeholder = '+7...';
-            input.value = '';
+            enablePhoneMask(input);
             input.focus();
+            input.setSelectionRange(input.value.length, input.value.length);
             (window as any).ymGoal?.('chat_picked_phone');
           }
           updateSendState();
@@ -1273,6 +1297,9 @@ const PILL_PHRASES = [
       renderMessage(userMsg);
       scrollToBottom();
 
+      // Сбрасываем активные маски (телефон / @ник) — следующий ввод
+      // будет обычным текстовым сообщением.
+      resetContactMasks();
       input.value = '';
       autoResize();
       updateSendState();
@@ -1317,6 +1344,10 @@ const PILL_PHRASES = [
 
       try {
         let payload: { reply?: string; leadSubmitted?: boolean; error?: string };
+        // Контекст с CTA — отправляем только при первом запросе сессии,
+        // дальше зануляем. Claude уже знает откуда юзер пришёл.
+        const ctxToSend = pendingCtaContext;
+        pendingCtaContext = null;
         try {
           // ВАЖНО: Content-Type: text/plain делает это "simple CORS request" —
           // браузер НЕ шлёт OPTIONS preflight. На мобильных сетях preflight к
@@ -1325,7 +1356,11 @@ const PILL_PHRASES = [
           const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-            body: JSON.stringify({ sessionId, messages: trimmedHistory }),
+            body: JSON.stringify({
+              sessionId,
+              messages: trimmedHistory,
+              ...(ctxToSend ? { ctaContext: ctxToSend } : {}),
+            }),
             signal: ctrl.signal,
             credentials: 'omit',
             cache: 'no-store',
@@ -1451,14 +1486,119 @@ const PILL_PHRASES = [
     ];
 
     interface CtaContext {
-      source: 'pricing' | 'quiz' | 'hero' | 'generic';
+      source: 'pricing' | 'quiz' | 'hero' | 'comparison' | 'safety' | 'faq' | 'generic';
       prefill?: string;        // первое сообщение клиента (если есть смысл)
       autoSend?: boolean;      // отправить prefill автоматически
+      triggerText?: string;    // текст кликнутой кнопки/chip — для бэка
+      sectionId?: string;      // id секции откуда пришёл — для бэка
+    }
+
+    // Контекст текущего перехода с сайта. Шлём на бэк ОДИН РАЗ при первом
+    // send после клика на CTA. Дальше Claude уже знает откуда юзер пришёл —
+    // повторять нет смысла.
+    let pendingCtaContext: { source: CtaContext['source']; triggerText?: string; sectionId?: string } | null = null;
+
+    // ── Контактные маски: один input, два режима (телефон / @ник).
+    // Активируются по клику на "Телефон" или "Telegram-ник" в contact-request
+    // блоке. После отправки сообщения — обе сбрасываются.
+    let phoneMaskHandler: ((e: Event) => void) | null = null;
+    let telegramValidateHandler: ((e: Event) => void) | null = null;
+
+    function formatPhoneMask(raw: string): string {
+      // Нормализуем: только цифры, без ведущих 7/8 (всё после +7).
+      const digits = raw.replace(/\D/g, '').replace(/^[78]/, '').slice(0, 10);
+      let f = '+7';
+      if (digits.length > 0) f += ' ' + digits.slice(0, 3);
+      if (digits.length > 3) f += ' ' + digits.slice(3, 6);
+      if (digits.length > 6) f += ' ' + digits.slice(6, 8);
+      if (digits.length > 8) f += ' ' + digits.slice(8, 10);
+      return f;
+    }
+    function enablePhoneMask(el: HTMLTextAreaElement): void {
+      disablePhoneMask(el);
+      disableTelegramValidation(el);
+      el.placeholder = '+7 ___ ___ __ __';
+      el.value = '+7 ';
+      el.dataset.inputMode = 'phone';
+      phoneMaskHandler = () => { el.value = formatPhoneMask(el.value); updateSendState(); };
+      el.addEventListener('input', phoneMaskHandler);
+    }
+    function disablePhoneMask(el: HTMLTextAreaElement): void {
+      if (phoneMaskHandler) {
+        el.removeEventListener('input', phoneMaskHandler);
+        phoneMaskHandler = null;
+      }
+      if (el.dataset.inputMode === 'phone') delete el.dataset.inputMode;
+    }
+
+    // Telegram-ник: автоматически держим '@' префиксом, валидируем формат
+    // [a-zA-Z0-9_]{5,32}. Подсветка ошибки — через классы на inputWrap.
+    const TG_USERNAME_RE = /^@[a-zA-Z0-9_]{5,32}$/;
+    function enableTelegramValidation(el: HTMLTextAreaElement): void {
+      disableTelegramValidation(el);
+      disablePhoneMask(el);
+      el.placeholder = '@ваш_ник';
+      el.value = '@';
+      el.dataset.inputMode = 'telegram';
+      telegramValidateHandler = () => {
+        // Принудительно держим '@' первым символом — кириллица/пробелы вырезаем.
+        let v = el.value.replace(/[^@a-zA-Z0-9_]/g, '');
+        if (!v.startsWith('@')) v = '@' + v.replace(/^@+/, '');
+        if (v.length > 33) v = v.slice(0, 33);  // @ + 32 символа
+        el.value = v;
+        const valid = TG_USERNAME_RE.test(v);
+        const tooShort = v.length > 1 && v.length < 6;
+        // Показываем подсветку ошибки только когда юзер уже что-то ввёл
+        inputWrap.classList.toggle('chat-input-invalid', !valid && v.length > 1);
+        sendBtn.disabled = !valid;
+        // Если ник полностью валиден — даём send-кнопке стать активной
+        // даже при отсутствии других триггеров (override updateSendState).
+        if (valid) sendBtn.disabled = false;
+        // Подсказка снизу — динамически
+        let hintEl = inputWrap.querySelector('.chat-tg-hint') as HTMLDivElement | null;
+        if (!hintEl) {
+          hintEl = document.createElement('div');
+          hintEl.className = 'chat-tg-hint';
+          inputWrap.parentElement?.insertBefore(hintEl, inputWrap.nextSibling);
+        }
+        if (valid) {
+          hintEl.textContent = '✓ Ник корректный — можно отправлять';
+          hintEl.dataset.state = 'ok';
+        } else if (tooShort) {
+          hintEl.textContent = `Ещё ${6 - v.length} символ(а) — Telegram требует минимум 5`;
+          hintEl.dataset.state = 'pending';
+        } else if (v.length > 1) {
+          hintEl.textContent = 'Только латиница, цифры и подчёркивание';
+          hintEl.dataset.state = 'error';
+        } else {
+          hintEl.textContent = 'Где взять: Telegram → Настройки → Имя пользователя';
+          hintEl.dataset.state = 'pending';
+        }
+      };
+      el.addEventListener('input', telegramValidateHandler);
+      // Триггерим один раз чтобы показать стартовую подсказку
+      telegramValidateHandler(new Event('input'));
+    }
+    function disableTelegramValidation(el: HTMLTextAreaElement): void {
+      if (telegramValidateHandler) {
+        el.removeEventListener('input', telegramValidateHandler);
+        telegramValidateHandler = null;
+      }
+      if (el.dataset.inputMode === 'telegram') delete el.dataset.inputMode;
+      inputWrap.classList.remove('chat-input-invalid');
+      inputWrap.parentElement?.querySelector('.chat-tg-hint')?.remove();
+    }
+    function resetContactMasks(): void {
+      disablePhoneMask(input);
+      disableTelegramValidation(input);
+      input.placeholder = 'Опишите ситуацию или задайте вопрос…';
     }
 
     function detectCtaContext(link: HTMLAnchorElement, href: string): CtaContext {
-      const labelRaw = (link.textContent ?? '').trim().toLowerCase();
+      const labelRaw = (link.textContent ?? '').trim();
+      const labelLower = labelRaw.toLowerCase();
       const sectionId = link.closest('section')?.id ?? '';
+      const dataCta = link.dataset.cta ?? '';
       let prefill: string | undefined;
 
       // 1. ?text=... из href (например, Quiz собирает выбранные цели)
@@ -1470,23 +1610,63 @@ const PILL_PHRASES = [
         }
       } catch {}
 
-      // 2. Определяем источник по тексту кнопки или родительской секции
+      // 2. Определяем источник: явный data-cta → section id → текст кнопки
       let source: CtaContext['source'] = 'generic';
-      if (prefill) {
-        source = 'quiz';  // если есть prefill — это квиз/конфигуратор
-      } else if (sectionId === 'pricing' || /рассчит/i.test(labelRaw)) {
+      let autoSend = false;
+      if (dataCta === 'hero_primary') {
+        source = 'hero';
+        autoSend = !!prefill;  // если в href есть ?text=... → шлём автоматом
+      } else if (dataCta === 'pricing_primary') {
         source = 'pricing';
-      } else if (/получить расчёт|получить расчет/i.test(labelRaw)) {
+        autoSend = !!prefill;
+      } else if (dataCta === 'final_primary') {
+        source = 'generic';     // финальный CTA — общая квалификация
+        autoSend = !!prefill;
+      } else if (dataCta === 'chip') {
+        // Chip — готовый вопрос. Источник — из id секции, отправляется автоматом.
+        if (sectionId === 'comparison') source = 'comparison';
+        else if (sectionId === 'safety') source = 'safety';
+        else if (sectionId === 'pricing') source = 'pricing';
+        else if (sectionId === 'faq') source = 'faq';
+        else if (sectionId === 'hero') source = 'hero';
+        else source = 'generic';
+        autoSend = !!prefill;  // у chip всегда есть prefill в href ?text=
+      } else if (prefill) {
+        source = 'quiz';  // если есть prefill — это квиз/конфигуратор
+        autoSend = true;
+      } else if (sectionId === 'comparison' || /сравнен/i.test(labelLower)) {
+        source = 'comparison';
+      } else if (sectionId === 'safety' || /безопас|забанят|блокиров/i.test(labelLower)) {
+        source = 'safety';
+      } else if (sectionId === 'faq') {
+        source = 'faq';
+      } else if (sectionId === 'pricing' || /рассчит|стоимост|тариф|цен/i.test(labelLower)) {
+        source = 'pricing';
+      } else if (/получить расчёт|получить расчет/i.test(labelLower)) {
         source = 'quiz';
       } else if (sectionId === 'hero' || link.closest('section')?.querySelector('h1')) {
         source = 'hero';
       }
 
-      return { source, prefill, autoSend: source === 'quiz' && !!prefill };
+      return {
+        source,
+        prefill,
+        autoSend,
+        triggerText: labelRaw || undefined,
+        sectionId: sectionId || undefined,
+      };
     }
 
     /** Применяет контекст CTA к виджету: подменяет welcome или авто-отправляет prefill. */
     function applyCtaContext(ctx: CtaContext): void {
+      // Сохраняем для отправки на бэк при первом send() — Claude получит
+      // структурированный контекст в системном промпте.
+      pendingCtaContext = {
+        source: ctx.source,
+        triggerText: ctx.triggerText,
+        sectionId: ctx.sectionId,
+      };
+
       // Не трогаем существующий диалог — клиент уже общался, не сбрасываем
       if (history.length > 0) {
         if (ctx.prefill) {
@@ -1514,6 +1694,18 @@ const PILL_PHRASES = [
           title: 'Помогу разобраться',
           text: 'По тарифам, стратегии, кейсам — что интересует?',
         },
+        comparison: {
+          title: 'Разберу отличия от альтернатив',
+          text: 'Часто спрашивают про софты и дешёвые сервисы — расскажу честно, в чём подвох.',
+        },
+        safety: {
+          title: 'Расскажу про безопасность',
+          text: 'Почему у нас 0 блокировок за 3 года — на конкретных параметрах. Что интересует?',
+        },
+        faq: {
+          title: 'Отвечу на ваш вопрос',
+          text: 'Спросите — отвечу коротко и по делу.',
+        },
         generic: {
           title: WELCOME_LINE_1,
           text: WELCOME_LINE_2,
@@ -1529,15 +1721,21 @@ const PILL_PHRASES = [
         welcomeP2.textContent = w.text;
       });
 
-      // Prefill ВСЕГДА кладём в input (без авто-отправки) — клиент сам жмёт Enter.
-      // Это надёжнее: нет race-condition с welcome, клиент может отредактировать.
+      // Prefill: для chip / quiz (где есть autoSend) — отправляем автоматом,
+      // юзер кликнул готовый вопрос и ждёт ответа. Иначе кладём в input —
+      // клиент сам жмёт Enter, может отредактировать.
       if (ctx.prefill) {
-        setTimeout(() => {
-          input.value = ctx.prefill!;
-          autoResize();
-          updateSendState();
-          input.focus();
-        }, 400);
+        if (ctx.autoSend) {
+          // Небольшая задержка чтобы welcome успел подмениться визуально
+          setTimeout(() => { void send(ctx.prefill!); }, 350);
+        } else {
+          setTimeout(() => {
+            input.value = ctx.prefill!;
+            autoResize();
+            updateSendState();
+            input.focus();
+          }, 400);
+        }
       }
     }
 

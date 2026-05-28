@@ -1,6 +1,21 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { buildSystemPrompt } from "./knowledge.js";
-import type { ChatMessage } from "./types.js";
+import type { ChatMessage, CtaContext } from "./types.js";
+
+function formatCtaContext(ctx: CtaContext): string {
+  const lines = [
+    "=== КОНТЕКСТ ПЕРЕХОДА С САЙТА ===",
+    `Клиент пришёл с блока: ${ctx.source}`,
+  ];
+  if (ctx.triggerText) lines.push(`Кликнул: "${ctx.triggerText}"`);
+  if (ctx.sectionId) lines.push(`Секция #${ctx.sectionId}`);
+  lines.push(
+    "",
+    "Учти это в первом ответе. НЕ говори «вижу вы смотрели X» — звучит навязчиво.",
+    "Плавно подведи к теме секции с конкретной пользой для клиента.",
+  );
+  return lines.join("\n");
+}
 
 const MODEL = "claude-haiku-4-5-20251001";
 // 500 токенов = ~330 слов. 400 иногда обрезает в нишах с регуляторкой
@@ -97,8 +112,26 @@ const FALLBACK_AFTER_LEAD =
 export async function askClaude(
   apiKey: string,
   messages: ChatMessage[],
+  ctaContext?: CtaContext,
 ): Promise<ClaudeResult> {
   const client = new Anthropic({ apiKey });
+
+  // Первый блок — стабильный (кэшируется), второй — динамический контекст
+  // конкретного перехода с сайта (если есть). Кэш Anthropic держится на
+  // первом блоке, доп. контекст добавляется без инвалидации.
+  const systemBlocks: Anthropic.TextBlockParam[] = [
+    {
+      type: "text",
+      text: buildSystemPrompt(),
+      cache_control: { type: "ephemeral" },
+    },
+  ];
+  if (ctaContext) {
+    systemBlocks.push({
+      type: "text",
+      text: formatCtaContext(ctaContext),
+    });
+  }
 
   const response = await client.messages.create({
     model: MODEL,
@@ -107,13 +140,7 @@ export async function askClaude(
     // «иногда экспертно, иногда плывёт» — 0.5 убирает плавание, но
     // оставляет вариативность формулировок.
     temperature: 0.5,
-    system: [
-      {
-        type: "text",
-        text: buildSystemPrompt(),
-        cache_control: { type: "ephemeral" },
-      },
-    ],
+    system: systemBlocks,
     tools: [SUBMIT_LEAD_TOOL],
     messages: messages.map((m) => ({ role: m.role, content: m.content })),
   });

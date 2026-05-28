@@ -58,6 +58,7 @@ export const chat = onRequest(
 
     const sessionId = body.sessionId;
     const messages = body.messages;
+    const ctaContext = body.ctaContext;
 
     // Простой non-streaming вызов Claude: один request → полный ответ → JSON.
     // Никакого стриминга ни внутри, ни снаружи — система максимально предсказуемая.
@@ -65,6 +66,7 @@ export const chat = onRequest(
       const { fullText, lead: leadData } = await askClaude(
         ANTHROPIC_API_KEY.value(),
         messages,
+        ctaContext,
       );
 
       const lead: Lead | null = leadData

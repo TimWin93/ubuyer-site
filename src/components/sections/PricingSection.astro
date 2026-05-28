@@ -11,6 +11,10 @@ const tiers = [
   { volume: 'от 500 выкупов', price: '470', popular: true  },
   { volume: 'от 1000 выкупов',price: '450', popular: false },
 ];
+
+// AutoSend → чат, источник 'pricing' (ChatWidget.detectCtaContext)
+const PRICING_MESSAGE = 'Посчитайте сколько выкупов нужно для моей карточки';
+const PRICING_CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(PRICING_MESSAGE)}`;
 ---
 
 <section id="pricing" class="section border-t border-brand-border bg-brand-surface/30">
@@ -125,9 +129,9 @@ const tiers = [
     <!-- CTA -->
     <div class="max-w-2xl mx-auto text-center">
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="#strategy-quiz" class="btn-primary"
+        <a href={PRICING_CHAT_URL} data-cta="pricing_primary" class="btn-primary"
            onclick="if(window.ymGoal)window.ymGoal('pricing_cta_click')">
-          Рассчитать под мой товар
+          Посчитать для моей карточки
           <ArrowRight size={16} />
         </a>
         <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost"

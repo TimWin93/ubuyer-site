@@ -1,4 +1,10 @@
 ---
+// Самое живое возражение клиентов (2026-05): «у софта дешевле и не банит».
+// Одна встроенная карточка под блоком — клик отправляет вопрос в чат
+// одним кликом с контекстом 'comparison' (см. ChatWidget.detectCtaContext).
+const OBJECTION_QUESTION = 'У дешёвого софта тоже не банят — а зачем платить вам?';
+const OBJECTION_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(OBJECTION_QUESTION)}`;
+
 const tabs = [
   {
     id: 'bots',
@@ -60,7 +66,7 @@ const tabs = [
 ];
 ---
 
-<section class="section border-t border-brand-border bg-brand-surface/30">
+<section id="comparison" class="section border-t border-brand-border bg-brand-surface/30">
   <div class="container">
     <div class="max-w-2xl mx-auto text-center mb-12">
       <div class="tag mb-5">Сравнение</div>
@@ -132,6 +138,47 @@ const tabs = [
         </div>
       </div>
     ))}
+
+    <!-- ───── Самое частое возражение → Анастасия ───── -->
+    <div class="max-w-2xl mx-auto mt-12">
+      <a
+        href={OBJECTION_URL}
+        data-cta="chip"
+        class="objection-card group block rounded-2xl
+               border border-brand-border bg-brand-surface
+               hover:border-brand-accent/60 hover:bg-brand-surface-2
+               transition-all duration-200 ease-out
+               px-6 py-5 sm:py-6"
+      >
+        <div class="flex items-center gap-4">
+          <span class="relative shrink-0 w-12 h-12 rounded-full overflow-hidden
+                       ring-1 ring-brand-accent/40
+                       shadow-[0_0_18px_rgba(61,142,248,0.35)]">
+            <img src="/images/anastasiya.jpg" alt="Анастасия" loading="lazy" decoding="async"
+                 class="w-full h-full object-cover" />
+            <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-brand-cta
+                         ring-2 ring-brand-surface"></span>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] uppercase tracking-widest text-brand-muted mb-1.5">
+              Самый частый вопрос клиентов
+            </div>
+            <div class="text-brand-text font-semibold leading-snug text-[15px] sm:text-base">
+              «{OBJECTION_QUESTION}»
+            </div>
+          </div>
+          <span class="objection-cta shrink-0 inline-flex items-center gap-1.5
+                       text-sm font-medium text-brand-accent
+                       group-hover:translate-x-0.5 transition-transform">
+            Спросить
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.7"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 

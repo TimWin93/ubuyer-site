@@ -15,9 +15,16 @@ export interface Lead {
   createdAt: string;
 }
 
+export interface CtaContext {
+  source: "pricing" | "quiz" | "hero" | "comparison" | "safety" | "faq" | "generic";
+  triggerText?: string;
+  sectionId?: string;
+}
+
 export interface ChatRequest {
   sessionId: string;
   messages: ChatMessage[];
+  ctaContext?: CtaContext;
 }
 
 export interface ChatResponse {
