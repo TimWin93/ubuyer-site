@@ -742,14 +742,52 @@ const PILL_PHRASES = [
     color: #4DD9FF;
   }
   .contact-quick-replies .qr-icon svg { width: 12px; height: 12px; }
+
+  /* Рекомендованные кнопки (ник + телефон) — слегка усиленный акцент */
+  .contact-quick-replies .qr-recommended {
+    background: rgba(61,142,248,0.15);
+    border-color: rgba(61,142,248,0.40);
+  }
+  .contact-quick-replies .qr-recommended:hover {
+    background: rgba(61,142,248,0.25);
+    border-color: rgba(61,142,248,0.60);
+  }
+
+  /* Direct-TG — приглушённая secondary опция + VPN warning */
   .contact-quick-replies .qr-direct-tg {
-    grid-column: 1 / -1;  /* на всю ширину */
-    background: linear-gradient(135deg, rgba(61,142,248,0.20) 0%, rgba(77,217,255,0.10) 100%);
-    border-color: rgba(77,217,255,0.40);
+    grid-column: 1 / -1;          /* на всю ширину */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 8px 12px;
+    background: rgba(228,236,255,0.03);
+    border-color: rgba(228,236,255,0.10);
+    color: rgba(228,236,255,0.75);
   }
   .contact-quick-replies .qr-direct-tg:hover {
-    background: linear-gradient(135deg, rgba(61,142,248,0.30) 0%, rgba(77,217,255,0.20) 100%);
-    box-shadow: 0 4px 16px rgba(77,217,255,0.25);
+    background: rgba(228,236,255,0.06);
+    border-color: rgba(228,236,255,0.20);
+    box-shadow: none;
+    transform: none;
+  }
+  .contact-quick-replies .qr-direct-tg .qr-icon {
+    background: rgba(228,236,255,0.08);
+    color: rgba(228,236,255,0.55);
+  }
+  .qr-direct-tg-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .qr-direct-tg-title {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .qr-direct-tg-warn {
+    font-size: 10.5px;
+    color: rgba(251,191,36,0.85);
+    padding-left: 30px;
+    line-height: 1.3;
   }
   .contact-privacy-note {
     font-size: 10.5px;
@@ -1088,16 +1126,22 @@ const PILL_PHRASES = [
       // null (detect не успел / fail) или false → кнопку не показываем.
       const showDirectTg = telegramAvailable === true;
       block.innerHTML = `
-        <div class="contact-trust-title">МЕНЕДЖЕР ПРИШЛЁТ</div>
+        <div class="contact-trust-title">МЕНЕДЖЕР НАПИШЕТ ПЕРВЫМ — С ВАШИМ КОНТЕКСТОМ</div>
         <div class="contact-trust-list">
           <div class="contact-trust-item"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.5l2 2 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Расчёт под ваш товар</div>
           <div class="contact-trust-item"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.5l2 2 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Стратегию по ключам</div>
           <div class="contact-trust-item"><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 6.5l2 2 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Пример кейса в вашей нише</div>
         </div>
         <div class="contact-quick-replies">
-          <button data-qr="telegram"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Telegram-ник</button>
-          <button data-qr="phone"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4c0-1 1-2 2-2h1l2 3-1.5 1.5c1 2 2 3 4 4L12 9l3 2v1c0 1-1 2-2 2C8 14 2 8 2 4z"/></svg></span>Телефон</button>
-          ${showDirectTg ? `<button data-qr="direct-tg" class="qr-direct-tg"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Я в Telegram — открыть чат с менеджером</button>` : ''}
+          <button data-qr="telegram" class="qr-recommended"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Telegram-ник</button>
+          <button data-qr="phone" class="qr-recommended"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4c0-1 1-2 2-2h1l2 3-1.5 1.5c1 2 2 3 4 4L12 9l3 2v1c0 1-1 2-2 2C8 14 2 8 2 4z"/></svg></span>Телефон</button>
+          ${showDirectTg ? `<button data-qr="direct-tg" class="qr-direct-tg">
+            <span class="qr-direct-tg-row">
+              <span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>
+              <span class="qr-direct-tg-title">или открыть Telegram самому</span>
+            </span>
+            <span class="qr-direct-tg-warn">⚠ В РФ нужен VPN — без него Telegram может не открыться</span>
+          </button>` : ''}
         </div>
         <div class="contact-privacy-note">
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1L2 3v3.5c0 2 1.5 4 4 4.5 2.5-.5 4-2.5 4-4.5V3L6 1z" stroke-linejoin="round"/></svg>
