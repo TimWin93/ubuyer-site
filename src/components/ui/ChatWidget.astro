@@ -27,7 +27,6 @@ const STARTERS = [
 const PILL_PHRASES = [
   'Расчёт под вашу нишу',
   'Подскажу стратегию',
-  'Отвечу за 15 секунд',
   'Помогу с задачей',
 ];
 ---
@@ -106,7 +105,7 @@ const PILL_PHRASES = [
         <div class="text-brand-text font-semibold text-[15px] tracking-tight leading-tight">Анастасия</div>
         <div id="chat-status-line"
              class="text-brand-muted text-xs mt-0.5 leading-tight flex items-center gap-1.5">
-          <span class="chat-status-text">Менеджер UBuyer · отвечает за ~15 сек</span>
+          <span class="chat-status-text">Менеджер UBuyer</span>
         </div>
       </div>
 
@@ -961,7 +960,7 @@ const PILL_PHRASES = [
 
   const WELCOME_LINE_1 = 'По какому вопросу помочь?';
   const WELCOME_LINE_2 = 'Подскажу по тарифам, кейсам и стратегии под вашу нишу.';
-  const STATUS_DEFAULT = 'Менеджер UBuyer · отвечает за ~15 сек';
+  const STATUS_DEFAULT = 'Менеджер UBuyer';
 
   const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -1250,9 +1249,16 @@ const PILL_PHRASES = [
       sendBtn.disabled = input.value.trim().length === 0;
     }
 
+    // Флаг — идёт ли сейчас запрос. Защищает от двойной отправки, при этом
+    // input остаётся разблокированным — клиент может печатать следующий
+    // вопрос, пока ждёт ответ на предыдущий.
+    let isSending = false;
+
     async function send(text: string): Promise<void> {
       const trimmed = text.trim();
       if (!trimmed) return;
+      if (isSending) return;  // уже летит запрос — игнорируем повторный submit
+      isSending = true;
       clearIdle();
       // Убираем idle-подсказку и старый contact-request блок если есть
       messagesEl.querySelector('.chat-idle-prompt')?.remove();
@@ -1270,7 +1276,7 @@ const PILL_PHRASES = [
       input.value = '';
       autoResize();
       updateSendState();
-      input.disabled = true;
+      // input НЕ блокируем — клиент может печатать следующее сообщение
       typingEl.classList.remove('hidden');
       setHeaderTyping(true);
       scrollToBottom();
@@ -1393,11 +1399,12 @@ const PILL_PHRASES = [
         bubble.textContent = `Связь временно недоступна (${errMsg}). Попробуйте отправить сообщение ещё раз — обычно помогает.`;
       } finally {
         clearTimeout(timeoutId);
+        isSending = false;
         typingEl.classList.add('hidden');
         setHeaderTyping(false);
-        input.disabled = false;
         scrollToBottom();
-        setTimeout(() => input.focus(), 100);
+        // НЕ фокусируем input принудительно — клиент мог уже сам набрать
+        // следующий вопрос пока ждал ответ, фокус-смена сбила бы каретку.
       }
     }
 

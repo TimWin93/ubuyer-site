@@ -3,7 +3,10 @@ import { buildSystemPrompt } from "./knowledge.js";
 import type { ChatMessage } from "./types.js";
 
 const MODEL = "claude-haiku-4-5-20251001";
-const MAX_TOKENS = 768;
+// 500 токенов = ~330 слов. 400 иногда обрезает в нишах с регуляторкой
+// (БАД, детское, электроника) — там нужно упомянуть документы. Длинные
+// простыни всё равно не нужны — в промпте инструкция держаться 3-4 абзацев.
+const MAX_TOKENS = 500;
 
 export interface LeadData {
   name: string;
@@ -29,10 +32,15 @@ export type ClaudeStreamEvent =
 const SUBMIT_LEAD_TOOL: Anthropic.Tool = {
   name: "submit_lead",
   description:
-    "Вызови этот инструмент ровно один раз — когда клиент дал контакт " +
-    "(Telegram-ник вида @username или номер телефона) и согласился, что менеджер " +
-    "свяжется. Не вызывай заранее. После вызова — поблагодари клиента " +
-    "и подтверди, что менеджер напишет первым в течение ~15 минут.",
+    "Вызови этот инструмент РОВНО ОДИН РАЗ И ТОЛЬКО когда клиент уже " +
+    "прислал в чате свой контакт (Telegram-ник вида @username ИЛИ номер " +
+    "телефона). " +
+    "❌ НЕ вызывай tool если клиент только спросил «как связаться» или " +
+    "согласился оставить контакт, но ещё не назвал @ник или номер. " +
+    "❌ НЕ вызывай tool с пустым полем contact — это спам менеджерам. " +
+    "✅ Вызывай только когда в последнем сообщении клиента есть конкретный " +
+    "@username или цифры телефона. После вызова — поблагодари клиента и " +
+    "подтверди, что менеджер напишет первым в течение ~15 минут.",
   input_schema: {
     type: "object",
     properties: {
@@ -95,6 +103,10 @@ export async function askClaude(
   const response = await client.messages.create({
     model: MODEL,
     max_tokens: MAX_TOKENS,
+    // Сниженная температура = стабильный тон. Дефолт 1.0 даёт разброс
+    // «иногда экспертно, иногда плывёт» — 0.5 убирает плавание, но
+    // оставляет вариативность формулировок.
+    temperature: 0.5,
     system: [
       {
         type: "text",
@@ -114,6 +126,23 @@ export async function askClaude(
       fullText += block.text;
     } else if (block.type === "tool_use" && block.name === "submit_lead") {
       lead = block.input as LeadData;
+    }
+  }
+
+  // Защита от ложного submit_lead: Claude иногда вызывает tool без получения
+  // контакта (например когда клиент сам спросил «как связаться»). Без contact
+  // лид не имеет смысла для менеджера. Игнорируем такой вызов.
+  if (lead) {
+    const contact = (lead.contact ?? "").trim();
+    const looksLikeContact =
+      /@[a-z0-9_]{3,}/i.test(contact) ||           // Telegram-ник
+      /[+\d][\d\s\-()]{6,}/.test(contact) ||         // номер телефона
+      /\b\w+@[\w.-]+\.\w+\b/i.test(contact);         // email на всякий
+    if (!looksLikeContact) {
+      console.warn("submit_lead called without valid contact — ignoring", {
+        contactValue: contact,
+      });
+      lead = null;
     }
   }
 
