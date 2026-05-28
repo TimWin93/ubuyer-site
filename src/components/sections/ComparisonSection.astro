@@ -1,9 +1,10 @@
 ---
-// Самое живое возражение клиентов (2026-05): «у софта дешевле и не банит».
-// Одна встроенная карточка под блоком — клик отправляет вопрос в чат
-// одним кликом с контекстом 'comparison' (см. ChatWidget.detectCtaContext).
-const OBJECTION_QUESTION = 'У дешёвого софта тоже не банят — а зачем платить вам?';
-const OBJECTION_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(OBJECTION_QUESTION)}`;
+// Тревожный вопрос рынка — не валидирует «софты тоже не банят», а
+// наоборот показывает риск. AutoSend в чат с контекстом 'comparison' →
+// Анастасия достаёт реальный кейс из knowledge/05-возражения-про-конкурентов.md
+const OBJECTION_QUESTION = 'Что происходит с карточкой после «дешёвых» выкупов?';
+const CHAT_PREFILL = 'Расскажите реальный кейс — что бывает с карточкой после дешёвых сервисов выкупов?';
+const OBJECTION_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(CHAT_PREFILL)}`;
 
 const tabs = [
   {
@@ -160,8 +161,8 @@ const tabs = [
                          ring-2 ring-brand-surface"></span>
           </span>
           <div class="flex-1 min-w-0">
-            <div class="text-[11px] uppercase tracking-widest text-brand-muted mb-1.5">
-              Самый частый вопрос клиентов
+            <div class="text-[11px] uppercase tracking-widest text-red-400/85 mb-1.5">
+              Главный риск рынка
             </div>
             <div class="text-brand-text font-semibold leading-snug text-[15px] sm:text-base">
               «{OBJECTION_QUESTION}»
