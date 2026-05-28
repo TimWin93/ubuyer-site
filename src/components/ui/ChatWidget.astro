@@ -235,7 +235,10 @@ const PILL_PHRASES = [
     </div>
 
     <!-- ─── Input zone ─── -->
-    <form id="chat-form" class="chat-input-zone relative px-4 pb-2 pt-3 border-t border-brand-border bg-brand-surface">
+    <!-- Fix E: pb-7 + position-relative для trust-bar:absolute снизу формы.
+         Раньше trust-bar шёл flow'ом после textarea-wrap → при autoResize
+         textarea растёт и trust-bar сдвигается. Теперь bar пришпилен внизу. -->
+    <form id="chat-form" class="chat-input-zone relative px-4 pt-3 pb-7 border-t border-brand-border bg-brand-surface">
       <div id="chat-input-wrap" class="chat-input-wrap relative flex items-end gap-2
                                        bg-brand-surface-2 border border-brand-border
                                        rounded-2xl px-3 py-2.5
@@ -265,8 +268,8 @@ const PILL_PHRASES = [
         </button>
       </div>
 
-      <!-- ─── Trust-bar ─── -->
-      <div class="trust-bar flex items-center justify-center gap-4 mt-2.5 px-1">
+      <!-- ─── Trust-bar (Fix E: pinned absolute снизу формы, textarea не толкает) ─── -->
+      <div class="trust-bar flex items-center justify-center gap-4 px-1">
         <span class="trust-item">
           <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M7 1 1.5 3v4.5c0 3 2.5 5 5.5 5.5 3-.5 5.5-2.5 5.5-5.5V3L7 1z" stroke-linejoin="round"/>
@@ -554,14 +557,17 @@ const PILL_PHRASES = [
     letter-spacing: -0.01em;
     line-height: 1.3;
     margin: 0;
-    min-height: 22px;
+    /* Fix B: резервируем место под 2 строки заранее — текст может занять
+       1 или 2 строки, без этого высота карточки прыгает при typed-эффекте */
+    min-height: 44px;
   }
   .welcome-text {
     color: rgba(228,236,255,0.78);
     font-size: 13.5px;
     line-height: 1.55;
     margin: 8px 0 0;
-    min-height: 21px;
+    /* Fix B: то же — место под 2 строки заранее */
+    min-height: 44px;
   }
   .welcome-hint {
     margin-top: 14px;
@@ -846,7 +852,14 @@ const PILL_PHRASES = [
   }
 
   /* ============== TRUST BAR ============== */
-  .trust-bar { user-select: none; }
+  .trust-bar {
+    user-select: none;
+    /* Fix E: pinned absolute снизу формы — textarea (autoResize) не толкает */
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 6px;
+  }
   .trust-item {
     display: inline-flex;
     align-items: center;
@@ -885,13 +898,16 @@ const PILL_PHRASES = [
     .chat-pill-text > span:first-child { font-size: 13px; }
     .chat-pill-rotation { font-size: 10.5px; }
 
-    /* Окно — fullscreen */
+    /* Окно — fullscreen.
+       Fix D: 100dvh (dynamic viewport height) учитывает iOS-клавиатуру и
+       нижний UI Safari. С 100% trust-bar и input уходят под клавиатуру —
+       юзер не видит куда писать. С 100dvh окно сжимается до видимой части. */
     #chat-widget #chat-window {
       inset: 0 !important;
       width: 100% !important;
       max-width: 100% !important;
-      height: 100% !important;
-      max-height: 100% !important;
+      height: 100dvh !important;
+      max-height: 100dvh !important;
       border-radius: 0 !important;
       border: none !important;
       bottom: 0 !important;
@@ -1090,9 +1106,9 @@ const PILL_PHRASES = [
     }
 
     function renderQrButtons(options: string[]): void {
-      // Удаляем предыдущие QR-кнопки (если были)
-      messagesEl.querySelector('.chat-qr-row')?.remove();
-      messagesEl.querySelector('.chat-idle-prompt')?.remove();
+      // Удаляем предыдущие QR-кнопки (если были) — Fix F: с fade-out
+      fadeOutRemove(messagesEl.querySelector('.chat-qr-row'));
+      fadeOutRemove(messagesEl.querySelector('.chat-idle-prompt'));
       clearIdle();
 
       const row = document.createElement('div');
@@ -1103,7 +1119,8 @@ const PILL_PHRASES = [
         btn.className = 'chat-qr-btn';
         btn.textContent = opt;
         btn.addEventListener('click', () => {
-          row.remove();
+          // Fix F: плавно убираем row перед отправкой — не «съезжает»
+          fadeOutRemove(row);
           void send(opt);
         });
         row.appendChild(btn);
@@ -1115,10 +1132,11 @@ const PILL_PHRASES = [
     function renderContactRequest(): void {
       // Отменяем idle — клиенту дают выбор, не отвлекать подсказкой
       clearIdle();
-      messagesEl.querySelector('.chat-idle-prompt')?.remove();
-      messagesEl.querySelector('.chat-qr-row')?.remove();
+      // Fix F: мягкое удаление прежних блоков вместо мгновенного prune
+      fadeOutRemove(messagesEl.querySelector('.chat-idle-prompt'));
+      fadeOutRemove(messagesEl.querySelector('.chat-qr-row'));
       // Не дублируем — если блок уже есть, удаляем старый
-      messagesEl.querySelector('.chat-contact-request')?.remove();
+      fadeOutRemove(messagesEl.querySelector('.chat-contact-request'));
 
       const block = document.createElement('div');
       block.className = 'chat-contact-request';
@@ -1150,6 +1168,9 @@ const PILL_PHRASES = [
 
       block.querySelectorAll<HTMLButtonElement>('[data-qr]').forEach(btn => {
         btn.addEventListener('click', () => {
+          // Fix F: мягко скрываем contact-блок после выбора варианта —
+          // input получит фокус, блок плавно исчезнет, контент не прыгает
+          fadeOutRemove(block);
           const action = btn.dataset.qr;
           if (action === 'direct-tg') {
             const summary = buildTelegramSummary(history);
@@ -1275,7 +1296,20 @@ const PILL_PHRASES = [
       messagesEl.appendChild(row);
     }
     function scrollToBottom(): void {
-      requestAnimationFrame(() => { messagesEl.scrollTop = messagesEl.scrollHeight; });
+      // Fix C: smooth scroll вместо моментального — при появлении больших
+      // блоков (contact-request, qr-row, длинного ответа) больше не «прыгает»
+      requestAnimationFrame(() => {
+        messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+      });
+    }
+    /** Fix F: мягкое удаление через fade-out вместо instant remove() */
+    function fadeOutRemove(el: Element | null, ms = 200): void {
+      if (!el) return;
+      const node = el as HTMLElement;
+      node.style.transition = `opacity ${ms}ms ease-out, transform ${ms}ms ease-out`;
+      node.style.opacity = '0';
+      node.style.transform = 'translateY(-4px)';
+      setTimeout(() => node.remove(), ms);
     }
     function hideStarters(): void { startersEl?.remove(); }
 
@@ -1798,6 +1832,13 @@ const PILL_PHRASES = [
       e.stopPropagation();
 
       const ctx = detectCtaContext(link, href);
+      // Fix A: пропускаем typed-welcome когда юзер пришёл с конкретного CTA.
+      // Typed welcome нужен только когда чат открывают через pill (без контекста) —
+      // приятный «появляется». При клике на CTA важна СКОРОСТЬ и контекстный
+      // welcome, а typed-эффект + autoSend = race и обрыв на полуслове.
+      if (ctx.source !== 'generic' || ctx.prefill) {
+        localStorage.setItem(STORAGE_WELCOMED, '1');
+      }
       setOpen(true);
       applyCtaContext(ctx);
       (window as any).ymGoal?.(`site_cta_to_widget_${ctx.source}`);
