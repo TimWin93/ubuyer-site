@@ -1,4 +1,4 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Firebase
 
 on:
   push:
@@ -17,7 +17,8 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
+      # ─── Фронт (Astro → Firebase Hosting) ────────────────────────
+      - name: Install root deps
         run: npm ci
 
       - name: Build Astro
@@ -32,3 +33,27 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
           projectId: ubuyer-site
+
+      # ─── Функции (Anastasia chat + polki endpoint + knowledge) ────
+      # Без этого шага .md из functions/knowledge/ не доезжают до продакшна,
+      # и Анастасия отвечает на старых данных (реальный провал 29.05.2026).
+      - name: Install functions deps
+        working-directory: functions
+        run: npm ci
+
+      - name: Build functions
+        working-directory: functions
+        run: npm run build
+
+      - name: Setup gcloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy functions
+        run: firebase deploy --only functions --project ubuyer-site --non-interactive
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}

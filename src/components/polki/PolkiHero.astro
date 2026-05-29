@@ -6,7 +6,9 @@ const d = polkiData.hero;
 
 // AutoSend в чат с Анастасией: текст уходит как первое user-сообщение,
 // она отвечает по триггеру из 00-системной-инструкции.md (см. блок про /polki).
-const POLKI_MESSAGE = 'Прочитал ваш лендинг про полки. Хочу обсудить вход в полки под мой товар';
+// Сообщение максимально явное — чтобы Анастасия не путала «полки» с
+// позициями в выдаче или физическими складами (реальный кейс 29.05.2026).
+const POLKI_MESSAGE = polkiData.finalCta.chatMessage;
 const POLKI_CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(POLKI_MESSAGE)}`;
 ---
 
