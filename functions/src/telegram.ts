@@ -32,8 +32,12 @@ function formatLeadMessage(lead: Lead): string {
   } as const;
   const urg = (lead.urgency ?? "medium") as keyof typeof urgencyBadge;
 
+  const header = lead.autoRescued
+    ? "⚠️ <b>СПАСЁННЫЙ ЛИД — Анастасия не вызвала tool</b>\n<i>Контакт распарсен из текста сообщения. Ситуацию подтянуть из диалога ниже.</i>"
+    : urgencyBadge[urg];
+
   const lines = [
-    urgencyBadge[urg],
+    header,
     "",
     `<b>Имя:</b> ${escape(lead.name) || "—"}`,
     `<b>Контакт:</b> ${escape(lead.contact)}`,

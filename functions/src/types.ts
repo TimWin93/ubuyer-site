@@ -13,6 +13,7 @@ export interface Lead {
   situation: string;
   urgency?: "low" | "medium" | "high";
   createdAt: string;
+  autoRescued?: boolean;
 }
 
 export interface CtaContext {
