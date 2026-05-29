@@ -1,0 +1,50 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.vsAds;
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mb-10">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        {d.intro}
+      </p>
+    </div>
+
+    <!-- 3 больших stat-карточки -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      {d.cards.map((card) => (
+        <div class="relative rounded-2xl border border-brand-border bg-brand-surface p-7 overflow-hidden
+                    hover:border-brand-border-2 transition-colors">
+          <!-- мягкое glow в углу -->
+          <div class="pointer-events-none absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-25 blur-3xl
+                      bg-gradient-to-br from-brand-accent to-transparent"></div>
+
+          <div class="relative">
+            <div class="font-mono font-bold text-3xl md:text-4xl text-brand-accent leading-none mb-3">
+              {card.big}
+            </div>
+            <p class="text-brand-text text-base font-semibold leading-snug mb-2">
+              {card.label}
+            </p>
+            <p class="text-brand-muted text-xs leading-relaxed">
+              {card.sub}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- закрывающая мысль -->
+    <div class="rounded-2xl border-l-4 border-brand-accent bg-brand-surface px-6 py-5 max-w-3xl">
+      <p class="text-brand-text italic leading-relaxed">
+        {d.footnote}
+      </p>
+    </div>
+
+  </div>
+</section>

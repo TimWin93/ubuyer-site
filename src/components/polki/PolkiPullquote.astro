@@ -1,0 +1,29 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.pullquote;
+
+// Подсветим жирным фразы из bold[] прямо в строке.
+function highlight(text: string, words: string[]) {
+  let out = text;
+  for (const w of words) {
+    out = out.replaceAll(w, `<strong class="text-brand-text font-semibold">${w}</strong>`);
+  }
+  return out;
+}
+const html = highlight(d.text, d.bold);
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mx-auto">
+      <p class="text-brand-muted text-xs uppercase tracking-widest mb-6 text-center">{d.eyebrow}</p>
+
+      <div class="rounded-2xl border-l-4 border-brand-accent bg-brand-surface px-6 md:px-10 py-8 md:py-10">
+        <p class="text-brand-text/85 text-lg md:text-xl italic leading-relaxed" set:html={html}></p>
+      </div>
+    </div>
+
+  </div>
+</section>

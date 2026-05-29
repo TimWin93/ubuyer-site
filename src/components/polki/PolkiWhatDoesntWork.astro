@@ -1,0 +1,59 @@
+---
+import XCircle from '@lucide/astro/icons/circle-x';
+import CheckCircle2 from '@lucide/astro/icons/circle-check';
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.whatDoesntWork;
+---
+
+<section class="section section-alt">
+  <div class="container">
+
+    <div class="max-w-3xl mb-12">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <!-- что НЕ работает -->
+      <div class="rounded-2xl border border-brand-border bg-brand-surface overflow-hidden">
+        <div class="px-6 py-4 border-b border-brand-border bg-brand-bg/50">
+          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold">Что пробуют селлеры</p>
+        </div>
+        <ul>
+          {d.table.map(([what, why]) => (
+            <li class="px-6 py-4 border-b border-brand-border last:border-b-0 flex items-start gap-3">
+              <XCircle size={18} class="text-red-400/70 shrink-0 mt-0.5" />
+              <div>
+                <p class="text-brand-text text-sm font-semibold mb-1">{what}</p>
+                <p class="text-brand-muted text-xs leading-relaxed">{why}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- что РАБОТАЕТ -->
+      <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-6">
+        <p class="text-brand-accent text-xs uppercase tracking-widest font-semibold mb-4">
+          {d.worksTitle}
+        </p>
+        <p class="text-brand-text/85 text-sm leading-relaxed mb-5">
+          {d.worksIntro}
+        </p>
+        <p class="text-brand-text text-sm font-semibold mb-3">Алгоритм WB видит:</p>
+        <ul class="space-y-2.5">
+          {d.worksBullets.map((b) => (
+            <li class="flex items-start gap-3 text-sm text-brand-text/80 leading-relaxed">
+              <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</section>

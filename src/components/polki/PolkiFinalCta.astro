@@ -1,0 +1,92 @@
+---
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import CheckCircle2 from '@lucide/astro/icons/circle-check';
+import MessageCircle from '@lucide/astro/icons/message-circle';
+import Shield from '@lucide/astro/icons/shield';
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.finalCta;
+
+// AutoSend в чат с Анастасией (см. триггер в 00-системной-инструкции.md)
+const CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(d.chatMessage)}`;
+---
+
+<section id="polki-final-cta" class="section section-alt">
+  <div class="container">
+
+    <div class="max-w-3xl mx-auto text-center mb-12">
+      <div class="tag mb-6 mx-auto">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        {d.sub}
+      </p>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+
+      <!-- 4 пункта что входит в расчёт -->
+      <div class="rounded-2xl border border-brand-border bg-brand-surface px-6 py-6 md:px-8 md:py-7 mb-8">
+        <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-5">Что входит в бесплатный расчёт</p>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          {d.bullets.map((b) => (
+            <li class="flex items-start gap-3 text-brand-text/85 text-sm leading-relaxed">
+              <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- главная кнопка чата -->
+      <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7 md:p-9 text-center relative overflow-hidden">
+        <!-- glow -->
+        <div class="pointer-events-none absolute inset-0 opacity-30">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full opacity-50 blur-[80px]
+                      bg-gradient-to-b from-brand-accent to-transparent"></div>
+        </div>
+
+        <div class="relative">
+          <a
+            href={CHAT_URL}
+            data-magnetic
+            data-cta="hero_primary"
+            class="btn-primary inline-flex text-base md:text-lg px-8 py-4"
+          >
+            <MessageCircle size={20} />
+            {d.primaryCtaText}
+            <ArrowRight size={18} />
+          </a>
+
+          <p class="text-brand-muted text-sm leading-relaxed mt-5 max-w-md mx-auto">
+            {d.primaryCtaSub}
+          </p>
+        </div>
+      </div>
+
+      <!-- second-tier CTA — для тех кто сразу к менеджеру (минует Анастасию, идёт в TG напрямую) -->
+      <div class="text-center mt-8">
+        <p class="text-brand-muted text-sm leading-relaxed">
+          {d.secondaryCtaPre}
+          <a
+            href={`https://t.me/Manager_UBuyer?text=${encodeURIComponent(d.chatMessage)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-brand-accent hover:text-brand-accent-hover transition-colors font-medium"
+          >
+            {d.secondaryCtaLink} →
+          </a>
+        </p>
+
+        <!-- VPN-подсказка для российских пользователей -->
+        <div class="mt-3 inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-surface px-4 py-1.5">
+          <Shield size={13} class="text-brand-accent-2" />
+          <span class="text-brand-muted text-xs leading-snug">
+            {d.secondaryCtaVpnNote}
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

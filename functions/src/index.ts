@@ -8,6 +8,9 @@ import type { ChatRequest, Lead } from "./types.js";
 
 initializeApp();
 
+// Endpoint лендинга /polki — приём формы с лидмагнитом «Рекомендательные полки»
+export { polkiLeadIntake } from "./polkiLeadIntake.js";
+
 const ANTHROPIC_API_KEY = defineSecret("ANTHROPIC_API_KEY");
 const TELEGRAM_BOT_TOKEN = defineSecret("TELEGRAM_BOT_TOKEN");
 const TELEGRAM_LEAD_CHAT_ID = defineSecret("TELEGRAM_LEAD_CHAT_ID");
@@ -69,11 +72,25 @@ export const chat = onRequest(
         ctaContext,
       );
 
-      const lead: Lead | null = leadData
+      let lead: Lead | null = leadData
         ? { sessionId, ...leadData, createdAt: new Date().toISOString() }
         : null;
 
       const allMessages = [...messages, { role: "assistant" as const, content: fullText }];
+
+      // СТРАХОВКА: если Anthropic не вызвала submit_lead, но клиент явно дал
+      // контакт в последнем сообщении — спасаем лид принудительно. Это покрывает
+      // случаи когда Haiku пишет «передала менеджеру» в текст, но забыла
+      // вызвать tool. Без этого мы теряем реальных клиентов.
+      if (!lead) {
+        const rescued = tryRescueLead(sessionId, messages, allMessages);
+        if (rescued) {
+          console.warn(`[rescue] Lead rescued from text parsing for session ${sessionId}`, {
+            contact: rescued.contact,
+          });
+          lead = rescued;
+        }
+      }
 
       if (lead) {
         const wasNew = await saveLeadIfNew(lead, allMessages);
@@ -140,4 +157,56 @@ async function logConversation(
     },
     { merge: true },
   );
+}
+
+const EMAIL_RE = /\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/i;
+const TG_NICK_RE = /@[a-zA-Z][a-zA-Z0-9_]{2,31}\b/;
+const PHONE_RE = /(?:\+?7|8)\s*\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}/;
+
+function extractContact(text: string): string | null {
+  // Порядок важен: email содержит @, поэтому email проверяется ПЕРВЫМ,
+  // иначе TG_NICK_RE поймает кусок email как @ник.
+  const email = text.match(EMAIL_RE);
+  if (email) return email[0];
+
+  const tg = text.match(TG_NICK_RE);
+  if (tg) return tg[0];
+
+  const phone = text.match(PHONE_RE);
+  if (phone) return phone[0].replace(/\s+/g, "");
+
+  return null;
+}
+
+function tryRescueLead(
+  sessionId: string,
+  inputMessages: { role: "user" | "assistant"; content: string }[],
+  allMessages: { role: "user" | "assistant"; content: string }[],
+): Lead | null {
+  const lastUser = [...inputMessages].reverse().find((m) => m.role === "user");
+  if (!lastUser) return null;
+
+  const contact = extractContact(lastUser.content);
+  if (!contact) return null;
+
+  const dialogPreview = allMessages
+    .map((m) => `[${m.role === "user" ? "клиент" : "Анастасия"}] ${m.content}`)
+    .join("\n\n")
+    .slice(0, 2500);
+
+  return {
+    sessionId,
+    name: "",
+    contact,
+    marketplace: "",
+    niche: "",
+    volume: "",
+    situation:
+      "⚠️ Лид спасён автоматически: клиент дал контакт, но AI-менеджер " +
+      "не вызвала tool submit_lead. Контекст из диалога ниже:\n\n" +
+      dialogPreview,
+    urgency: "medium",
+    createdAt: new Date().toISOString(),
+    autoRescued: true,
+  };
 }

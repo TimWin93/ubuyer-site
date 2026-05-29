@@ -1,0 +1,40 @@
+---
+import ShieldCheck from '@lucide/astro/icons/shield-check';
+import Users from '@lucide/astro/icons/users';
+import FileText from '@lucide/astro/icons/file-text';
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.safety;
+
+const icons = [Users, ShieldCheck, FileText];
+---
+
+<section class="section section-alt">
+  <div class="container">
+
+    <div class="max-w-3xl mb-10">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        {d.intro}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {d.cards.map((card, i) => {
+        const Icon = icons[i] || ShieldCheck;
+        return (
+          <div class="rounded-2xl border border-brand-border bg-brand-surface p-6
+                      hover:border-brand-border-2 transition-colors">
+            <div class="w-11 h-11 rounded-xl bg-brand-accent-dim border border-brand-accent/30 flex items-center justify-center mb-5">
+              <Icon size={20} class="text-brand-accent" />
+            </div>
+            <h3 class="text-brand-text font-semibold mb-3 text-base">{card.title}</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">{card.body}</p>
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>

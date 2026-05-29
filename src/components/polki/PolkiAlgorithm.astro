@@ -1,0 +1,43 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.algorithm;
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mb-10">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+    </div>
+
+    <!-- trust strip -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
+      {d.trustStrip.map((s) => (
+        <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-5">
+          <div class="font-mono font-bold text-2xl md:text-3xl text-brand-accent mb-1.5 leading-none">
+            {s.value}
+          </div>
+          <p class="text-sm font-semibold text-brand-text leading-snug">{s.label}</p>
+          <p class="text-xs text-brand-muted mt-0.5">{s.sub}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- 4 шага -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {d.steps.map((step) => (
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6 flex flex-col
+                    hover:border-brand-border-2 transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-brand-accent-dim border border-brand-accent/30 flex items-center justify-center mb-4">
+            <span class="font-mono font-bold text-brand-accent text-base">{step.num}</span>
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2 text-base">{step.title}</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">{step.body}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

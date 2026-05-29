@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PolkiHero from '@/components/polki/PolkiHero.astro';
+import PolkiWhatIsIt from '@/components/polki/PolkiWhatIsIt.astro';
+import PolkiStat70 from '@/components/polki/PolkiStat70.astro';
+import PolkiVsAds from '@/components/polki/PolkiVsAds.astro';
+import PolkiPullquote from '@/components/polki/PolkiPullquote.astro';
+import PolkiOriginator from '@/components/polki/PolkiOriginator.astro';
+import PolkiCases from '@/components/polki/PolkiCases.astro';
+import PolkiWhatDoesntWork from '@/components/polki/PolkiWhatDoesntWork.astro';
+import PolkiAlgorithm from '@/components/polki/PolkiAlgorithm.astro';
+import PolkiSafety from '@/components/polki/PolkiSafety.astro';
+import PolkiResults from '@/components/polki/PolkiResults.astro';
+import PolkiFinalCta from '@/components/polki/PolkiFinalCta.astro';
+import { polkiData } from '@/data/polki';
+
+const seo = polkiData.seo;
+---
+
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  path={seo.path}
+  ogImage={seo.ogImage}
+>
+  <PolkiHero />
+  <PolkiWhatIsIt />
+  <PolkiStat70 />
+  <PolkiVsAds />
+  <PolkiPullquote />
+  <PolkiOriginator />
+  <PolkiCases />
+  <PolkiWhatDoesntWork />
+  <PolkiAlgorithm />
+  <PolkiSafety />
+  <PolkiResults />
+  <PolkiFinalCta />
+
+  <!-- Schema.org для SEO — Service от UBuyer -->
+  <script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Выкупы для входа в рекомендательные полки Wildberries",
+    "serviceType": "Marketplace SEO / Promotion",
+    "provider": {
+      "@type": "Organization",
+      "name": "UBuyer",
+      "url": "https://u-buyer.ru"
+    },
+    "areaServed": { "@type": "Country", "name": "Russia" },
+    "description": "До 70% трафика топов на WB идёт с рекомендательных полок. Системный вход в полки лидеров ниши даёт 15-40% роста выручки без рекламного бюджета. 3000+ покупательских профилей, 3000+ ПВЗ в Москве и МО, 0 блокировок клиентов за 3 года.",
+    "url": "https://u-buyer.ru/polki"
+  }
+  </script>
+</BaseLayout>

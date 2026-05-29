@@ -1,0 +1,29 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.results;
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mb-8">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        {d.intro}
+      </p>
+    </div>
+
+    <div class="rounded-3xl border border-brand-accent/25 bg-brand-accent-dim p-8 md:p-10 max-w-4xl">
+      <p class="text-brand-text text-lg md:text-xl leading-relaxed">
+        {d.bodyPre}
+        <strong class="text-brand-accent font-semibold">{d.bodyAccent1}</strong>
+        {d.bodyMid}
+        <strong class="text-brand-accent font-semibold">{d.bodyAccent2}</strong>
+        {d.bodyEnd}
+      </p>
+    </div>
+
+  </div>
+</section>

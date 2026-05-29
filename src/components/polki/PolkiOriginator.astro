@@ -1,0 +1,56 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.originator;
+---
+
+<section class="section section-alt">
+  <div class="container">
+
+    <div class="max-w-3xl mb-10">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        {d.intro}
+      </p>
+    </div>
+
+    <!-- контрастная карточка с glow -->
+    <div class="relative rounded-3xl border border-brand-accent/25 bg-brand-accent-dim p-8 md:p-12 overflow-hidden max-w-4xl mb-6">
+      <div class="pointer-events-none absolute inset-0 opacity-20">
+        <div class="absolute bottom-0 right-0 w-[400px] h-[300px] rounded-full opacity-50 blur-[100px]
+                    bg-gradient-to-tr from-brand-accent to-transparent"></div>
+      </div>
+
+      <div class="relative">
+        <p class="text-brand-text text-xl md:text-2xl font-semibold leading-snug mb-5">
+          {d.contrastTitle}
+        </p>
+        <p class="text-brand-text/85 text-base md:text-lg leading-relaxed mb-6">
+          {d.contrastBody}
+        </p>
+        <p class="text-brand-text/85 text-base md:text-lg leading-relaxed">
+          Поэтому полки — это <strong class="text-brand-accent font-semibold">инфраструктура</strong>, а не <strong class="text-brand-accent font-semibold">скрипт</strong>. И мы первые на рынке собрали эту инфраструктуру под управляемый канал.
+        </p>
+      </div>
+    </div>
+
+    <!-- блок про нейросеть 2026 -->
+    <div class="rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-8 max-w-4xl">
+      <div class="flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-brand-accent-dim border border-brand-accent/30 flex items-center justify-center shrink-0">
+          <span class="font-mono font-bold text-brand-accent text-sm">2026</span>
+        </div>
+        <div>
+          <p class="text-brand-text font-semibold mb-3 text-base md:text-lg leading-snug">
+            {d.neuralTitle}
+          </p>
+          <p class="text-brand-muted text-sm md:text-base leading-relaxed">
+            {d.neuralBody}
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

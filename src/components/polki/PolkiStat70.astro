@@ -1,0 +1,88 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.stat70;
+---
+
+<section class="section section-alt">
+  <div class="container">
+
+    <div class="max-w-3xl mb-10">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+    </div>
+
+    <!-- большая цифра -->
+    <div class="relative rounded-3xl border border-brand-border bg-brand-surface p-10 md:p-14 mb-8 overflow-hidden">
+      <!-- glow -->
+      <div class="pointer-events-none absolute inset-0 opacity-30">
+        <div class="absolute top-0 right-0 w-[500px] h-[300px] rounded-full opacity-40 blur-[100px]
+                    bg-gradient-to-b from-brand-accent to-transparent"></div>
+      </div>
+
+      <div class="relative">
+        <p class="text-brand-muted text-xs uppercase tracking-widest mb-4">Доля выручки с полок</p>
+        <div class="font-mono font-bold leading-none text-brand-text text-7xl md:text-[10rem] mb-6 polki-bigstat" data-target="70">
+          {d.bigStat}
+        </div>
+        <p class="text-brand-text/80 text-base md:text-lg leading-relaxed max-w-2xl">
+          {d.bigStatCaption}
+        </p>
+      </div>
+    </div>
+
+    <!-- что это значит на практике -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+        <h3 class="text-brand-text font-semibold mb-4 text-base">{d.practiceTitle}</h3>
+        <ul class="space-y-2.5">
+          {d.practicePoints.map((p) => (
+            <li class="flex items-start gap-3 text-sm text-brand-muted leading-relaxed">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2"></span>
+              <span set:html={p.replace('до 3.5 млн', '<span class="text-brand-accent font-semibold">до 3.5 млн</span>')} />
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- harsh quote -->
+      <div class="rounded-2xl border-l-4 border-brand-accent bg-brand-bg p-6 flex items-center">
+        <p class="text-brand-text italic text-base leading-relaxed">
+          «{d.harshQuote}»
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // animate big stat
+  function animateBigStat(el: HTMLElement) {
+    const target = parseInt(el.dataset.target || '0');
+    if (target === 0) return;
+    const duration = 2000;
+    const start = performance.now();
+    function step(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = 'до ' + Math.floor(eased * target) + '%';
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateBigStat(e.target as HTMLElement);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.polki-bigstat').forEach(el => observer.observe(el));
+</script>

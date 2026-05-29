@@ -1,0 +1,55 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.whatIsIt;
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mb-12">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        {d.intro}
+      </p>
+    </div>
+
+    <!-- 3 шага со скринами WB -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {d.steps.map((step) => (
+        <div class="flex flex-col rounded-2xl border border-brand-border bg-brand-surface
+                    overflow-hidden hover:border-brand-border-2 transition-colors">
+
+          <!-- скрин WB -->
+          <div class="aspect-[9/16] bg-brand-bg overflow-hidden flex items-center justify-center">
+            <img
+              src={step.img}
+              alt={step.alt}
+              loading="lazy"
+              decoding="async"
+              class="w-full h-full object-cover object-top"
+            />
+          </div>
+
+          <!-- подпись -->
+          <div class="p-5 border-t border-brand-border">
+            <div class="flex items-baseline gap-3 mb-2">
+              <span class="font-mono font-bold text-brand-accent text-sm">{step.num}</span>
+              <h3 class="text-brand-text text-base font-semibold">{step.title}</h3>
+            </div>
+            <p class="text-brand-muted text-sm leading-snug">{step.sub}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- закрытие -->
+    <div class="mt-10 rounded-2xl border-l-4 border-brand-accent bg-brand-surface px-6 py-5 max-w-3xl">
+      <p class="text-brand-text italic leading-relaxed">
+        {d.closer}
+      </p>
+    </div>
+
+  </div>
+</section>

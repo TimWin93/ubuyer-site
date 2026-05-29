@@ -1,0 +1,57 @@
+---
+import { polkiData } from '@/data/polki';
+
+const d = polkiData.cases;
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mb-12">
+      <div class="tag mb-6">{d.eyebrow}</div>
+      <h2 class="text-brand-text mb-5">{d.h2}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {d.items.map((c) => (
+        <article class="rounded-2xl border border-brand-border bg-brand-surface p-7 md:p-8
+                        hover:border-brand-border-2 transition-colors flex flex-col">
+          <span class="text-brand-accent text-xs font-semibold uppercase tracking-widest mb-4">
+            {c.badge}
+          </span>
+          <h3 class="text-brand-text text-xl md:text-2xl font-semibold leading-snug mb-6">
+            {c.title}
+          </h3>
+
+          <div class="space-y-5 mb-6 flex-grow">
+            <div>
+              <p class="text-brand-muted text-xs uppercase tracking-widest mb-2">Ситуация</p>
+              <p class="text-brand-text/80 text-sm leading-relaxed">{c.situation}</p>
+            </div>
+            <div class="border-t border-brand-border pt-5">
+              <p class="text-brand-muted text-xs uppercase tracking-widest mb-2">Решение</p>
+              <p class="text-brand-text/80 text-sm leading-relaxed">{c.solution}</p>
+            </div>
+            <div class="border-t border-brand-border pt-5">
+              <p class="text-brand-muted text-xs uppercase tracking-widest mb-2">Результат</p>
+              <ul class="space-y-2">
+                {c.results.map((r) => (
+                  <li class="flex items-start gap-2.5 text-brand-text/80 text-sm leading-relaxed">
+                    <span class="text-brand-accent shrink-0 mt-1">→</span>
+                    <span>{r}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <!-- инсайт -->
+          <div class="rounded-xl bg-brand-accent-dim border border-brand-accent/20 px-4 py-3 mt-auto">
+            <p class="text-brand-text italic text-sm leading-snug">{c.insight}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
