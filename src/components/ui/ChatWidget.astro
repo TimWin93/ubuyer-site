@@ -1183,16 +1183,15 @@ const PILL_PHRASES = [
 
   /** Собирает короткое саммари диалога для prefilled Telegram-ссылки. */
   function buildTelegramSummary(history: ChatMessage[]): string {
-    const userMsgs = history.filter(m => m.role === 'user').slice(-3);
-    const lines = ['Здравствуйте! Я с сайта u-buyer.ru, общался с Анастасией в чате.'];
-    if (userMsgs.length > 0) {
-      lines.push('', 'Кратко обсуждали:');
-      userMsgs.forEach(m => {
-        const s = m.content.length > 120 ? m.content.slice(0, 117) + '…' : m.content;
-        lines.push(`— ${s}`);
-      });
-    }
-    return lines.join('\n');
+    // Короткое сообщение — длинное Telegram режет в ?text= URL.
+    // Шлём только последний user-вопрос (или дефолт) — менеджер видит контекст.
+    const lastUser = [...history].reverse().find(m => m.role === 'user');
+    const intro = 'Здравствуйте, я с сайта u-buyer.ru.';
+    if (!lastUser) return intro;
+    const msg = lastUser.content.length > 200
+      ? lastUser.content.slice(0, 197) + '…'
+      : lastUser.content;
+    return `${intro}\n\n${msg}`;
   }
 
   const STORAGE_SID       = 'ubuyer_chat_sid_v3';
