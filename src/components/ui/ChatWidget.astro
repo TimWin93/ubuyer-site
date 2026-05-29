@@ -722,22 +722,24 @@ const PILL_PHRASES = [
   }
   .contact-trust-item .check svg { width: 10px; height: 10px; }
 
+  /* 3 широкие кнопки на всю ширину чата, стопкой */
   .contact-quick-replies {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     margin-bottom: 10px;
   }
   .contact-quick-replies button {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 9px 10px;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
     background: rgba(61,142,248,0.10);
-    border: 1px solid rgba(61,142,248,0.25);
+    border: 1px solid rgba(61,142,248,0.30);
     border-radius: 12px;
     color: #E4ECFF;
-    font-size: 12.5px;
+    font-size: 13.5px;
     font-weight: 500;
     text-align: left;
     cursor: pointer;
@@ -745,69 +747,72 @@ const PILL_PHRASES = [
   }
   .contact-quick-replies button:hover {
     background: rgba(61,142,248,0.20);
-    border-color: rgba(61,142,248,0.50);
+    border-color: rgba(61,142,248,0.55);
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(61,142,248,0.15);
   }
   .contact-quick-replies button:active { transform: translateY(0) scale(0.98); }
+  /* Активная кнопка — подсветка чтобы клиент видел что переключил режим */
+  .contact-quick-replies button.qr-active {
+    background: rgba(61,142,248,0.30);
+    border-color: rgba(61,142,248,0.85);
+    box-shadow: 0 0 0 1px rgba(61,142,248,0.35), 0 4px 16px rgba(61,142,248,0.20);
+  }
   .contact-quick-replies .qr-icon {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
-    border-radius: 7px;
-    background: rgba(61,142,248,0.20);
+    border-radius: 8px;
+    background: rgba(61,142,248,0.22);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: #4DD9FF;
   }
-  .contact-quick-replies .qr-icon svg { width: 12px; height: 12px; }
+  .contact-quick-replies .qr-icon svg { width: 14px; height: 14px; }
 
-  /* Рекомендованные кнопки (ник + телефон) — слегка усиленный акцент */
+  /* Рекомендованные кнопки (ник + телефон) */
   .contact-quick-replies .qr-recommended {
     background: rgba(61,142,248,0.15);
-    border-color: rgba(61,142,248,0.40);
+    border-color: rgba(61,142,248,0.45);
   }
   .contact-quick-replies .qr-recommended:hover {
     background: rgba(61,142,248,0.25);
-    border-color: rgba(61,142,248,0.60);
+    border-color: rgba(61,142,248,0.65);
   }
 
-  /* Direct-TG — приглушённая secondary опция + VPN warning */
+  /* Direct-TG — тоже на всю ширину, но с VPN-предупреждением */
   .contact-quick-replies .qr-direct-tg {
-    grid-column: 1 / -1;          /* на всю ширину */
     flex-direction: column;
     align-items: stretch;
-    gap: 4px;
-    padding: 8px 12px;
-    background: rgba(228,236,255,0.03);
-    border-color: rgba(228,236,255,0.10);
-    color: rgba(228,236,255,0.75);
+    gap: 6px;
+    padding: 12px 14px;
+    background: rgba(228,236,255,0.04);
+    border-color: rgba(228,236,255,0.15);
+    color: #E4ECFF;
   }
   .contact-quick-replies .qr-direct-tg:hover {
-    background: rgba(228,236,255,0.06);
-    border-color: rgba(228,236,255,0.20);
-    box-shadow: none;
-    transform: none;
+    background: rgba(228,236,255,0.08);
+    border-color: rgba(228,236,255,0.30);
   }
   .contact-quick-replies .qr-direct-tg .qr-icon {
-    background: rgba(228,236,255,0.08);
-    color: rgba(228,236,255,0.55);
+    background: rgba(228,236,255,0.10);
+    color: rgba(228,236,255,0.75);
   }
   .qr-direct-tg-row {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
   }
   .qr-direct-tg-title {
-    font-size: 12px;
+    font-size: 13.5px;
     font-weight: 500;
   }
   .qr-direct-tg-warn {
-    font-size: 10.5px;
-    color: rgba(251,191,36,0.85);
-    padding-left: 30px;
-    line-height: 1.3;
+    font-size: 11px;
+    color: rgba(251,191,36,0.95);
+    padding-left: 38px;
+    line-height: 1.35;
   }
   .contact-privacy-note {
     font-size: 10.5px;
@@ -1300,9 +1305,11 @@ const PILL_PHRASES = [
 
       const block = document.createElement('div');
       block.className = 'chat-contact-request';
-      // Кнопка «Я в Telegram» — только если detect точно подтвердил доступность.
-      // null (detect не успел / fail) или false → кнопку не показываем.
-      const showDirectTg = telegramAvailable === true;
+      // Direct-TG показываем ВСЕГДА — это одна из трёх основных опций контакта.
+      // VPN-предупреждение под кнопкой даёт клиенту в РФ понять что нужен VPN
+      // (раньше при detect=false / null прятали — Тимур решил что это
+      // путало клиентов, лучше показать всегда с предупреждением).
+      const showDirectTg = true;
       block.innerHTML = `
         <div class="contact-trust-title">МЕНЕДЖЕР НАПИШЕТ ПЕРВЫМ — С ВАШИМ КОНТЕКСТОМ</div>
         <div class="contact-trust-list">
@@ -1326,29 +1333,37 @@ const PILL_PHRASES = [
           Не передаём третьим, спам не шлём
         </div>`;
 
-      block.querySelectorAll<HTMLButtonElement>('[data-qr]').forEach(btn => {
+      // Кнопки контактов — клиент может переключаться между TG/Phone/Direct.
+      // Блок НЕ исчезает после выбора (UX: возможность передумать).
+      // Активная кнопка подсвечивается классом qr-active.
+      const qrBtns = block.querySelectorAll<HTMLButtonElement>('[data-qr]');
+      qrBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-          // Fix F: мягко скрываем contact-блок после выбора варианта —
-          // input получит фокус, блок плавно исчезнет, контент не прыгает
-          fadeOutRemove(block);
           const action = btn.dataset.qr;
+
+          // Direct-TG — открывается в новой вкладке, не меняет state input'а
           if (action === 'direct-tg') {
             const summary = buildTelegramSummary(history);
             const url = `https://t.me/${MANAGER_TG}?text=${encodeURIComponent(summary)}`;
             window.open(url, '_blank', 'noopener,noreferrer');
             (window as any).ymGoal?.('chat_open_direct_tg');
-          } else if (action === 'telegram') {
+            return;
+          }
+
+          // Telegram / Phone — переключаем режим input'а, помечаем кнопку
+          // active, остальные deactivate. Клиент может тыкнуть обратно.
+          qrBtns.forEach(b => b.classList.remove('qr-active'));
+          btn.classList.add('qr-active');
+
+          if (action === 'telegram') {
             enableTelegramValidation(input);
-            input.focus();
-            // Каретку — в конец
-            input.setSelectionRange(input.value.length, input.value.length);
             (window as any).ymGoal?.('chat_picked_telegram');
           } else if (action === 'phone') {
             enablePhoneMask(input);
-            input.focus();
-            input.setSelectionRange(input.value.length, input.value.length);
             (window as any).ymGoal?.('chat_picked_phone');
           }
+          input.focus();
+          input.setSelectionRange(input.value.length, input.value.length);
           updateSendState();
         });
       });
