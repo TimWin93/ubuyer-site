@@ -1,4 +1,4 @@
-name: Deploy to Firebase
+name: Deploy to Firebase Hosting
 
 on:
   push:
@@ -17,8 +17,7 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # ─── Фронт (Astro → Firebase Hosting) ────────────────────────
-      - name: Install root deps
+      - name: Install dependencies
         run: npm ci
 
       - name: Build Astro
@@ -34,28 +33,17 @@ jobs:
           channelId: live
           projectId: ubuyer-site
 
-      # ─── Функции (Anastasia chat + polki endpoint + knowledge) ────
-      # Без этого шага .md из functions/knowledge/ не доезжают до продакшна,
-      # и Анастасия отвечает на старых данных (реальный провал 29.05.2026).
-      - name: Install functions deps
-        working-directory: functions
-        run: npm ci
-
-      - name: Build functions
-        working-directory: functions
-        run: npm run build
-
-      - name: Setup gcloud SDK
-        id: gcp-auth
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          export_environment_variables: true
-
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      - name: Deploy functions
-        run: firebase deploy --only functions --project ubuyer-site --non-interactive
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.gcp-auth.outputs.credentials_file_path }}
+# Functions деплой убран из CI намеренно:
+# Firebase Functions v2 требуют 8+ ролей у service account (Cloud Functions,
+# Cloud Run, Artifact Registry, Secret Manager, Cloud Build, Eventarc, etc).
+# Каждая роль вылезает отдельной ошибкой при попытке деплоя.
+#
+# Деплой функций — вручную одной командой с компа Тимура (он Owner проекта):
+#   cd ubuyer-site
+#   firebase deploy --only functions
+#
+# Делать это нужно после изменений в:
+#   - functions/src/*.ts
+#   - functions/knowledge/*.md (системная инструкция или knowledge Анастасии)
+#
+# В среднем — раз в неделю-две. Не часто.
