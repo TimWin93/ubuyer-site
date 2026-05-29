@@ -1843,6 +1843,10 @@ const PILL_PHRASES = [
       el.placeholder = '+7 ___ ___ __ __';
       el.value = '+7 ';
       el.dataset.inputMode = 'phone';
+      // Цифровая клавиатура на мобильных (iOS/Android поддерживают на textarea).
+      // 'tel' даёт раскладку с * # + 0–9 — самый удобный вариант для телефона.
+      el.setAttribute('inputmode', 'tel');
+      el.setAttribute('autocomplete', 'tel');
       phoneMaskHandler = () => { el.value = formatPhoneMask(el.value); updateSendState(); };
       el.addEventListener('input', phoneMaskHandler);
     }
@@ -1852,6 +1856,9 @@ const PILL_PHRASES = [
         phoneMaskHandler = null;
       }
       if (el.dataset.inputMode === 'phone') delete el.dataset.inputMode;
+      // Возвращаем стандартный текстовый режим при выходе из phone-mask
+      el.removeAttribute('inputmode');
+      el.removeAttribute('autocomplete');
     }
 
     // Telegram-ник: автоматически держим '@' префиксом, валидируем формат
