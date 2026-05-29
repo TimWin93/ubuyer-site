@@ -46,9 +46,11 @@ jobs:
         run: npm run build
 
       - name: Setup gcloud SDK
+        id: gcp-auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          export_environment_variables: true
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
@@ -56,4 +58,4 @@ jobs:
       - name: Deploy functions
         run: firebase deploy --only functions --project ubuyer-site --non-interactive
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.gcp-auth.outputs.credentials_file_path }}
