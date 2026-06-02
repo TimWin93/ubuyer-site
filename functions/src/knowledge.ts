@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const KNOWLEDGE_DIR = join(__dirname, "..", "knowledge");
+const KNOWLEDGE_VERSION = "2026-06-02-short-replies";
 
 let cachedSystemPrompt: string | null = null;
 
@@ -20,6 +21,6 @@ export function buildSystemPrompt(): string {
     return `<!-- FILE: ${file} -->\n${content}`;
   });
 
-  cachedSystemPrompt = sections.join("\n\n---\n\n");
+  cachedSystemPrompt = `<!-- KNOWLEDGE_VERSION: ${KNOWLEDGE_VERSION} -->\n\n` + sections.join("\n\n---\n\n");
   return cachedSystemPrompt;
 }
