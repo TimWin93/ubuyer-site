@@ -1,0 +1,693 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { CONTACTS, SITE_URL } from '@/consts';
+
+const title = 'Кейсы UBuyer — реальные результаты на Wildberries и OZON';
+const description =
+  '4 кейса UBuyer: запуск новинки в конкурентной нише, вход в акцию по цене ×2 выше рынка, конвейер запусков 2+ года, спасение плана ИУ за 10 дней. Реальные цифры от живой инфраструктуры.';
+const tg = CONTACTS.telegram;
+---
+
+<BaseLayout title={title} description={description} path="/kejsy/">
+  <!-- Schema.org: CollectionPage + ItemList + BreadcrumbList -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify([
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": `${SITE_URL}/kejsy/#collection`,
+      "url": `${SITE_URL}/kejsy/`,
+      "name": title,
+      "description": description,
+      "isPartOf": { "@id": `${SITE_URL}/#website` },
+      "about": { "@id": `${SITE_URL}/#organization` }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Главная", "item": `${SITE_URL}/` },
+        { "@type": "ListItem", "position": 2, "name": "Кейсы", "item": `${SITE_URL}/kejsy/` }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "numberOfItems": 4,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Article",
+            "headline": "161 выкуп за 7 дней и стабильные 25–30 органических заказов в день",
+            "description": "Запуск новой карточки бюстгальтера в гипер-конкурентной нише женского белья. Разовая стратегия 7 дней — стабильная органика без рекламного бюджета.",
+            "author": { "@id": `${SITE_URL}/#organization` },
+            "publisher": { "@id": `${SITE_URL}/#organization` },
+            "datePublished": "2026-06-02",
+            "about": "Запуск новинки на Wildberries"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Article",
+            "headline": "2 000 выкупов → вход в акцию WB по цене ×2 выше рынка",
+            "description": "10 дней стратегии с управлением «базовой ценой» в глазах алгоритма WB. Селлер получил буст акции без разрушения маржи.",
+            "author": { "@id": `${SITE_URL}/#organization` },
+            "publisher": { "@id": `${SITE_URL}/#organization` },
+            "datePublished": "2026-06-02",
+            "about": "Вход в акцию Wildberries по премиальной цене"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Article",
+            "headline": "2+ года, 100 артикулов, 0 блокировок — конвейер запусков детских игрушек",
+            "description": "Долгое партнёрство с селлером детских игрушек. ~50 выкупов на артикул по «лесенке» 12–14 дней — 100 артикулов выведены в ТОП.",
+            "author": { "@id": `${SITE_URL}/#organization` },
+            "publisher": { "@id": `${SITE_URL}/#organization` },
+            "datePublished": "2026-06-02",
+            "about": "Систематический запуск новых артикулов на Wildberries"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Article",
+            "headline": "12 000 заказов за 10 дней под Новый Год — спасение плана ИУ",
+            "description": "Аварийная стратегия 4+6: 4 дня на концентрированный заказ и 6 дней на растянутый забор. План ИУ закрыт, пессимизация предотвращена.",
+            "author": { "@id": `${SITE_URL}/#organization` },
+            "publisher": { "@id": `${SITE_URL}/#organization` },
+            "datePublished": "2026-06-02",
+            "about": "Выполнение плана ИУ Wildberries в сжатые сроки"
+          }
+        }
+      ]
+    }
+  ])} />
+
+  <!-- =========================== HERO =========================== -->
+  <section class="relative overflow-hidden pt-12 lg:pt-20 pb-20 lg:pb-28">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[600px] rounded-full opacity-25 blur-[140px] bg-gradient-to-b from-brand-accent to-transparent"></div>
+    </div>
+    <div class="pointer-events-none absolute inset-0 opacity-[0.05] k-dot-grid"></div>
+
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 relative">
+      <div class="max-w-4xl">
+        <span class="k-tag mb-8"><span class="k-dot"></span>КЕЙСЫ · WILDBERRIES · OZON</span>
+
+        <h1 class="text-[2.5rem] sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-extrabold leading-[1.02] tracking-tight mb-8">
+          Реальные карточки.<br />
+          Реальные цифры.<br />
+          <span class="text-brand-accent k-text-glow-strong">Реальная инфраструктура.</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl lg:text-2xl text-brand-text/80 leading-relaxed mb-12 max-w-3xl">
+          Четыре задачи — от запуска новой карточки в гипер-конкурентной нише до спасения плана ИУ за 10 дней под Новый Год. Каждая решена через живую инфраструктуру UBuyer.
+        </p>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+          <div class="rounded-2xl border border-brand-border bg-brand-surface-2 p-5 lg:p-6">
+            <div class="k-stat-mega"><span class="accent">14 000+</span></div>
+            <div class="k-stat-lbl mt-3">выкупов в этих кейсах</div>
+          </div>
+          <div class="rounded-2xl border border-brand-border bg-brand-surface-2 p-5 lg:p-6">
+            <div class="k-stat-mega">100<span class="accent">+</span></div>
+            <div class="k-stat-lbl mt-3">артикулов выведено в ТОП</div>
+          </div>
+          <div class="rounded-2xl border border-brand-border bg-brand-surface-2 p-5 lg:p-6">
+            <div class="k-stat-mega">2<span class="accent">+</span></div>
+            <div class="k-stat-lbl mt-3">года крупному клиенту</div>
+          </div>
+          <div class="rounded-2xl border border-brand-border bg-brand-surface-2 p-5 lg:p-6">
+            <div class="k-stat-mega"><span class="accent">0</span></div>
+            <div class="k-stat-lbl mt-3">блокировок за всё время</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== INTRO =========================== -->
+  <section class="border-t border-brand-border/50 bg-brand-surface/80 py-20 lg:py-28">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
+      <span class="k-tag mb-6"><span class="k-dot"></span>ЧТО ДОКАЗЫВАЮТ КЕЙСЫ</span>
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight max-w-4xl">
+        Четыре стратегии. <span class="text-brand-accent k-text-glow">Один результат —</span><br />
+        органика без банов.
+      </h2>
+      <p class="text-lg lg:text-xl text-brand-text/75 max-w-3xl mt-6 leading-relaxed">
+        Каждый кейс показывает, как живая инфраструктура и тонкая настройка стратегии решают задачу, которую софт самовыкупов не решает в принципе.
+      </p>
+    </div>
+  </section>
+
+  <!-- =========================== КЕЙС 01 =========================== -->
+  <section class="py-20 lg:py-28">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
+      <article class="k-case-card p-8 lg:p-14">
+        <div class="flex items-center gap-3 mb-8 flex-wrap">
+          <span class="k-tag"><span class="k-dot"></span>КЕЙС 01</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">женское бельё · запуск новинки</span>
+        </div>
+
+        <h3 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl">
+          <span class="text-brand-accent k-text-glow">161 выкуп</span> за 7 дней —<br />
+          и стабильные 25–30 органических заказов в день
+        </h3>
+
+        <p class="text-lg lg:text-xl text-brand-text/75 leading-relaxed mb-12 max-w-3xl">
+          Новая карточка бюстгальтера в нише с тысячами конкурентов. Стандартный путь «вкатить рекламу и ждать» — 4–8 недель и непредсказуемый результат. Мы взяли разовый старт.
+        </p>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12">
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">161</span></div><div class="k-stat-lbl mt-3">выкуп</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">7</div><div class="k-stat-lbl mt-3">дней стратегия</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">25–30</span></div><div class="k-stat-lbl mt-3">заказов/день органики</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">0₽</div><div class="k-stat-lbl mt-3">рекламного бюджета после</div></div>
+        </div>
+
+        <div class="rounded-xl border border-brand-border bg-brand-surface p-6 lg:p-8 mb-12">
+          <div class="flex items-center justify-between mb-6">
+            <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">Динамика органических заказов</span>
+            <span class="font-mono text-xs text-brand-accent">+2500%</span>
+          </div>
+          <svg viewBox="0 0 800 220" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#1A2B4A" stroke-width="1">
+              <line x1="60" y1="20" x2="780" y2="20" />
+              <line x1="60" y1="70" x2="780" y2="70" />
+              <line x1="60" y1="120" x2="780" y2="120" />
+              <line x1="60" y1="170" x2="780" y2="170" />
+            </g>
+            <g font-family="JetBrains Mono" font-size="11" fill="#6680A8">
+              <text x="20" y="24">30</text><text x="20" y="74">20</text><text x="20" y="124">10</text><text x="20" y="174">0</text>
+              <text x="60" y="200">Старт</text>
+              <text x="220" y="200">+3 дня</text>
+              <text x="380" y="200">7 дней (конец стратегии)</text>
+              <text x="600" y="200">+7 дней органики</text>
+            </g>
+            <defs>
+              <linearGradient id="kg1" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#3D8EF8" stop-opacity=".4" />
+                <stop offset="100%" stop-color="#3D8EF8" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M60,170 L220,168 L380,140 L530,80 L780,40 L780,170 Z" fill="url(#kg1)" />
+            <path d="M60,170 L220,168 L380,140 L530,80 L780,40" fill="none" stroke="#3D8EF8" stroke-width="3" stroke-linecap="round" />
+            <g fill="#3D8EF8">
+              <circle cx="60" cy="170" r="5" />
+              <circle cx="220" cy="168" r="5" />
+              <circle cx="380" cy="140" r="5" />
+              <circle cx="530" cy="80" r="5" />
+              <circle cx="780" cy="40" r="6" />
+            </g>
+            <g>
+              <rect x="685" y="14" width="90" height="22" rx="11" fill="#10B98133" stroke="#10B981" stroke-width="1" />
+              <text x="730" y="29" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#10B981" text-anchor="middle">25–30/день</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Стратегия</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Объём распределён по дням как естественная кривая роста</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Живые покупатели через реальные ПВЗ Москвы и МО</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Разная география, оплаты, поведение — без шаблонов</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Без всплесков, которые ловит антифрод WB</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Результат</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Уже в 1-ю неделю — рост по основным ключам</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Карточка закрепилась после завершения стратегии</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>25–30 заказов/день на чистой органике</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Селлер с тех пор регулярно запускает новинки по той же формуле</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="k-insight-block">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-brand-accent mb-2 block">Что важно понимать</span>
+          <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text">
+            Это не «накрутка», а разрыв замкнутого круга. У новинки нет истории продаж → алгоритм не показывает → нет шансов историю получить. 161 живой выкуп даёт первичную статистику. Дальше карточка живёт сама.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================== КЕЙС 02 =========================== -->
+  <section class="border-t border-brand-border/50 bg-brand-surface/80 py-20 lg:py-28">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
+      <article class="k-case-card p-8 lg:p-14">
+        <div class="flex items-center gap-3 mb-8 flex-wrap">
+          <span class="k-tag"><span class="k-dot"></span>КЕЙС 02</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">носки · «лесенка по цене»</span>
+        </div>
+
+        <h3 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl">
+          <span class="text-brand-accent k-text-glow">2 000 выкупов</span><br />
+          → вход в акцию WB по цене ВДВОЕ выше рынка
+        </h3>
+
+        <p class="text-lg lg:text-xl text-brand-text/75 leading-relaxed mb-12 max-w-3xl">
+          Селлер хотел получить видимость акции, но не на условиях акции — без разрушения маржи. Стратегия на 10 дней с управлением «базовой ценой» в глазах алгоритма WB.
+        </p>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12">
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">2 000</span></div><div class="k-stat-lbl mt-3">выкупов</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">10</div><div class="k-stat-lbl mt-3">дней стратегия</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">150–200</span></div><div class="k-stat-lbl mt-3">заказов/день органики</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">×2</div><div class="k-stat-lbl mt-3">цена выше рынка в акции</div></div>
+        </div>
+
+        <div class="rounded-xl border border-brand-border bg-brand-surface p-6 lg:p-8 mb-12">
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">Лесенка по цене и концентрация заказов</span>
+            <div class="flex items-center gap-5 text-xs font-mono">
+              <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-brand-accent"></span> Цена товара</span>
+              <span class="flex items-center gap-2"><span class="w-3 h-3 rounded" style="background:#10B981"></span> Заказы/день</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 800 240" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#1A2B4A" stroke-width="1">
+              <line x1="60" y1="20" x2="780" y2="20" />
+              <line x1="60" y1="80" x2="780" y2="80" />
+              <line x1="60" y1="140" x2="780" y2="140" />
+              <line x1="60" y1="200" x2="780" y2="200" />
+            </g>
+            <g font-family="JetBrains Mono" font-size="11" fill="#6680A8">
+              <text x="20" y="24">×2</text><text x="20" y="84">×1.5</text><text x="20" y="144">×1</text><text x="20" y="204">0</text>
+            </g>
+            <path d="M60,30 L120,30 L180,30 L240,30 L300,30 L360,30 L420,30 L450,140 L520,140 L580,140 L640,140 L720,140 L780,140" fill="none" stroke="#3D8EF8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <defs>
+              <linearGradient id="kg2" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#10B981" stop-opacity=".5" />
+                <stop offset="100%" stop-color="#10B981" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M60,200 L120,195 L180,188 L240,180 L300,170 L360,160 L420,150 L450,90 L520,50 L580,40 L640,55 L720,70 L780,85 L780,200 Z" fill="url(#kg2)" />
+            <path d="M60,200 L120,195 L180,188 L240,180 L300,170 L360,160 L420,150 L450,90 L520,50 L580,40 L640,55 L720,70 L780,85" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round" />
+            <line x1="425" y1="20" x2="425" y2="220" stroke="#4DD9FF" stroke-width="1" stroke-dasharray="4 4" opacity=".6" />
+            <g>
+              <rect x="370" y="218" width="110" height="20" rx="10" fill="#0C1530" stroke="#4DD9FF" stroke-width="1" />
+              <text x="425" y="232" font-family="JetBrains Mono" font-size="10" fill="#4DD9FF" text-anchor="middle">ДЕНЬ 8: −50%</text>
+            </g>
+            <circle cx="580" cy="40" r="6" fill="#10B981" />
+            <text x="580" y="20" font-family="JetBrains Mono" font-size="10" fill="#10B981" text-anchor="middle" font-weight="700">ПИК СПРОСА</text>
+          </svg>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Стратегия в 3 этапа</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Дни 1–7:</strong> цена ×2 от рыночной — формирование «истории как премиум»</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">День 8:</strong> резкое снижение цены вдвое</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Дни 8–10:</strong> концентрация объёма — пик спроса в дни «акции»</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Результат</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Вход в акцию по цене выше конкурентов</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>«Акционный буст» от алгоритма WB</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>150–200 органических заказов/день после стратегии</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Маржа не пострадала</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="k-insight-block">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-brand-accent mb-2 block">Что важно понимать</span>
+          <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text">
+            Большинство сервисов предлагают одну механику: «выкупим, карточка вырастет». Здесь главный приём — управление «ценой до акции». WB фиксирует базовую цену за первые 7 дней. Дальнейшее снижение читается алгоритмом как настоящая скидка — карточка получает буст «премиальный товар по акции».
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================== КЕЙС 03 =========================== -->
+  <section class="py-20 lg:py-28">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
+      <article class="k-case-card p-8 lg:p-14">
+        <div class="flex items-center gap-3 mb-8 flex-wrap">
+          <span class="k-tag"><span class="k-dot"></span>КЕЙС 03</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">детские игрушки · долгое партнёрство</span>
+        </div>
+
+        <h3 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl">
+          <span class="text-brand-accent k-text-glow">2+ года</span>, 100 артикулов,<br />
+          <span class="text-brand-accent k-text-glow">0 блокировок</span>
+        </h3>
+
+        <p class="text-lg lg:text-xl text-brand-text/75 leading-relaxed mb-12 max-w-3xl">
+          Селлер детских игрушек с большой ассортиментной матрицей и постоянным потоком новинок. UBuyer — инструмент запуска: каждая новинка получает разовый прогрев, дальше работает сама.
+        </p>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12">
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">2+</span></div><div class="k-stat-lbl mt-3">года вместе</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">100</div><div class="k-stat-lbl mt-3">артикулов в работе</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">~50</span></div><div class="k-stat-lbl mt-3">выкупов на артикул</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">12–14</div><div class="k-stat-lbl mt-3">дней одна стратегия</div></div>
+        </div>
+
+        <div class="rounded-xl border border-brand-border bg-brand-surface p-6 lg:p-8 mb-12">
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">100 артикулов в ТОПе · 0 банов</span>
+            <span class="font-mono text-xs text-brand-accent">каждая точка — 1 выведённый артикул</span>
+          </div>
+          <svg viewBox="0 0 800 200" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="kdotG" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#3D8EF8" stop-opacity="1" />
+                <stop offset="60%" stop-color="#3D8EF8" stop-opacity=".4" />
+                <stop offset="100%" stop-color="#3D8EF8" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            {Array.from({ length: 10 }).map((_, row) =>
+              Array.from({ length: 10 }).map((__, col) => {
+                const cx = 80 + col * 75;
+                const cy = 20 + row * 20;
+                return (
+                  <>
+                    <circle cx={cx} cy={cy} r="6" fill="url(#kdotG)" />
+                    <circle cx={cx} cy={cy} r="3" fill="#3D8EF8" />
+                  </>
+                );
+              })
+            )}
+          </svg>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Стратегия «Лесенка»</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Плавное распределение 50 выкупов по 12–14 дням</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Выкупы по ключевым запросам — карточка ранжируется под нужные ключи</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Развёрнутые отзывы с качественными фото и видео</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Параллельные стратегии на разные артикулы — конвейер запусков</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Результат за 2 года</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>100 артикулов выведены в ТОП по целевым ключам</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Карточки держатся в ТОПе благодаря медиа-отзывам</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Карточки распродаются — освобождая склад под новинки</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">0 блокировок</strong> за всё время сотрудничества</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="k-insight-block">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-brand-accent mb-2 block">Главный вывод этого кейса</span>
+          <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text">
+            Это единственный кейс, который доказывает долгую стабильность UBuyer как сервиса. Любую разовую историю можно поставить под вопрос. Здесь 2 года, 100 артикулов и ноль банов. Алгоритмы менялись — мы менялись с ними. Простая стратегия побеждает сложную, если она системная.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================== КЕЙС 04 =========================== -->
+  <section class="border-t border-brand-border/50 bg-brand-surface/80 py-20 lg:py-28">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
+      <article class="k-case-card p-8 lg:p-14">
+        <div class="flex items-center gap-3 mb-8 flex-wrap">
+          <span class="k-tag"><span class="k-dot"></span>КЕЙС 04</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">одежда · аварийное выполнение ИУ</span>
+        </div>
+
+        <h3 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl">
+          <span class="text-brand-accent k-text-glow">12 000 заказов</span> за 10 дней под НГ —<br />
+          спасли селлеру одежды план ИУ
+        </h3>
+
+        <p class="text-lg lg:text-xl text-brand-text/75 leading-relaxed mb-12 max-w-3xl">
+          У селлера оставалось 10 дней до конца расчётного периода и 12 000 заказов до закрытия плана по ИУ. Не выполнить = пессимизация всех карточек магазина. Условия осложнены новогодней нагрузкой на логистику WB.
+        </p>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12">
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">12 000</span></div><div class="k-stat-lbl mt-3">заказов</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">10</div><div class="k-stat-lbl mt-3">дней дедлайн</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">3 000</span></div><div class="k-stat-lbl mt-3">заказов/день в пике</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega" style="color:#10B981">✓</div><div class="k-stat-lbl mt-3">план ИУ закрыт</div></div>
+        </div>
+
+        <div class="rounded-xl border border-brand-border bg-brand-surface p-6 lg:p-8 mb-12">
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">Раздельный заказ и забор: 4 + 6 дней</span>
+            <div class="flex items-center gap-5 text-xs font-mono">
+              <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-brand-accent"></span> Заказы</span>
+              <span class="flex items-center gap-2"><span class="w-3 h-3 rounded" style="background:#4DD9FF"></span> Забор товара</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 800 240" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#1A2B4A" stroke-width="1">
+              <line x1="60" y1="20" x2="780" y2="20" />
+              <line x1="60" y1="70" x2="780" y2="70" />
+              <line x1="60" y1="120" x2="780" y2="120" />
+              <line x1="60" y1="170" x2="780" y2="170" />
+            </g>
+            <g font-family="JetBrains Mono" font-size="10" fill="#6680A8">
+              <text x="20" y="24">3000</text><text x="20" y="74">2000</text><text x="20" y="124">1000</text><text x="20" y="174">0</text>
+            </g>
+            <g fill="#3D8EF8">
+              <rect x="80" y="20" width="60" height="150" rx="4" />
+              <rect x="160" y="22" width="60" height="148" rx="4" />
+              <rect x="240" y="20" width="60" height="150" rx="4" />
+              <rect x="320" y="24" width="60" height="146" rx="4" />
+            </g>
+            <g fill="#4DD9FF" opacity=".85">
+              <rect x="420" y="75" width="50" height="95" rx="4" />
+              <rect x="485" y="70" width="50" height="100" rx="4" />
+              <rect x="550" y="80" width="50" height="90" rx="4" />
+              <rect x="615" y="85" width="50" height="85" rx="4" />
+              <rect x="680" y="78" width="50" height="92" rx="4" />
+              <rect x="745" y="90" width="35" height="80" rx="4" />
+            </g>
+            <line x1="400" y1="20" x2="400" y2="200" stroke="#10B981" stroke-width="2" stroke-dasharray="6 4" />
+            <text x="400" y="14" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#10B981" text-anchor="middle">ПЕРЕХОД: ЗАКАЗЫ → ЗАБОР</text>
+            <line x1="60" y1="170" x2="780" y2="170" stroke="#243A60" stroke-width="1" />
+            <g font-family="JetBrains Mono" font-size="10" fill="#6680A8">
+              <text x="200" y="195" text-anchor="middle">Дни 1–4: концентрированный заказ</text>
+              <text x="585" y="195" text-anchor="middle">Дни 5–10: растянутый забор (буфер логистики НГ)</text>
+            </g>
+            <g>
+              <rect x="680" y="14" width="100" height="22" rx="11" fill="#10B98133" stroke="#10B981" stroke-width="1" />
+              <text x="730" y="29" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#10B981" text-anchor="middle">12 000 / 12 000</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Стратегия 4 + 6</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Дни 1–4:</strong> 3 000 заказов в день — концентрированный заказ</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Дни 5–10:</strong> растянутый забор товара — буфер под логистические сбои НГ</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Цены не поднимали — алгоритм не зафиксировал манипуляцию</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Много артикулов — без всплеска на дорогих позициях</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Часть с возвратами — план по выручке без излишков по складу</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Результат</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>План по выручке выполнен — ИУ закрыт</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Карточки не ушли в пессимизацию</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Магазин вошёл в новый период в полной форме</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>0 сбоев логистики и блокировок несмотря на праздничный пик</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="k-quote-block">
+          <span class="marker"></span>
+          <div>
+            <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text mb-2">
+              Кейсы выполнения ИУ для нас регулярные — это действующий инструмент, не аттракцион. Но плавная стратегия на 3–4 недели всегда дешевле, надёжнее и без стресса.
+            </p>
+            <p class="text-brand-text/70 text-base">Приходите с задачей по ИУ заранее — мы успеем сделать вам выручку плавно.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================== BOTTOM CTA =========================== -->
+  <section class="py-20 lg:py-32 relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1100px] h-[500px] rounded-full opacity-25 blur-[140px] bg-gradient-to-t from-brand-accent to-transparent"></div>
+    </div>
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 relative">
+      <div class="rounded-3xl border border-brand-border bg-brand-surface-2 p-10 lg:p-20 text-center relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0 opacity-[0.06] k-dot-grid"></div>
+        <div class="relative">
+          <span class="k-tag mb-8 mx-auto"><span class="k-dot"></span>ОБСУДИМ ВАШУ ЗАДАЧУ</span>
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl mx-auto">
+            Расскажите про вашу карточку —<br />
+            <span class="text-brand-accent k-text-glow">рассчитаем стратегию</span>
+          </h2>
+          <p class="text-lg lg:text-xl text-brand-text/75 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Анастасия задаст 4–5 вопросов о товаре и нише. За 15 минут менеджер вернётся с расчётом объёма, сроков и стоимости — под ваш конкретный сценарий.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href={tg} target="_blank" rel="noopener" class="k-btn-cta">
+              Написать менеджеру
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </a>
+            <a href="/tseny/" class="k-btn-ghost">
+              Сначала посмотреть цены
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .k-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(77, 217, 255, 0.5);
+    background: rgba(61, 142, 248, 0.15);
+    padding: 0.45rem 1rem;
+    font-size: 0.7rem;
+    line-height: 1;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #4dd9ff;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .k-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: #4dd9ff;
+    box-shadow: 0 0 12px #4dd9ff;
+  }
+  .k-text-glow {
+    text-shadow: 0 0 40px rgba(61, 142, 248, 0.5), 0 0 80px rgba(61, 142, 248, 0.25);
+  }
+  .k-text-glow-strong {
+    text-shadow: 0 0 60px rgba(61, 142, 248, 0.7), 0 0 120px rgba(61, 142, 248, 0.35);
+  }
+  .k-btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background: #10b981;
+    color: #080f24;
+    padding: 0.95rem 1.75rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: -0.1px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s ease;
+  }
+  .k-btn-cta:hover {
+    background: #059669;
+    box-shadow: 0 0 32px rgba(16, 185, 129, 0.5), 0 4px 16px rgba(0, 0, 0, 0.5);
+  }
+  .k-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #243a60;
+    color: #e4ecff;
+    padding: 0.95rem 1.75rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background: transparent;
+    transition: all 0.25s ease;
+  }
+  .k-btn-ghost:hover {
+    background: #0c1530;
+    border-color: #3d8ef8;
+  }
+  .k-dot-grid {
+    background-image: radial-gradient(circle, #3d8ef8 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .k-case-card {
+    position: relative;
+    background: linear-gradient(180deg, #0c1530 0%, #080f24 100%);
+    border: 1px solid #1a2b4a;
+    border-radius: 1.5rem;
+    overflow: hidden;
+  }
+  .k-case-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 120px;
+    width: 3px;
+    background: linear-gradient(180deg, #3d8ef8 0%, transparent 100%);
+  }
+  .k-stat-mega {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: #e4ecff;
+    letter-spacing: -0.04em;
+  }
+  .k-stat-mega .accent {
+    color: #3d8ef8;
+  }
+  .k-stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6680a8;
+    line-height: 1.4;
+  }
+  .k-insight-block {
+    background: linear-gradient(90deg, rgba(61, 142, 248, 0.1) 0%, rgba(61, 142, 248, 0.02) 100%);
+    border-left: 3px solid #3d8ef8;
+    border-radius: 0 1rem 1rem 0;
+    padding: 1.5rem 1.75rem;
+  }
+  .k-quote-block {
+    background: #0c1530;
+    border: 1px solid #243a60;
+    border-radius: 1rem;
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .k-quote-block .marker {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: #10b981;
+    margin-top: 0.6rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 14px #10b981;
+  }
+</style>
