@@ -1,0 +1,84 @@
+---
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import Target from '@lucide/astro/icons/target';
+---
+
+<section class="section">
+  <div class="container">
+
+    <div class="max-w-3xl mb-10">
+      <div class="tag mb-6">СТРАТЕГИИ ПОД КАНАЛ</div>
+      <h2 class="text-brand-text mb-5">
+        Живые самовыкупы под конкретные задачи
+      </h2>
+      <p class="text-brand-muted text-lg leading-relaxed">
+        Универсальные выкупы — это база. Под отдельные каналы и задачи
+        мы собираем точечные стратегии. Одна из ключевых сейчас —
+        захват трафика конкурентов через рекомендательные полки.
+      </p>
+    </div>
+
+    <!-- Featured: рекомендательные полки -->
+    <a
+      href="/polki"
+      class="group relative block rounded-3xl border border-brand-border bg-brand-surface
+             overflow-hidden hover:border-brand-accent/40 transition-all duration-300"
+    >
+      <!-- акцентный градиент в углу -->
+      <div class="pointer-events-none absolute -top-32 -right-32 w-96 h-96 rounded-full
+                  opacity-30 blur-3xl bg-gradient-to-br from-brand-accent to-transparent
+                  group-hover:opacity-50 transition-opacity duration-500">
+      </div>
+
+      <div class="relative grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-8 lg:gap-10 p-8 lg:p-10">
+
+        <div class="max-w-2xl">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-brand-accent-dim border border-brand-accent/30
+                        flex items-center justify-center shrink-0">
+              <Target size={20} class="text-brand-accent" />
+            </div>
+            <p class="text-brand-accent text-xs uppercase tracking-widest font-semibold">
+              СТРАТЕГИЯ · РЕКОМЕНДАТЕЛЬНЫЕ ПОЛКИ
+            </p>
+          </div>
+
+          <h3 class="text-brand-text text-2xl md:text-3xl font-bold leading-tight mb-4">
+            Встанем в полки конкретных топ-конкурентов
+            <span class="text-brand-accent">за 7 дней</span>
+          </h3>
+
+          <p class="text-brand-muted text-base md:text-lg leading-relaxed mb-6">
+            До 70% выручки крупных селлеров на WB идёт с рекомендательных полок.
+            Покупатель открывает карточку лидера — и видит вашу в его рекомендациях.
+            Точечный таргет к нужному топу, которого нет в рекламном кабинете WB.
+          </p>
+
+          <!-- мини-статы для убедительности -->
+          <div class="grid grid-cols-3 gap-4 mb-6 max-w-md">
+            <div>
+              <p class="text-brand-accent text-xl md:text-2xl font-bold leading-none">до 70%</p>
+              <p class="text-brand-muted text-xs mt-2 leading-tight">выручки топов</p>
+            </div>
+            <div>
+              <p class="text-brand-accent text-xl md:text-2xl font-bold leading-none">7 дней</p>
+              <p class="text-brand-muted text-xs mt-2 leading-tight">до входа в полку</p>
+            </div>
+            <div>
+              <p class="text-brand-accent text-xl md:text-2xl font-bold leading-none">15–40%</p>
+              <p class="text-brand-muted text-xs mt-2 leading-tight">рост выручки</p>
+            </div>
+          </div>
+
+          <div class="inline-flex items-center gap-2 text-brand-accent font-semibold
+                      group-hover:gap-3 transition-all duration-200">
+            <span>Открыть полный разбор канала</span>
+            <ArrowRight size={18} class="shrink-0" />
+          </div>
+        </div>
+
+      </div>
+    </a>
+
+  </div>
+</section>
