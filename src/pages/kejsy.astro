@@ -2,9 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { CONTACTS, SITE_URL } from '@/consts';
 
-const title = 'Кейсы UBuyer — реальные результаты на Wildberries и OZON';
+const title = 'Кейсы UBuyer — 5 реальных результатов на Wildberries из ~2 000 запусков';
 const description =
-  '4 кейса UBuyer: запуск новинки в конкурентной нише, вход в акцию по цене ×2 выше рынка, конвейер запусков 2+ года, спасение плана ИУ за 10 дней. Реальные цифры от живой инфраструктуры.';
+  '5 кейсов UBuyer: запуск новинки, вход в акцию по цене ×2 выше рынка, конвейер 100 артикулов за 2+ года, спасение плана ИУ, перехват рекомендательных полок 4 конкурентов. ~2 000 запусков клиентов за 3 года. 0 блокировок.';
 const tg = CONTACTS.telegram;
 ---
 
@@ -33,7 +33,7 @@ const tg = CONTACTS.telegram;
       "@context": "https://schema.org",
       "@type": "ItemList",
       "itemListOrder": "https://schema.org/ItemListOrderAscending",
-      "numberOfItems": 4,
+      "numberOfItems": 5,
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -86,6 +86,20 @@ const tg = CONTACTS.telegram;
             "datePublished": "2026-06-02",
             "about": "Выполнение плана ИУ Wildberries в сжатые сроки"
           }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Article",
+            "@id": `${SITE_URL}/kejsy/#case-05`,
+            "headline": "200 выкупов через 4 топовых конкурентов — 20–30 органических заказов из их рекомендательных полок",
+            "description": "Запуск новой карточки женских джинсов через перехват рекомендательных полок 4 топов ниши. 2 этапа: видимость по ключам + точечный перехват полок. Бесплатный поток трафика из выдачи топов.",
+            "author": { "@id": `${SITE_URL}/#organization` },
+            "publisher": { "@id": `${SITE_URL}/#organization` },
+            "datePublished": "2026-06-02",
+            "about": "Перехват рекомендательных полок конкурентов на Wildberries"
+          }
         }
       ]
     }
@@ -109,7 +123,7 @@ const tg = CONTACTS.telegram;
         </h1>
 
         <p class="text-lg sm:text-xl lg:text-2xl text-brand-text/80 leading-relaxed mb-12 max-w-3xl">
-          Четыре задачи — от запуска новой карточки в гипер-конкурентной нише до спасения плана ИУ за 10 дней под Новый Год. Каждая решена через живую инфраструктуру UBuyer.
+          Пять разных задач — от запуска новой карточки и перехвата полок 4 топовых конкурентов до спасения плана ИУ за 10 дней под Новый Год. Каждая решена через живую инфраструктуру UBuyer.
         </p>
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
@@ -139,12 +153,56 @@ const tg = CONTACTS.telegram;
     <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
       <span class="k-tag mb-6"><span class="k-dot"></span>ЧТО ДОКАЗЫВАЮТ КЕЙСЫ</span>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight max-w-4xl">
-        Четыре стратегии. <span class="text-brand-accent k-text-glow">Один результат —</span><br />
+        Пять стратегий. <span class="text-brand-accent k-text-glow">Один результат —</span><br />
         органика без банов.
       </h2>
       <p class="text-lg lg:text-xl text-brand-text/75 max-w-3xl mt-6 leading-relaxed">
         Каждый кейс показывает, как живая инфраструктура и тонкая настройка стратегии решают задачу, которую софт самовыкупов не решает в принципе.
       </p>
+    </div>
+  </section>
+
+  <!-- =========================== TRUST BAND: 5 ИЗ ~2000 =========================== -->
+  <section class="py-16 lg:py-24 relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] rounded-full opacity-15 blur-[120px] bg-gradient-to-r from-brand-accent to-brand-accent-2"></div>
+    </div>
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 relative">
+      <div class="rounded-3xl border border-brand-border bg-brand-surface-2 p-8 lg:p-14 relative overflow-hidden">
+        <div class="pointer-events-none absolute inset-0 opacity-[0.05] k-dot-grid"></div>
+        <div class="relative">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-center">
+            <div>
+              <span class="k-tag mb-6"><span class="k-dot"></span>ВАЖНО ПОНИМАТЬ</span>
+              <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.1] tracking-tight mb-5">
+                5 кейсов на этой странице —<br />
+                <span class="text-brand-accent k-text-glow">избранные из ~2 000 запусков за 3 года</span>
+              </h2>
+              <p class="text-lg lg:text-xl text-brand-text/80 leading-relaxed max-w-2xl">
+                За 3 года через UBuyer прошло около 2&nbsp;000 клиентов в разных нишах и форматах. Среди них —<strong class="text-brand-text"> ни одной блокировки, ни одной пессимизации, ни одного снятия СПП</strong>. Новые кейсы публикуем регулярно — это лишь верхушка.
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 lg:gap-4 lg:min-w-[360px]">
+              <div class="rounded-2xl border border-brand-border bg-brand-surface p-5 text-center">
+                <div class="font-mono font-extrabold text-3xl lg:text-4xl text-brand-accent leading-none mb-2">~2 000</div>
+                <div class="k-stat-lbl">запусков клиентов</div>
+              </div>
+              <div class="rounded-2xl border border-brand-border bg-brand-surface p-5 text-center">
+                <div class="font-mono font-extrabold text-3xl lg:text-4xl text-brand-accent leading-none mb-2">3</div>
+                <div class="k-stat-lbl">года на рынке</div>
+              </div>
+              <div class="rounded-2xl border p-5 text-center" style="border-color: rgba(16,185,129,0.33); background: rgba(16,185,129,0.05);">
+                <div class="font-mono font-extrabold text-3xl lg:text-4xl leading-none mb-2" style="color:#10B981">0</div>
+                <div class="k-stat-lbl">блокировок</div>
+              </div>
+              <div class="rounded-2xl border p-5 text-center" style="border-color: rgba(16,185,129,0.33); background: rgba(16,185,129,0.05);">
+                <div class="font-mono font-extrabold text-3xl lg:text-4xl leading-none mb-2" style="color:#10B981">0</div>
+                <div class="k-stat-lbl">пессимизаций и снятий СПП</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -522,6 +580,137 @@ const tg = CONTACTS.telegram;
             </p>
             <p class="text-brand-text/70 text-base">Приходите с задачей по ИУ заранее — мы успеем сделать вам выручку плавно.</p>
           </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================== КЕЙС 05 =========================== -->
+  <section id="case-05" class="py-20 lg:py-28 scroll-mt-20">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8">
+      <article class="k-case-card p-8 lg:p-14">
+        <div class="flex items-center gap-3 mb-8 flex-wrap">
+          <span class="k-tag"><span class="k-dot"></span>КЕЙС 05</span>
+          <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">женские джинсы · перехват рекомендательных полок</span>
+        </div>
+
+        <h3 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-4xl">
+          <span class="text-brand-accent k-text-glow">200 выкупов</span> через 4 топовых конкурентов —<br />
+          и 20–30 органических заказов из их полок
+        </h3>
+
+        <p class="text-lg lg:text-xl text-brand-text/75 leading-relaxed mb-12 max-w-3xl">
+          До 70% трафика крупных селлеров идёт с рекомендательных полок. Сказать «поставь меня в полку этого топа» через рекламу WB нельзя — алгоритм решает сам. Мы — единственные, кто это умеет точечно, через поведение покупателей.
+        </p>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12">
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">200</span></div><div class="k-stat-lbl mt-3">выкупов</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">4</div><div class="k-stat-lbl mt-3">конкурента в перехвате</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega"><span class="accent">20–30</span></div><div class="k-stat-lbl mt-3">заказов/день из полок</div></div>
+          <div class="rounded-xl bg-brand-surface border border-brand-border p-5"><div class="k-stat-mega">2</div><div class="k-stat-lbl mt-3">этапа стратегии</div></div>
+        </div>
+
+        <!-- SVG: схема перехвата 4 конкурентов -->
+        <div class="rounded-xl border border-brand-border bg-brand-surface p-6 lg:p-8 mb-12">
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <span class="font-mono text-xs uppercase tracking-widest text-brand-muted">Схема перехвата: 4 топа → наша карточка → органика</span>
+            <span class="font-mono text-xs text-brand-accent">размер потока = объём выкупов</span>
+          </div>
+          <svg viewBox="0 0 800 340" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="kflow1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#3D8EF8" stop-opacity=".7" />
+                <stop offset="100%" stop-color="#3D8EF8" stop-opacity=".15" />
+              </linearGradient>
+              <radialGradient id="kcomp1" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#3D8EF8" stop-opacity="1" />
+                <stop offset="100%" stop-color="#3D8EF8" stop-opacity=".25" />
+              </radialGradient>
+              <radialGradient id="kus" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#10B981" stop-opacity="1" />
+                <stop offset="100%" stop-color="#10B981" stop-opacity=".25" />
+              </radialGradient>
+              <marker id="karrG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#10B981" />
+              </marker>
+            </defs>
+
+            <!-- 4 конкурента -->
+            <circle cx="100" cy="55" r="32" fill="url(#kcomp1)" stroke="#3D8EF8" stroke-width="2" />
+            <text x="100" y="59" font-family="JetBrains Mono" font-size="14" font-weight="700" fill="#E4ECFF" text-anchor="middle">50</text>
+            <text x="100" y="105" font-family="JetBrains Mono" font-size="10" fill="#6680A8" text-anchor="middle">КОНКУРЕНТ 1</text>
+            <text x="100" y="120" font-family="JetBrains Mono" font-size="9" fill="#4DD9FF" text-anchor="middle">ТОП-1 ПО КЛЮЧУ</text>
+
+            <circle cx="100" cy="170" r="32" fill="url(#kcomp1)" stroke="#3D8EF8" stroke-width="2" />
+            <text x="100" y="174" font-family="JetBrains Mono" font-size="14" font-weight="700" fill="#E4ECFF" text-anchor="middle">50</text>
+            <text x="100" y="220" font-family="JetBrains Mono" font-size="10" fill="#6680A8" text-anchor="middle">КОНКУРЕНТ 2</text>
+            <text x="100" y="235" font-family="JetBrains Mono" font-size="9" fill="#4DD9FF" text-anchor="middle">ТОП-2 ПО КЛЮЧУ</text>
+
+            <circle cx="220" cy="55" r="24" fill="url(#kcomp1)" stroke="#3D8EF8" stroke-width="2" />
+            <text x="220" y="59" font-family="JetBrains Mono" font-size="13" font-weight="700" fill="#E4ECFF" text-anchor="middle">30</text>
+            <text x="220" y="95" font-family="JetBrains Mono" font-size="10" fill="#6680A8" text-anchor="middle">КОНКУРЕНТ 3</text>
+            <text x="220" y="110" font-family="JetBrains Mono" font-size="9" fill="#4DD9FF" text-anchor="middle">СИЛЬНЫЙ MIDMARKET</text>
+
+            <circle cx="220" cy="170" r="18" fill="url(#kcomp1)" stroke="#3D8EF8" stroke-width="2" />
+            <text x="220" y="174" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#E4ECFF" text-anchor="middle">20</text>
+            <text x="220" y="207" font-family="JetBrains Mono" font-size="10" fill="#6680A8" text-anchor="middle">КОНКУРЕНТ 4</text>
+            <text x="220" y="222" font-family="JetBrains Mono" font-size="9" fill="#4DD9FF" text-anchor="middle">РАСТУЩИЙ</text>
+
+            <!-- потоки -->
+            <path d="M132,55 Q260,55 350,110" stroke="url(#kflow1)" stroke-width="14" fill="none" stroke-linecap="round" opacity=".7" />
+            <path d="M132,170 Q260,170 350,130" stroke="url(#kflow1)" stroke-width="14" fill="none" stroke-linecap="round" opacity=".7" />
+            <path d="M244,55 Q300,75 350,108" stroke="url(#kflow1)" stroke-width="9" fill="none" stroke-linecap="round" opacity=".7" />
+            <path d="M238,170 Q300,150 350,130" stroke="url(#kflow1)" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7" />
+
+            <!-- наша карточка -->
+            <rect x="350" y="80" width="180" height="80" rx="14" fill="url(#kus)" stroke="#10B981" stroke-width="2" />
+            <text x="440" y="112" font-family="Inter" font-size="13" font-weight="700" fill="#E4ECFF" text-anchor="middle">НАША НОВАЯ КАРТОЧКА</text>
+            <text x="440" y="135" font-family="JetBrains Mono" font-size="11" fill="#E4ECFF" text-anchor="middle" opacity=".75">женские джинсы</text>
+            <text x="440" y="150" font-family="JetBrains Mono" font-size="10" fill="#4DD9FF" text-anchor="middle">+ 50 выкупов по ключам</text>
+
+            <text x="265" y="270" font-family="JetBrains Mono" font-size="10" fill="#6680A8" text-anchor="middle">ЭТАП 1–2: 200 ВЫКУПОВ — ВИДИМОСТЬ + ПОЛКИ</text>
+
+            <!-- стрелка к результату -->
+            <path d="M530,120 L630,120" stroke="#10B981" stroke-width="3" marker-end="url(#karrG)" />
+
+            <!-- блок органики -->
+            <rect x="630" y="75" width="160" height="90" rx="14" fill="#10B98114" stroke="#10B981" stroke-width="2" />
+            <text x="710" y="100" font-family="JetBrains Mono" font-size="10" fill="#10B981" text-anchor="middle" font-weight="700">РЕЗУЛЬТАТ ОРГАНИКИ</text>
+            <text x="710" y="130" font-family="Inter" font-size="22" font-weight="800" fill="#E4ECFF" text-anchor="middle">20–30</text>
+            <text x="710" y="150" font-family="JetBrains Mono" font-size="10" fill="#E4ECFF" text-anchor="middle" opacity=".8">заказов/день</text>
+
+            <text x="100" y="290" font-family="JetBrains Mono" font-size="11" fill="#4DD9FF" font-weight="700" text-anchor="middle">КАК ЭТО РАБОТАЕТ:</text>
+            <text x="400" y="290" font-family="JetBrains Mono" font-size="11" fill="#E4ECFF" text-anchor="middle">покупатель находит конкурента → переходит в его карточку → из его полки идёт к нам → заказывает</text>
+            <text x="400" y="318" font-family="JetBrains Mono" font-size="11" fill="#10B981" text-anchor="middle" font-weight="700">алгоритм фиксирует связь «полка конкурента ↔ наша карточка» → даёт бесплатные показы реальным посетителям</text>
+          </svg>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Стратегия в 2 этапа</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Анализ:</strong> выбрали 4 топовых конкурента с пересекающейся аудиторией</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Этап 1:</strong> 50 выкупов по ключам — первичная видимость, карточка регистрируется в алгоритме</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span><strong class="text-brand-text">Этап 2:</strong> 150 выкупов через полки 4 конкурентов (50/50/30/20) — точечный перехват</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Покупатель находит конкурента → попадает в его полку → переходит к нам → заказ</span></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Результат</h4>
+            <ul class="space-y-3 text-brand-text/85">
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Алгоритм зафиксировал устойчивую связь «полка ↔ наша карточка»</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Карточка закрепилась в рекомендациях 4 конкурентов</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>20–30 органических заказов/день из их полок — без расходов на РК</span></li>
+              <li class="flex gap-3"><span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span><span>Двойной источник трафика: полки + поисковая выдача по ключам</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="k-insight-block">
+          <span class="font-mono text-[10px] uppercase tracking-widest text-brand-accent mb-2 block">Что важно понимать</span>
+          <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text">
+            Никакая внутренняя реклама WB не позволяет точечно встать в полку именно этого конкурента. Алгоритм решает сам. Через поведение реальных покупателей мы создаём этот сигнал руками — и алгоритм начинает показывать вас в полке конкретного топа органически.
+          </p>
         </div>
       </article>
     </div>
