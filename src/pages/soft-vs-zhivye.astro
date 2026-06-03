@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: 'Почему за 3 года работы UBuyer ни один клиент не получил пессимизацию?',
-    a: 'Потому что наша инфраструктура построена под актуальные сигналы антифрода WB. Каждый профиль — реальный человек с собственной SIM-картой, банковской картой, привязанным адресом и поведенческой историей. Один курьер забирает один товар (не 5 QR-кодов разных артикулов). В корзине несколько товаров, есть реальный процент отказов. Поведение в приложении неотличимо от органики: люди заходят через поиск, листают конкурентов, добавляют в избранное. Антифрод-сигналы не срабатывают — поэтому СПП живёт, отзывы публикуются, органика растёт.',
+    a: 'Потому что наша инфраструктура построена под актуальные сигналы антифрода WB. Каждый профиль — реальный человек с собственной SIM-картой, банковской картой, привязанным адресом и поведенческой историей. Штатная девушка-курьер забирает за заход одну корзину одного клиента (с реальной долей отказа), а не 4–5 QR-кодов разных артикулов разных селлеров. В корзине у каждого профиля несколько товаров, есть реальный процент отказов под нишу клиента. Поведение в приложении неотличимо от органики: люди заходят через поиск, листают конкурентов, добавляют в избранное. Антифрод-сигналы не срабатывают — поэтому СПП живёт, отзывы публикуются, органика растёт.',
   },
   {
     q: 'Что значит «каскадное удаление отзывов» и почему это убивает софты?',
@@ -206,13 +206,6 @@ const faqs = [
         </div>
       </div>
 
-      <div class="rounded-2xl border border-brand-border bg-brand-surface p-6 lg:p-8 mb-2">
-        <div class="font-mono text-xs uppercase tracking-widest text-brand-muted mb-4">Живая цитата селлера</div>
-        <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text mb-2 italic">
-          «Лишили СПП на 30 дней — продаю по 1 000 ₽ без скидки. Конкуренты по 700 со скидкой WB. Оборот упал с 70 000 до 10 000 ₽/месяц.»
-        </p>
-        <p class="text-sm text-brand-muted">Из обсуждения на vc.ru, 2025</p>
-      </div>
     </div>
   </section>
 
@@ -513,14 +506,14 @@ const faqs = [
               <tr class="border-t border-brand-border">
                 <td class="p-4 font-mono text-brand-muted">12</td>
                 <td class="p-4 font-semibold">Кто забирает в&nbsp;ПВЗ</td>
-                <td class="p-4 text-brand-muted">Один курьер на аутсорсе, 4–5 QR-кодов разных товаров</td>
-                <td class="p-4">Штатная девушка-курьер, 1 QR — 1 товар</td>
+                <td class="p-4 text-brand-muted">Курьер на аутсорсе, 4–5 QR-кодов разных артикулов разных селлеров за один заход</td>
+                <td class="p-4">Штатная девушка-курьер, один QR — одна корзина одного клиента (часть товаров с&nbsp;отказом), естественный заход</td>
               </tr>
               <tr class="border-t border-brand-border bg-brand-surface/50">
                 <td class="p-4 font-mono text-brand-muted">13</td>
                 <td class="p-4 font-semibold">% выкупа</td>
-                <td class="p-4 text-brand-muted">100% — все QR забираются. Аномалия: у живых отказы есть всегда</td>
-                <td class="p-4">85–95% — заложен реальный процент отказа под нишу</td>
+                <td class="p-4 text-brand-muted">100% — все QR забираются без отказов. Аномалия: у живых покупателей отказы есть всегда</td>
+                <td class="p-4">Подбираем индивидуально под нишу и реальный процент отказа клиента — стратегия повторяет естественную картину его магазина</td>
               </tr>
               <tr class="border-t border-brand-border">
                 <td class="p-4 font-mono text-brand-muted">14</td>
@@ -544,7 +537,7 @@ const faqs = [
                 <td class="p-4 font-mono text-brand-muted">17</td>
                 <td class="p-4 font-semibold">Возврат на склад WB</td>
                 <td class="p-4 text-brand-muted">На селлере — везёт сам, либо опять аутсорс</td>
-                <td class="p-4">Свой автопарк отвозит партиями по расписанию селлера</td>
+                <td class="p-4">Отгружаем на 3 склада WB на выбор клиента (Коледино, Подольск, Электросталь). Менеджер присылает график отгрузок, клиент оформляет поставку в&nbsp;ЛК WB по выбранной дате</td>
               </tr>
               <tr class="border-t border-brand-border">
                 <td class="p-4 font-mono text-brand-muted">18</td>
@@ -736,16 +729,16 @@ const faqs = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
         <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-6">
           <div class="font-mono text-xs uppercase tracking-widest text-brand-accent-2 mb-3">Инфраструктура</div>
-          <p class="text-brand-text font-semibold mb-2">Офис в Москве</p>
+          <p class="text-brand-text font-semibold mb-2">Офис в Севастополе</p>
           <p class="text-sm text-brand-text/80 leading-relaxed">
-            Физический офис, где работает команда. Менеджеры, экспертная поддержка, координаторы курьеров — все в штате.
+            Главный офис — физическое помещение, где работает команда. Менеджеры, экспертная поддержка, координаторы курьеров — все в штате. Местные клиенты заходят на кофе и видят процесс изнутри.
           </p>
         </div>
         <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-6">
           <div class="font-mono text-xs uppercase tracking-widest text-brand-accent-2 mb-3">Логистика</div>
-          <p class="text-brand-text font-semibold mb-2">Свой автопарк и склад</p>
+          <p class="text-brand-text font-semibold mb-2">Свой автопарк и склад в Москве</p>
           <p class="text-sm text-brand-text/80 leading-relaxed">
-            Машины с водителями, склад в Москве с приёмкой, хранением, переупаковкой и обратной отгрузкой на WB.
+            Машины с водителями, склад с приёмкой, хранением, переупаковкой. Отгрузка обратно на 3 склада WB на выбор клиента — Коледино, Подольск, Электросталь.
           </p>
         </div>
         <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-6">
@@ -783,7 +776,7 @@ const faqs = [
         <span class="marker"></span>
         <div>
           <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text mb-2">
-            Хочешь увидеть всё лично? Анастасия организует видео-связь с офисом, склад можно посмотреть на видео-туре,
+            Хочешь увидеть всё лично? Наши менеджеры организуют видео-связь с офисом и складом,
             юр.документы предоставляем по запросу до подписания договора.
           </p>
           <p class="text-brand-text/70 text-base">Это не «доверительный маркетинг» — это проверяемые факты.</p>
@@ -972,9 +965,9 @@ const faqs = [
         <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
           <div class="flex items-center gap-3 mb-2">
             <span class="w-7 h-7 rounded-lg bg-brand-accent/15 text-brand-accent font-bold text-sm flex items-center justify-center">06</span>
-            <p class="text-brand-text font-semibold">Сколько QR-кодов берёт один курьер за смену?</p>
+            <p class="text-brand-text font-semibold">Как курьер забирает товар в&nbsp;ПВЗ?</p>
           </div>
-          <p class="text-sm text-brand-muted">Зелёный: «1 QR — 1 товар». Красный: «4–5 разных артикулов за раз».</p>
+          <p class="text-sm text-brand-muted">Зелёный: «один QR — одна корзина одного клиента, часть товаров может быть с&nbsp;отказом, как живой покупатель». Красный: «один курьер с&nbsp;4–5 QR разных артикулов разных селлеров за заход».</p>
         </div>
         <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
           <div class="flex items-center gap-3 mb-2">
@@ -986,9 +979,9 @@ const faqs = [
         <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
           <div class="flex items-center gap-3 mb-2">
             <span class="w-7 h-7 rounded-lg bg-brand-accent/15 text-brand-accent font-bold text-sm flex items-center justify-center">08</span>
-            <p class="text-brand-text font-semibold">Какой процент отказа закладываете в стратегию?</p>
+            <p class="text-brand-text font-semibold">Какой процент отказа закладываете в&nbsp;стратегию?</p>
           </div>
-          <p class="text-sm text-brand-muted">Зелёный: «5–15% — иначе аномалия». Красный: «100% — все заберут, гарантируем».</p>
+          <p class="text-sm text-brand-muted">Зелёный: «подбираем индивидуально под нишу и&nbsp;под реальный процент отказа в&nbsp;магазине клиента — стратегия повторяет органическую картину». Красный: «100% — все заберут, гарантируем».</p>
         </div>
         <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
           <div class="flex items-center gap-3 mb-2">
@@ -1000,9 +993,9 @@ const faqs = [
         <div class="rounded-2xl border border-brand-border bg-brand-surface p-5">
           <div class="flex items-center gap-3 mb-2">
             <span class="w-7 h-7 rounded-lg bg-brand-accent/15 text-brand-accent font-bold text-sm flex items-center justify-center">10</span>
-            <p class="text-brand-text font-semibold">Сколько лет работаете и можно ли посмотреть кейсы?</p>
+            <p class="text-brand-text font-semibold">Сколько лет работаете и&nbsp;можно ли посмотреть кейсы?</p>
           </div>
-          <p class="text-sm text-brand-muted">Зелёный: «3+ года, кейсы с цифрами и графиками». Красный: «недавно открылись / NDA / не разглашаем».</p>
+          <p class="text-sm text-brand-muted">Зелёный: «3+ года, кейсы с&nbsp;цифрами и&nbsp;графиками — без имён клиентов, защищаем по&nbsp;NDA». Красный: «недавно открылись / нет публичных кейсов вообще».</p>
         </div>
       </div>
 
@@ -1012,7 +1005,7 @@ const faqs = [
           <p class="text-lg lg:text-xl font-semibold leading-snug text-brand-text mb-2">
             У нас все 10 ответов — зелёные. Хотите проверить — задайте любой вопрос Анастасии, она пришлёт менеджера с пруфами.
           </p>
-          <p class="text-brand-text/70 text-base">Кейсы с цифрами и графиками публично выложены — посмотрите 4 разбора <a href="/kejsy/" class="text-brand-accent hover:underline">здесь</a>.</p>
+          <p class="text-brand-text/70 text-base">Имена клиентов мы не разглашаем — селлеры под NDA. Но цифры, стратегии и результаты — публичны: <a href="/kejsy/" class="text-brand-accent hover:underline">5 разборов кейсов</a> с графиками динамики.</p>
         </div>
       </div>
     </div>
@@ -1075,7 +1068,7 @@ const faqs = [
               → Стратегия захвата полок
             </a>
             <a href="/kejsy/" class="rounded-xl border border-brand-border bg-brand-surface px-4 py-3 text-brand-muted hover:text-brand-text hover:border-brand-border-2 transition-colors">
-              → 4 кейса · цифры и графики
+              → 5 кейсов · цифры и графики
             </a>
             <a href="/scenarii/" class="rounded-xl border border-brand-border bg-brand-surface px-4 py-3 text-brand-muted hover:text-brand-text hover:border-brand-border-2 transition-colors">
               → 13 сценариев роста
