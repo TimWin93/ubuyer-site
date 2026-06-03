@@ -1,69 +1,20 @@
 ---
-// Тревожный вопрос рынка — не валидирует «софты тоже не банят», а
-// наоборот показывает риск. AutoSend в чат с контекстом 'comparison' →
-// Анастасия достаёт реальный кейс из knowledge/05-возражения-про-конкурентов.md
+// Главное конкурентное сравнение на главной — софт vs живые.
+// Полный разбор (23 параметра, 4 группы, чек-лист) — в pillar-странице /soft-vs-zhivye/
 const OBJECTION_QUESTION = 'Что происходит с карточкой после «дешёвых» выкупов?';
 const CHAT_PREFILL = 'Расскажите реальный кейс — что бывает с карточкой после дешёвых сервисов выкупов?';
 const OBJECTION_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(CHAT_PREFILL)}`;
 
-const tabs = [
-  {
-    id: 'bots',
-    label: 'vs. ПО и боты',
-    them: [
-      'Единообразные аккаунты — WB давно видит этот паттерн',
-      'Нет реальной доставки — только имитация статусов',
-      'Ноль логистики — товар не уходит и не возвращается',
-      'Один IP, одно устройство, одна сессия = моментальный флаг',
-      'Нет договора, нет актов, нет ответственности',
-    ],
-    us: [
-      'Более 3 000 живых покупательских профилей с многолетней историей',
-      'Реальная доставка через ПВЗ — живые статусы, живые люди',
-      'Полный логистический цикл: забор → склад → отгрузка на WB',
-      'Естественное поведение: просмотр, корзина, покупка, отказ',
-      'Полная юридическая прозрачность: договор, акты, безналичный расчёт',
-    ],
-    verdict: 'ПО — дешевле. Но WB заблокирует карточку быстрее, чем вы окупите вложения.',
-  },
-  {
-    id: 'giveaways',
-    label: 'vs. Раздачи',
-    them: [
-      'Товар уходит к неизвестным людям — в большинстве не возвращается',
-      'Нет контроля над исполнителем и результатом',
-      'Конкуренты видят раздачу и могут скопировать или пожаловаться',
-      'Раздачи видны WB — алгоритм учитывает их отдельно от органики',
-      'Нельзя направить рост по конкретным ключевым запросам',
-    ],
-    us: [
-      'Товар возвращается в оборот и отгружается обратно на WB-склад',
-      'Полный контроль: ТЗ → запуск → отчёт. Вы видите всё в таблице',
-      'Закрытая инфраструктура — конкуренты не видят вашу стратегию',
-      'Поведение идентично живым покупателям — сигнал воспринимается как органика',
-      'Распределяем заказы по конкретным ключевым запросам',
-    ],
-    verdict: 'Раздачи теряют товар. Самовыкупы возвращают его в оборот. Посчитайте сами.',
-  },
-  {
-    id: 'cheap',
-    label: 'vs. Дешёвые сервисы',
-    them: [
-      'Те же скрипты и боты — просто с красивым сайтом',
-      'Нет собственных ПВЗ-маршрутов и логистики',
-      'Скрытые комиссии вскрываются после оплаты',
-      'Нет полного цикла: товар не возвращается на склад WB',
-      'Нет договора — нет ответственности при бане',
-    ],
-    us: [
-      'Ручная работа: каждый аккаунт уникален, каждый сценарий прописан',
-      '3 000+ собственных ПВЗ-маршрутов, свой автопарк и склад',
-      'Прозрачное ценообразование: 450–500 руб./шт, без скрытых наценок',
-      'Полный цикл: заказ → ПВЗ → склад → переупаковка → отгрузка на WB',
-      'Работаем официально — вы защищены договором',
-    ],
-    verdict: 'Дёшево = дороже. Один штраф или бан перекроет всю экономию от низкой цены.',
-  },
+const them = [
+  'Виртуальные SIM, эмуляторы, выкуп через WB-кошелёк — десятки поведенческих аномалий для антифрода WB',
+  'Один курьер забирает 4–5 разных товаров одной ходкой — паттерн, который ML видит сразу',
+  'Каскадное удаление отзывов — теряются даже настоящие. У клиентов «не проходят отзывы», сервис закрывается',
+];
+
+const us = [
+  'Реальный смартфон, физическая SIM, банковская карта, домашний IP — всё совпадает с поведением живого покупателя',
+  'Штатные курьеры, 1 QR на 1 товар, ротация ПВЗ ≥ 80 дней — ни одного аномального сигнала',
+  '3 года работы — ни один отзыв клиента не был удалён каскадным алгоритмом WB. СПП не снимается',
 ];
 ---
 
@@ -71,77 +22,88 @@ const tabs = [
   <div class="container">
     <div class="max-w-2xl mx-auto text-center mb-12">
       <div class="tag mb-5">Сравнение</div>
-      <h2 class="text-brand-text mb-4">Чем мы отличаемся<br />от альтернатив</h2>
+      <h2 class="text-brand-text mb-4">Чем мы отличаемся<br />от софт-сервисов</h2>
       <p class="text-brand-muted text-lg">
-        Не все методы продвижения одинаково безопасны для карточки. Разберём честно.
+        9 октября 2024 WB отменил денежные штрафы за самовыкупы — но заменил их на тихую пессимизацию.
+        Софты ловятся сразу, живая инфраструктура — нет.
       </p>
     </div>
 
-    <!-- табы — горизонтальный скролл на мобильном -->
-    <div class="flex gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none justify-start sm:justify-center" id="comp-tabs">
-      {tabs.map((t, i) => (
-        <button
-          data-tab={t.id}
-          class={`comp-tab shrink-0 px-5 py-3.5 min-h-[44px] rounded-xl text-sm font-semibold border transition-all duration-150
-            ${i === 0
-              ? 'bg-brand-accent text-white border-brand-accent'
-              : 'text-brand-muted border-brand-border hover:border-brand-border-2 hover:text-brand-text'
-            }`}
-        >
-          {t.label}
-        </button>
-      ))}
-    </div>
-
-    <!-- контент табов -->
-    {tabs.map((t, i) => (
-      <div
-        id={`tab-${t.id}`}
-        class={`comp-panel max-w-4xl mx-auto ${i !== 0 ? 'hidden' : ''}`}
-      >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <!-- Они -->
-          <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-7">
-            <div class="flex items-center gap-2 mb-6">
-              <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
-              <span class="text-sm font-semibold text-red-400 uppercase tracking-wider">Альтернатива</span>
-            </div>
-            <ul class="space-y-4">
-              {t.them.map((item) => (
-                <li class="flex items-start gap-3 text-sm text-brand-muted leading-relaxed">
-                  <span class="text-red-400/70 shrink-0 mt-0.5 text-base">✗</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+    <!-- Сравнительная пара -->
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Софт -->
+        <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-7">
+          <div class="flex items-center gap-2 mb-6">
+            <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
+            <span class="text-sm font-semibold text-red-400 uppercase tracking-wider">Софт-сервисы</span>
           </div>
-
-          <!-- Мы -->
-          <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7">
-            <div class="flex items-center gap-2 mb-6">
-              <span class="w-2 h-2 rounded-full bg-brand-accent-2 shrink-0"></span>
-              <span class="text-sm font-semibold text-brand-accent-2 uppercase tracking-wider">UBuyer</span>
-            </div>
-            <ul class="space-y-4">
-              {t.us.map((item) => (
-                <li class="flex items-start gap-3 text-sm text-brand-text leading-relaxed">
-                  <span class="text-emerald-400 shrink-0 mt-0.5 text-base">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul class="space-y-4">
+            {them.map((item) => (
+              <li class="flex items-start gap-3 text-sm text-brand-muted leading-relaxed">
+                <span class="text-red-400/70 shrink-0 mt-0.5 text-base">✗</span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <!-- вердикт -->
-        <div class="rounded-2xl border border-brand-border-2 bg-brand-surface px-6 py-5 text-left">
-          <p class="text-brand-text/90 font-medium leading-relaxed">«{t.verdict}»</p>
+        <!-- UBuyer -->
+        <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7">
+          <div class="flex items-center gap-2 mb-6">
+            <span class="w-2 h-2 rounded-full bg-brand-accent-2 shrink-0"></span>
+            <span class="text-sm font-semibold text-brand-accent-2 uppercase tracking-wider">UBuyer · живые</span>
+          </div>
+          <ul class="space-y-4">
+            {us.map((item) => (
+              <li class="flex items-start gap-3 text-sm text-brand-text leading-relaxed">
+                <span class="text-emerald-400 shrink-0 mt-0.5 text-base">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    ))}
 
-    <!-- ───── Самое частое возражение → Анастасия ───── -->
-    <div class="max-w-2xl mx-auto mt-12">
+      <!-- Вердикт -->
+      <div class="rounded-2xl border border-brand-border-2 bg-brand-surface px-6 py-5 text-left mb-10">
+        <p class="text-brand-text/90 font-medium leading-relaxed">«Софт — дешевле. Но потеря СПП на 30 дней и каскадное удаление отзывов перекроют экономию в первые недели.»</p>
+      </div>
+
+      <!-- ───── Большой CTA на полный разбор ───── -->
+      <a
+        href="/soft-vs-zhivye/"
+        class="group block rounded-2xl border-2 border-brand-accent/40 bg-gradient-to-br from-brand-accent-dim to-brand-surface-2
+               hover:border-brand-accent transition-all duration-200 px-7 py-6 mb-10"
+      >
+        <div class="flex items-center gap-5">
+          <span class="shrink-0 w-12 h-12 rounded-xl bg-brand-accent/20 border border-brand-accent/40 flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D8EF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <line x1="10" y1="9" x2="8" y2="9"/>
+            </svg>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] uppercase tracking-widest text-brand-accent-2 mb-1.5 font-mono">
+              Полный разбор · 23 параметра · 9 минут чтения
+            </div>
+            <div class="text-brand-text font-semibold leading-snug text-base sm:text-lg">
+              Живые vs софт-самовыкупы на WB в 2026:<br/>что изменилось после отмены штрафов и&nbsp;как WB ловит софты
+            </div>
+          </div>
+          <span class="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-accent group-hover:translate-x-0.5 transition-transform">
+            Читать
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10m0 0L9 4m4 4l-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- ───── Самое частое возражение → Анастасия ───── -->
       <a
         href={OBJECTION_URL}
         data-cta="chip"
@@ -182,24 +144,3 @@ const tabs = [
     </div>
   </div>
 </section>
-
-<script>
-  const tabs = document.querySelectorAll('.comp-tab');
-  const panels = document.querySelectorAll('.comp-panel');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const id = (tab as HTMLElement).dataset.tab;
-
-      tabs.forEach(t => {
-        t.classList.remove('bg-brand-accent', 'text-white', 'border-brand-accent');
-        t.classList.add('text-brand-muted', 'border-brand-border');
-      });
-      tab.classList.add('bg-brand-accent', 'text-white', 'border-brand-accent');
-      tab.classList.remove('text-brand-muted', 'border-brand-border');
-
-      panels.forEach(p => p.classList.add('hidden'));
-      document.getElementById(`tab-${id}`)?.classList.remove('hidden');
-    });
-  });
-</script>
