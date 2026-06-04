@@ -1535,6 +1535,9 @@ const PILL_PHRASES = [
       scrollToBottom();
       setTimeout(() => input.focus(), 220);
       (window as any).ymGoal?.('chat_opened');
+      if (location.pathname.startsWith('/polki')) {
+        (window as any).ymGoal?.('polki_chat_opened');
+      }
     }
 
     function autoResize(): void {
