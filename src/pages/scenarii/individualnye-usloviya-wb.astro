@@ -1,0 +1,430 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import CheckCircle2 from '@lucide/astro/icons/circle-check';
+import MessageCircle from '@lucide/astro/icons/message-circle';
+import Shield from '@lucide/astro/icons/shield';
+import { SITE_URL } from '@/consts';
+import { iuData as d } from '@/data/iu';
+
+const CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(d.finalCta.chatMessage)}`;
+const PAGE_URL = `${SITE_URL}${d.seo.path}/`;
+
+// Service + FAQPage schema
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Добор оборота под индивидуальные условия Wildberries',
+  serviceType: 'Marketplace promotion / Turnover support',
+  provider: { '@type': 'Organization', name: 'UBuyer', url: SITE_URL },
+  areaServed: { '@type': 'Country', name: 'Russia' },
+  description:
+    'Не выполнили план по индивидуальным условиям WB — маркетплейс пересчитывает квартал по базовым ставкам и выставляет доплату. Добираем недостающий оборот живыми выкупами, чтобы план был выполнен в срок. 10 планов из 10 закрыты, 0 пессимизаций. До 20 000 заказов за 10 дней.',
+  url: PAGE_URL,
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: d.faq.items.map((i) => ({
+    '@type': 'Question',
+    name: i.question,
+    acceptedAnswer: { '@type': 'Answer', text: i.answer },
+  })),
+};
+---
+
+<BaseLayout
+  title={d.seo.title}
+  description={d.seo.description}
+  path={d.seo.path}
+  ogImage={d.seo.ogImage}
+>
+  <!-- Хлебные крошки -->
+  <nav class="container py-3 text-sm text-brand-muted" aria-label="Хлебные крошки">
+    <ol class="flex items-center gap-2" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/" itemprop="item" class="hover:text-brand-accent"><span itemprop="name">Главная</span></a>
+        <meta itemprop="position" content="1" />
+      </li>
+      <li>/</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a href="/scenarii/" itemprop="item" class="hover:text-brand-accent"><span itemprop="name">Сценарии</span></a>
+        <meta itemprop="position" content="2" />
+      </li>
+      <li>/</li>
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span itemprop="name">Индивидуальные условия</span>
+        <meta itemprop="position" content="3" />
+        <meta itemprop="id" content={PAGE_URL} />
+      </li>
+    </ol>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="relative pt-10 pb-20 lg:pt-14 lg:pb-28" style="overflow-x: clip;">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full opacity-20 blur-[120px] bg-gradient-to-b from-brand-accent to-transparent"></div>
+    </div>
+    <div class="pointer-events-none absolute inset-0 opacity-[0.06]" style="background-image: radial-gradient(circle, #3D8EF8 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <div class="container relative">
+      <div class="max-w-3xl">
+        <div class="tag mb-7 reveal !tracking-normal !normal-case">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
+          {d.hero.eyebrow}
+        </div>
+
+        <h1 class="text-brand-text mb-6 reveal text-[1.75rem] sm:text-4xl lg:text-5xl" style="animation-delay:0.1s">
+          {d.hero.h1Pre}{' '}
+          <span class="text-brand-accent text-glow">{d.hero.h1Accent}</span>
+        </h1>
+
+        <p class="text-brand-text/80 text-lg leading-relaxed mb-8 reveal max-w-2xl" style="animation-delay:0.15s">
+          {d.hero.lead}
+        </p>
+
+        <ul class="flex flex-col gap-2.5 mb-10 reveal" style="animation-delay:0.2s">
+          {d.hero.bullets.map((item) => (
+            <li class="flex items-start gap-3 text-sm sm:text-base text-brand-text/75">
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-accent shrink-0 mt-2.5"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4 reveal mb-12" style="animation-delay:0.3s">
+          <a href={CHAT_URL} data-magnetic data-cta="hero_primary" class="btn-primary">
+            {d.hero.primaryCta}
+            <ArrowRight size={16} />
+          </a>
+          <a href={CHAT_URL} data-cta="hero_primary" class="text-brand-accent text-sm hover:text-brand-accent-hover transition-colors">
+            {d.hero.secondaryCta} →
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 reveal" style="animation-delay:0.4s">
+          {d.hero.trustStrip.map((s) => (
+            <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-4">
+              <span class="font-mono font-bold text-2xl text-brand-accent block leading-none mb-2">{s.value}</span>
+              <p class="text-xs text-brand-muted leading-snug">{s.caption}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЧТО ЭТО ТАКОЕ ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-3xl mb-12 reveal">
+        <div class="tag mb-6">{d.whatIsIt.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.whatIsIt.h2}</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">{d.whatIsIt.intro}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {d.whatIsIt.points.map((p) => (
+          <div class="card reveal">
+            <h3 class="text-brand-text mb-3">{p.title}</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ЦЕНА НЕВЫПОЛНЕНИЯ ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl mb-12 reveal">
+        <div class="tag mb-6">{d.riskCost.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.riskCost.h2}</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        <div class="card-glass flex flex-col justify-center reveal">
+          <span class="font-mono font-extrabold text-4xl md:text-5xl text-brand-accent text-glow leading-none mb-4">{d.riskCost.bigStat}</span>
+          <p class="text-brand-text/80 text-base leading-relaxed">{d.riskCost.bigStatCaption}</p>
+        </div>
+
+        <div class="card reveal">
+          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-5">{d.riskCost.mechanicTitle}</p>
+          <ul class="flex flex-col gap-3.5">
+            {d.riskCost.mechanicPoints.map((p) => (
+              <li class="flex items-start gap-3 text-brand-text/85 text-sm leading-relaxed">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 shrink-0 mt-2"></span>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <blockquote class="mt-10 max-w-3xl border-l-2 border-brand-accent pl-6 text-lg md:text-xl text-brand-text/90 leading-relaxed italic reveal">
+        {d.riskCost.harshQuote}
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ===== РЕШЕНИЕ ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-3xl mb-12 reveal">
+        <div class="tag mb-6">{d.solution.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.solution.h2}</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">{d.solution.intro}</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {d.solution.cards.map((c) => (
+          <div class="card reveal">
+            <span class="tag mb-5">{c.badge}</span>
+            <h3 class="text-brand-text text-xl mb-4">{c.title}</h3>
+            <ul class="flex flex-col gap-3">
+              {c.points.map((p) => (
+                <li class="flex items-start gap-3 text-brand-text/80 text-sm leading-relaxed">
+                  <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-8 max-w-3xl text-brand-text/85 text-base leading-relaxed reveal">{d.solution.closer}</p>
+    </div>
+  </section>
+
+  <!-- ===== КЕЙСЫ ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl mb-10 reveal">
+        <div class="tag mb-6">{d.caseBlock.eyebrow}</div>
+        <h2 class="text-brand-text">{d.caseBlock.h2}</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 mb-8 max-w-xl reveal">
+        {d.caseBlock.summary.map((s) => (
+          <div class="rounded-2xl border border-brand-border bg-brand-surface px-4 py-4 text-center">
+            <span class="font-mono font-bold text-2xl text-brand-accent block leading-none mb-2">{s.value}</span>
+            <p class="text-xs text-brand-muted leading-snug">{s.caption}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="card-glass reveal">
+        <span class="tag mb-5">{d.caseBlock.badge}</span>
+        <h3 class="text-brand-text text-xl md:text-2xl mb-6">{d.caseBlock.title}</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-2">Ситуация</p>
+            <p class="text-brand-text/80 text-sm leading-relaxed">{d.caseBlock.situation}</p>
+          </div>
+          <div>
+            <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-2">Решение</p>
+            <p class="text-brand-text/80 text-sm leading-relaxed">{d.caseBlock.solution}</p>
+          </div>
+        </div>
+
+        <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-3">Результат</p>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+          {d.caseBlock.results.map((r) => (
+            <li class="flex items-start gap-3 text-brand-text/85 text-sm leading-relaxed">
+              <CheckCircle2 size={16} class="text-brand-cta shrink-0 mt-0.5" />
+              <span>{r}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p class="border-t border-brand-border pt-5 text-brand-text/90 text-base leading-relaxed italic">{d.caseBlock.insight}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== БЕЗОПАСНОСТЬ / КАК ДОБИРАЕМ ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-3xl mb-12 reveal">
+        <div class="tag mb-6">{d.howWeWork.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.howWeWork.h2}</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">{d.howWeWork.intro}</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {d.howWeWork.cards.map((c) => (
+          <div class="card reveal">
+            <h3 class="text-brand-text mb-3">{c.title}</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ИНФРАСТРУКТУРА ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl mb-10 reveal">
+        <div class="tag mb-6">{d.infra.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.infra.h2}</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">{d.infra.intro}</p>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 reveal">
+        {d.infra.trustStrip.map((s) => (
+          <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-5">
+            <span class="font-mono font-bold text-2xl md:text-3xl text-brand-accent block leading-none mb-2">{s.value}</span>
+            <p class="text-sm text-brand-text/85 font-medium leading-snug">{s.label}</p>
+            <p class="text-xs text-brand-muted leading-snug mt-1">{s.sub}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ОФИЦИАЛЬНОСТЬ ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-3xl mb-12 reveal">
+        <div class="tag mb-6">{d.official.eyebrow}</div>
+        <h2 class="text-brand-text">{d.official.h2}</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {d.official.cards.map((c) => (
+          <div class="card reveal">
+            <h3 class="text-brand-text mb-3">{c.title}</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">{c.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ИУ vs РЕКЛАМА ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-3xl reveal">
+        <div class="tag mb-6">{d.vsAds.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.vsAds.h2}</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">{d.vsAds.body}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-3xl mb-10 reveal">
+        <div class="tag mb-6">{d.faq.eyebrow}</div>
+        <h2 class="text-brand-text">{d.faq.h2}</h2>
+      </div>
+      <div class="max-w-3xl flex flex-col gap-3">
+        {d.faq.items.map((i) => (
+          <details class="card group reveal">
+            <summary class="flex items-center justify-between gap-4 cursor-pointer list-none">
+              <span class="text-brand-text font-semibold text-base leading-snug">{i.question}</span>
+              <span class="text-brand-accent shrink-0 transition-transform duration-200 group-open:rotate-45 text-2xl leading-none">+</span>
+            </summary>
+            <p class="text-brand-muted text-sm leading-relaxed mt-4">{i.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ФИНАЛЬНЫЙ CTA ===== -->
+  <section id="iu-final-cta" class="section">
+    <div class="container">
+      <div class="max-w-3xl mx-auto text-center mb-12 reveal">
+        <div class="tag mb-6 mx-auto">{d.finalCta.eyebrow}</div>
+        <h2 class="text-brand-text mb-5">{d.finalCta.h2}</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">{d.finalCta.sub}</p>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <div class="rounded-2xl border border-brand-border bg-brand-surface px-6 py-6 md:px-8 md:py-7 mb-8 reveal">
+          <p class="text-brand-muted text-xs uppercase tracking-widest font-semibold mb-5">Что входит в бесплатный расчёт</p>
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            {d.finalCta.bullets.map((b) => (
+              <li class="flex items-start gap-3 text-brand-text/85 text-sm leading-relaxed">
+                <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7 md:p-9 text-center relative overflow-hidden reveal">
+          <div class="pointer-events-none absolute inset-0 opacity-30">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full opacity-50 blur-[80px] bg-gradient-to-b from-brand-accent to-transparent"></div>
+          </div>
+          <div class="relative">
+            <a href={CHAT_URL} data-magnetic data-cta="hero_primary" class="btn-primary inline-flex text-base md:text-lg px-8 py-4">
+              <MessageCircle size={20} />
+              {d.finalCta.primaryCtaText}
+              <ArrowRight size={18} />
+            </a>
+            <p class="text-brand-muted text-sm leading-relaxed mt-5 max-w-md mx-auto">{d.finalCta.primaryCtaSub}</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-8 reveal">
+          <p class="text-brand-muted text-sm leading-relaxed">
+            {d.finalCta.secondaryCtaPre}
+            <a href={CHAT_URL} target="_blank" rel="noopener noreferrer" class="text-brand-accent hover:text-brand-accent-hover transition-colors font-medium">
+              {d.finalCta.secondaryCtaLink} →
+            </a>
+          </p>
+          <div class="mt-3 inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-surface px-4 py-1.5">
+            <Shield size={13} class="text-brand-accent-2" />
+            <span class="text-brand-muted text-xs leading-snug">{d.finalCta.secondaryCtaVpnNote}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} is:inline />
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} is:inline />
+</BaseLayout>
+
+<script>
+  // scroll reveal
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('visible')),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+  // magnetic CTA
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!isCoarse && !reduceMotion) {
+    const STRENGTH = 0.22;
+    const RADIUS = 90;
+    document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((btn) => {
+      btn.style.transition = 'transform 220ms cubic-bezier(0.16, 1, 0.3, 1)';
+      btn.style.willChange = 'transform';
+      let inside = false;
+      window.addEventListener('pointermove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist > RADIUS) {
+          if (inside) { btn.style.transform = ''; inside = false; }
+          return;
+        }
+        inside = true;
+        btn.style.transform = `translate(${dx * STRENGTH}px, ${dy * STRENGTH}px)`;
+      });
+      btn.addEventListener('pointerleave', () => {
+        btn.style.transform = '';
+        inside = false;
+      });
+    });
+  }
+</script>
