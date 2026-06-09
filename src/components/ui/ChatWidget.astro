@@ -1140,33 +1140,8 @@ const PILL_PHRASES = [
     return clean.replace(/<a\s+/g, '<a target="_blank" rel="noopener noreferrer" ');
   }
 
-  const MANAGER_TG = 'Manager_UBuyer';
   const IDLE_PROMPT_MS = 30000;
   const IDLE_PROMPT_TEXT = 'Ещё что-то уточнить? Или передаю ваш контакт менеджеру?';
-
-  /** Проверка доступности Telegram — image probe (≤3 сек). */
-  function detectTelegram(): Promise<boolean> {
-    return new Promise((resolve) => {
-      const img = new Image();
-      const timer = setTimeout(() => resolve(false), 3000);
-      img.onload = () => { clearTimeout(timer); resolve(true); };
-      img.onerror = () => { clearTimeout(timer); resolve(false); };
-      img.src = `https://telegram.org/img/t_logo.png?_=${Date.now()}`;
-    });
-  }
-
-  /** Собирает короткое саммари диалога для prefilled Telegram-ссылки. */
-  function buildTelegramSummary(history: ChatMessage[]): string {
-    // Короткое сообщение — длинное Telegram режет в ?text= URL.
-    // Шлём только последний user-вопрос (или дефолт) — менеджер видит контекст.
-    const lastUser = [...history].reverse().find(m => m.role === 'user');
-    const intro = 'Здравствуйте, я с сайта u-buyer.ru.';
-    if (!lastUser) return intro;
-    const msg = lastUser.content.length > 200
-      ? lastUser.content.slice(0, 197) + '…'
-      : lastUser.content;
-    return `${intro}\n\n${msg}`;
-  }
 
   const STORAGE_SID       = 'ubuyer_chat_sid_v3';
   const STORAGE_HIST      = 'ubuyer_chat_hist_v3';
@@ -1217,11 +1192,7 @@ const PILL_PHRASES = [
     const sessionId = sid();
     const history: ChatMessage[] = loadHistory();
     let leadSubmitted = localStorage.getItem(STORAGE_SUBMITTED) === '1';
-    let telegramAvailable: boolean | null = null;
     let idleTimer: ReturnType<typeof setTimeout> | null = null;
-
-    // Параллельно проверяем доступность Telegram
-    void detectTelegram().then(ok => { telegramAvailable = ok; });
 
     function clearIdle(): void {
       if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
@@ -1278,11 +1249,6 @@ const PILL_PHRASES = [
 
       const block = document.createElement('div');
       block.className = 'chat-contact-request';
-      // Direct-TG показываем ВСЕГДА — это одна из трёх основных опций контакта.
-      // VPN-предупреждение под кнопкой даёт клиенту в РФ понять что нужен VPN
-      // (раньше при detect=false / null прятали — Тимур решил что это
-      // путало клиентов, лучше показать всегда с предупреждением).
-      const showDirectTg = true;
       block.innerHTML = `
         <div class="contact-trust-title">МЕНЕДЖЕР НАПИШЕТ ПЕРВЫМ — С ВАШИМ КОНТЕКСТОМ</div>
         <div class="contact-trust-list">
@@ -1293,35 +1259,19 @@ const PILL_PHRASES = [
         <div class="contact-quick-replies">
           <button data-qr="telegram" class="qr-recommended"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Telegram-ник</button>
           <button data-qr="phone" class="qr-recommended"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4c0-1 1-2 2-2h1l2 3-1.5 1.5c1 2 2 3 4 4L12 9l3 2v1c0 1-1 2-2 2C8 14 2 8 2 4z"/></svg></span>Телефон</button>
-          ${showDirectTg ? `<button data-qr="direct-tg" class="qr-direct-tg">
-            <span class="qr-direct-tg-row">
-              <span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>
-              <span class="qr-direct-tg-title">или открыть Telegram самому</span>
-            </span>
-            <span class="qr-direct-tg-warn">⚠ В РФ нужен VPN — без него Telegram может не открыться</span>
-          </button>` : ''}
         </div>
         <div class="contact-privacy-note">
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1L2 3v3.5c0 2 1.5 4 4 4.5 2.5-.5 4-2.5 4-4.5V3L6 1z" stroke-linejoin="round"/></svg>
           Не передаём третьим, спам не шлём
         </div>`;
 
-      // Кнопки контактов — клиент может переключаться между TG/Phone/Direct.
+      // Кнопки контактов — клиент может переключаться между TG/Phone.
       // Блок НЕ исчезает после выбора (UX: возможность передумать).
       // Активная кнопка подсвечивается классом qr-active.
       const qrBtns = block.querySelectorAll<HTMLButtonElement>('[data-qr]');
       qrBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           const action = btn.dataset.qr;
-
-          // Direct-TG — открывается в новой вкладке, не меняет state input'а
-          if (action === 'direct-tg') {
-            const summary = buildTelegramSummary(history);
-            const url = `https://t.me/${MANAGER_TG}?text=${encodeURIComponent(summary)}`;
-            window.open(url, '_blank', 'noopener,noreferrer');
-            (window as any).ymGoal?.('chat_open_direct_tg');
-            return;
-          }
 
           // Telegram / Phone — переключаем режим input'а, помечаем кнопку
           // active, остальные deactivate. Клиент может тыкнуть обратно.
