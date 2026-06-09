@@ -1379,6 +1379,28 @@ const PILL_PHRASES = [
         <span class="text-brand-cta text-[11px] flex items-center gap-1">✓ Контакт передан</span>`;
     }
 
+    // ──── Единая ИДЕМПОТЕНТНАЯ фиксация лида ────
+    // Цель chat_lead_submitted срабатывает ровно один раз, по ЛЮБОМУ пути:
+    // кнопка телефон/телеграм, контакт текстом в чате, или флаг от бэкенда.
+    function markLeadSubmitted(): void {
+      if (leadSubmitted) return;
+      leadSubmitted = true;
+      localStorage.setItem(STORAGE_SUBMITTED, '1');
+      widget!.dataset.status = 'submitted';
+      setPillSubmitted();
+      (window as any).ymGoal?.('chat_lead_submitted');
+    }
+
+    // Детект контакта в СВОБОДНОМ тексте (когда пишут ник/телефон сами, без
+    // кнопки). Строго — чтобы не путать с артикулами WB (8–10 голых цифр).
+    // Телефон: РФ-мобильный, префикс +7/8/7 и код 9xx, разделители любые.
+    const FREE_PHONE_RE = /(?:\+7|\b8|\b7)[\s\-(]*9\d{2}[\s\-)]*\d{3}[\s\-]*\d{2}[\s\-]*\d{2}/;
+    // Telegram: @ник 5–32 симв. (в начале/после разделителя) либо ссылка t.me/…
+    const FREE_TG_RE = /(?:^|[\s,;:.(])@[a-zA-Z][a-zA-Z0-9_]{4,31}\b|t\.me\/[a-zA-Z0-9_]{4,}/i;
+    function looksLikeContact(text: string): boolean {
+      return FREE_PHONE_RE.test(text) || FREE_TG_RE.test(text);
+    }
+
     // ──── HEADER: статус (default / typing) ────
     function setHeaderTyping(typing: boolean): void {
       const statusEl = statusLine.querySelector('.chat-status-text') as HTMLSpanElement;
@@ -1546,6 +1568,15 @@ const PILL_PHRASES = [
       renderMessage(userMsg);
       scrollToBottom();
 
+      // Детерминированно фиксируем «оставил контакт» — НЕ дожидаясь флага
+      // бэкенда (он ненадёжен). Срабатывает если ввод был в режиме кнопки
+      // (phone/telegram) ИЛИ если в тексте есть телефон/ник. Читаем режим
+      // ДО resetContactMasks(), который его очищает.
+      const wasContactMode = input.dataset.inputMode === 'phone' || input.dataset.inputMode === 'telegram';
+      if (!leadSubmitted && (wasContactMode || looksLikeContact(trimmed))) {
+        markLeadSubmitted();
+      }
+
       // Сбрасываем активные маски (телефон / @ник) — следующий ввод
       // будет обычным текстовым сообщением.
       resetContactMasks();
@@ -1681,12 +1712,8 @@ const PILL_PHRASES = [
         }
 
         if (leadFlag) {
-          leadSubmitted = true;
-          localStorage.setItem(STORAGE_SUBMITTED, '1');
-          widget!.dataset.status = 'submitted';
-          setPillSubmitted();
-          (window as any).ymGoal?.('chat_lead_submitted');
-        } else {
+          markLeadSubmitted();
+        } else if (!leadSubmitted) {
           // Запускаем idle-таймер только если ещё нет лида
           scheduleIdlePrompt();
         }
