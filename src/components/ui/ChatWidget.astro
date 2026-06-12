@@ -1274,6 +1274,7 @@ const PILL_PHRASES = [
     const sessionId = sid();
     const history: ChatMessage[] = loadHistory();
     let leadSubmitted = localStorage.getItem(STORAGE_SUBMITTED) === '1';
+    let contactShownFired = false;
     let idleTimer: ReturnType<typeof setTimeout> | null = null;
     let unreadCount = 0;
 
@@ -1333,6 +1334,12 @@ const PILL_PHRASES = [
     function renderContactRequest(): void {
       // Отменяем idle — клиенту дают выбор, не отвлекать подсказкой
       clearIdle();
+      // Замер воронки: Анастасия предложила оставить контакт (показала кнопки).
+      // Один раз за сессию — функция может вызываться повторно.
+      if (!contactShownFired) {
+        contactShownFired = true;
+        (window as any).ymGoal?.('chat_contact_shown');
+      }
       // Fix F: мягкое удаление прежних блоков вместо мгновенного prune
       fadeOutRemove(messagesEl.querySelector('.chat-idle-prompt'));
       fadeOutRemove(messagesEl.querySelector('.chat-qr-row'));
