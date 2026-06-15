@@ -1,7 +1,819 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import { CONTACTS, SITE_URL } from '@/consts';
+import CheckCircle2 from '@lucide/astro/icons/circle-check';
+import Star from '@lucide/astro/icons/star';
+import Wallet from '@lucide/astro/icons/wallet';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import MessageCircle from '@lucide/astro/icons/message-circle';
+import FileText from '@lucide/astro/icons/file-text';
+import Receipt from '@lucide/astro/icons/receipt';
+import ShieldCheck from '@lucide/astro/icons/shield-check';
+import Building2 from '@lucide/astro/icons/building-2';
+import MousePointer2 from '@lucide/astro/icons/mouse-pointer-2';
+import ShoppingCart from '@lucide/astro/icons/shopping-cart';
+import MapPin from '@lucide/astro/icons/map-pin';
+import Truck from '@lucide/astro/icons/truck';
+import Package from '@lucide/astro/icons/package';
+import TrendingUp from '@lucide/astro/icons/trending-up';
+import Rocket from '@lucide/astro/icons/rocket';
+import Zap from '@lucide/astro/icons/zap';
+
+const title = 'Цены на самовыкупы Wildberries — от 450 ₽/шт | UBuyer';
+const description =
+  'Стоимость живых самовыкупов на Wildberries: 450–500 ₽/шт в зависимости от объёма. Полный цикл от заказа до отгрузки, договор, акты, 0 банов за 3 года. От 100 выкупов.';
+
+const tg = CONTACTS.telegram;
+
+// AutoSend в чат Анастасии — контекст 'pricing'
+const PRICING_MESSAGE = 'Хочу рассчитать стоимость выкупов под мою карточку';
+const PRICING_CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(PRICING_MESSAGE)}`;
+
+const tiers = [
+  { volume: 'от 100 выкупов',  price: '500', popular: false, label: 'Старт',       hint: 'для новинок и тестов гипотез' },
+  { volume: 'от 500 выкупов',  price: '470', popular: true,  label: 'Популярный',  hint: 'для роста существующей карточки' },
+  { volume: 'от 1000 выкупов', price: '450', popular: false, label: 'Объём',       hint: 'для акций, ИУ, масштаба' },
+];
+
+const flowSteps = [
+  { Icon: MousePointer2, n: '01', title: 'Кликер ищет товар по ключу',  text: 'Живой человек с телефоном листает каталог, смотрит конкурентов, читает отзывы. WB видит органическое поведение — не переходы по прямой ссылке. Если товара нет в выдаче, кликер сигнализирует менеджеру ещё до заказа.' },
+  { Icon: ShoppingCart,  n: '02', title: 'Заказ — корзина из нескольких товаров', text: 'Каждый аккаунт берёт корзину: ваш товар плюс несколько позиций других клиентов. Часть заказов намеренно отклоняется — как у реального покупателя. WB видит обычного человека, не аномалию.' },
+  { Icon: MapPin,        n: '03', title: 'Выдача в ПВЗ — 3000+ точек',         text: 'Каждый заказ — отдельная точка в другом районе Москвы или МО. WB штрафовал конкурентов именно за кластеризацию: все заборы в одном квартале — красный флаг для алгоритма. У нас нет кластеризации по определению.' },
+  { Icon: Truck,         n: '04', title: 'Доставка — свой автопарк',           text: 'Один QR — одна точка. Один и тот же водитель появляется на одном ПВЗ не чаще раза в 80 дней. Никаких газелей, никаких пачек листов с кодами. Со стороны — обычный человек забрал посылку и уехал.' },
+  { Icon: Package,       n: '05', title: 'Склад — сортировка и переупаковка',  text: '2500 м² в Москве, без выходных. Расконсолидация → сортировка по клиентам → учёт → переупаковка → отгрузка обратно на WB. Вы видите в реальном времени: что на складе, сколько штук, по каким артикулам.' },
+  { Icon: TrendingUp,    n: '06', title: 'Отгрузка обратно — товар в обороте',  text: 'Выкупленный товар возвращается на ваш склад WB. Остатки не сгорают, оборот не страдает. Это и есть отличие живых выкупов от «сжигания товара» — товар не выбывает из продаж.' },
+];
+
+const compareThem = [
+  { row: 'Аккаунты', val: 'Боты, эмуляторы, виртуальные SIM, свежерегистрации' },
+  { row: 'ПВЗ', val: 'Кластеризация — заборы в одном квартале' },
+  { row: 'Поведение', val: 'Скрипт, прямые переходы по ссылкам, выкуп через WB-кошелёк' },
+  { row: 'Антифрод WB-2026', val: 'СПП-30 дней, пессимизация, каскадное удаление отзывов' },
+  { row: 'Договор и акты', val: 'Чаще нет, физлица, без отчётности' },
+];
+const compareUs = [
+  { row: 'Аккаунты', val: 'Профили с историей 3+ лет (3000+), своя SIM и банковская карта' },
+  { row: 'ПВЗ', val: '3000+ ПВЗ Москвы и МО, отдельная точка на каждый заказ' },
+  { row: 'Поведение', val: 'Кликер ищет вручную, корзина из 2-3 товаров, реальный отказ-ratio' },
+  { row: 'Антифрод WB-2026', val: '0 банов клиентов за 3 года работы' },
+  { row: 'Договор и акты', val: 'ИП Кирилюк, договор + счёт + акт после каждой партии' },
+];
+
+const scenarios = [
+  {
+    Icon: Rocket,
+    badge: 'ЗАПУСК НОВИНКИ',
+    tariff: 'Тариф «Старт»',
+    price: 'от 100 выкупов · 500 ₽/шт',
+    desc: 'Карточка без истории продаж. Нужно вкатить алгоритм, набрать первичные конверсии, разорвать «замкнутый круг новинки».',
+    case: '161 выкуп → 25–30 органических заказов в день',
+    budget: 'от 50–80к ₽ за услугу + оборотные',
+  },
+  {
+    Icon: TrendingUp,
+    badge: 'РОСТ КАРТОЧКИ',
+    tariff: 'Тариф «Популярный»',
+    price: 'от 500 выкупов · 470 ₽/шт',
+    desc: 'Карточка есть, продаётся, но застряла на 30–50 странице. Нужен направленный сигнал по конкретным ключам для подъёма в ТОП.',
+    case: '«Лесенка» 50 выкупов/артикул × 100 артикулов за 2+ года → 0 банов',
+    budget: 'от 235к ₽ за услугу + оборотные',
+  },
+  {
+    Icon: Zap,
+    badge: 'МАСШТАБ · АКЦИИ · ИУ',
+    tariff: 'Тариф «Объём»',
+    price: 'от 1000 выкупов · 450 ₽/шт',
+    desc: 'Большие задачи: вход в акцию по премиальной цене, выполнение плана ИУ, масштабирование магазина с большим ассортиментом.',
+    case: '2000 выкупов «лесенка по цене» → акция ×2 выше рынка · 12 000 заказов / 10 дней → план ИУ закрыт',
+    budget: 'от 450к ₽ за услугу + оборотные',
+  },
+];
+
+const timing = [
+  { period: '1–2 недели', text: 'Первые изменения позиций — карточка начинает подниматься по основным ключам' },
+  { period: '3–4 недели', text: 'Устойчивый рост — позиция закрепляется, появляется органический трафик' },
+  { period: '+5–7 дней после', text: 'Карточка продолжает расти — доставляются последние заказы, алгоритм фиксирует устойчивость' },
+  { period: 'Дальше', text: 'Зависит от воронки (CTR фото, конверсия в корзину, цена, SEO). Сильная воронка = органика держит позицию' },
+];
+
+const faqs = [
+  {
+    q: 'Почему ваши выкупы дороже рынка?',
+    a: 'Цена 450–500 ₽ — это полный цикл с живой инфраструктурой. Кликер ищет товар вручную, выкуп через один из 3000+ ПВЗ, доставка нашим водителем (не агрегатор), переупаковка на нашем складе 2500 м², возврат на ваш склад WB. Дешёвые сервисы (100–150 ₽) обычно работают через софт-клики и кластеризацию ПВЗ — это то, что WB научился ловить через ИМИЗР и пессимизацию в 2026.',
+  },
+  {
+    q: 'Можно ли заказать меньше 100 выкупов?',
+    a: 'Технически минимум — 50 выкупов на 1 артикул (это нижняя граница, при которой алгоритм WB замечает изменения). Договор заключаем от 100 заказов. Объём меньше 50 не даёт статистически значимого сигнала — мы за него не берёмся, чтобы клиент не платил за результат, который физически не появится.',
+  },
+  {
+    q: 'От чего зависит итоговая цена?',
+    a: 'От объёма (тариф 500/470/450 ₽), от доп.услуг (отзывы +100 ₽/шт по желанию), от упаковочного материала под специфику товара, от оборотных средств (1% комиссии от потраченной суммы). Все компоненты считаем до договора, в итоговой смете нет «всплывающих» сюрпризов.',
+  },
+  {
+    q: 'Что такое оборотные средства и куда они идут?',
+    a: 'Это деньги на сами покупки товара на WB — отдельно от оплаты услуг. Уходят через реальные покупки на ваш кабинет (к нам не попадают). Наша комиссия 1% — только от фактически потраченной суммы. Всё, что не потратили — возвращается. Каждое движение фиксируется в вашей Google-таблице ежедневно.',
+  },
+  {
+    q: 'Гарантируете ли вы конкретные позиции?',
+    a: 'Нет. Алгоритм WB динамичен, зависит от десятков факторов вне нашего контроля (изменения в выдаче конкурентов, обновления алгоритма, сезонность). Мы гарантируем: выполнение объёма по ТЗ, прозрачный отчёт, возврат товара в оборот, 0 блокировок по нашей вине (так уже 3 года). Реалистичные ожидания обсуждаем до договора.',
+  },
+  {
+    q: 'Можно ли оплатить частями?',
+    a: 'Да. Большие стратегии (от 500 выкупов) делим на партии — каждая партия закрывается актом и считается отдельно. Под крупные проекты обсуждаем индивидуальный график платежей. Малые объёмы (100–300) — обычно одной оплатой.',
+  },
+  {
+    q: 'Работаете ли с НДС? С ИП на УСН?',
+    a: 'Работаем и с ИП, и с ООО. Безналичный расчёт через расчётный счёт. Систему налогообложения обсуждаем под вашу — у нас гибкость и по УСН, и по НДС.',
+  },
+  {
+    q: 'Что входит в цену кроме самого выкупа?',
+    a: 'Кликер ищет товар по ключам вручную · Заказ через корзину с другими товарами (не один артикул) · Выдача через 3000+ ПВЗ — отдельная точка на каждый заказ · Доставка нашими водителями (не агрегатор) · Расконсолидация и сортировка на складе · Переупаковка · Отгрузка обратно на ваш склад WB · Поддержка через Telegram-чат (15–20 наших людей в чате клиента) · Google-таблица с движением каждого выкупа. Дополнительно оплачивается только упаковочный материал и опционально отзывы +100 ₽/шт.',
+  },
+  {
+    q: 'Что если стратегия идёт хуже, чем ожидалось?',
+    a: 'Если объём идёт по плану, а карточка не растёт — анализируем причину (часто это слабый CTR фото, плохое SEO внутри карточки, проблемы с ценой). Если мы видим проблему до старта — честно говорим и не берём заявку. Если проблема выяснилась в процессе — корректируем стратегию (бесплатно). Не «качаем» бюджет ради денег.',
+  },
+  {
+    q: 'Куда уходят выкупленные товары?',
+    a: 'Возвращаются на ваш склад WB. Это ключевое отличие живых выкупов от «раздач» и софта: товар не выбывает из оборота. Вы продолжаете продавать те же артикулы, просто с прокачанной позицией.',
+  },
+];
+
+// FAQPage Schema entities — соответствуют DOM ниже
+const faqEntities = faqs.map((f) => ({
+  '@type': 'Question',
+  name: f.q,
+  acceptedAnswer: { '@type': 'Answer', text: f.a },
+}));
 ---
 
-<BaseLayout title="Цены и условия" description="Из чего складывается стоимость услуг UBuyer. Минимальный порог и условия." path="/tseny" noindex={true}>
-  <p class="container section text-center text-muted">Страница в разработке</p>
+<BaseLayout title={title} description={description} path="/tseny/">
+  <!-- Schema.org: Service + AggregateOffer + BreadcrumbList + FAQPage -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify([
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${SITE_URL}/tseny/#service`,
+      name: 'Самовыкупы на Wildberries — живые покупатели, полный цикл',
+      serviceType: 'Marketplace promotion',
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: { '@type': 'Country', name: 'Russia' },
+      description:
+        'Живые самовыкупы товаров на Wildberries через инфраструктуру 3000+ покупательских профилей и 3000+ ПВЗ Москвы и МО. Полный цикл от заказа до возврата товара на склад WB. 0 блокировок за 3 года.',
+      offers: {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'RUB',
+        lowPrice: '450',
+        highPrice: '500',
+        offerCount: 3,
+        offers: [
+          {
+            '@type': 'Offer',
+            name: 'Тариф Старт — от 100 выкупов',
+            price: '500',
+            priceCurrency: 'RUB',
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: '500',
+              priceCurrency: 'RUB',
+              unitText: 'выкуп',
+              referenceQuantity: { '@type': 'QuantitativeValue', value: '100', unitText: 'шт' },
+            },
+          },
+          {
+            '@type': 'Offer',
+            name: 'Тариф Популярный — от 500 выкупов',
+            price: '470',
+            priceCurrency: 'RUB',
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: '470',
+              priceCurrency: 'RUB',
+              unitText: 'выкуп',
+              referenceQuantity: { '@type': 'QuantitativeValue', value: '500', unitText: 'шт' },
+            },
+          },
+          {
+            '@type': 'Offer',
+            name: 'Тариф Объём — от 1000 выкупов',
+            price: '450',
+            priceCurrency: 'RUB',
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: '450',
+              priceCurrency: 'RUB',
+              unitText: 'выкуп',
+              referenceQuantity: { '@type': 'QuantitativeValue', value: '1000', unitText: 'шт' },
+            },
+          },
+        ],
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE_URL}/` },
+        { '@type': 'ListItem', position: 2, name: 'Цены', item: `${SITE_URL}/tseny/` },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqEntities,
+    },
+  ])} />
+
+  <!-- =========================== HERO =========================== -->
+  <section class="relative pt-14 pb-16 lg:pt-20 lg:pb-24" style="overflow-x: clip;">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full opacity-20 blur-[120px] bg-gradient-to-b from-brand-accent to-transparent"></div>
+    </div>
+    <div class="pointer-events-none absolute inset-0 opacity-[0.06]" style="background-image: radial-gradient(circle, #3D8EF8 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <div class="container relative">
+      <div class="max-w-4xl">
+        <div class="tag mb-7 !tracking-normal !normal-case">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
+          Цены и условия · Wildberries · OZON
+        </div>
+
+        <h1 class="text-brand-text mb-6 text-[1.875rem] sm:text-5xl lg:text-6xl">
+          Цены на самовыкупы Wildberries:<br />
+          <span class="text-brand-accent text-glow">что входит и почему 500₽ ≠ 100₽</span>
+        </h1>
+
+        <p class="text-brand-muted text-lg leading-relaxed mb-10 max-w-3xl">
+          Прайс простой: 450–500 ₽ за выкуп в зависимости от объёма. Сложное — что внутри этой цифры.
+          Ниже разбираем по компонентам: за что вы платите, что входит в полный цикл, и почему дешёвые
+          сервисы в 2026 году обходятся дороже из-за пессимизации WB.
+        </p>
+
+        <!-- stat-strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+          <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-4">
+            <span class="text-2xl font-bold font-mono text-brand-accent block leading-none mb-1.5">от 450 ₽</span>
+            <p class="text-xs text-brand-muted leading-snug">за выкуп при объёме 1000+</p>
+          </div>
+          <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-4">
+            <span class="text-2xl font-bold font-mono text-brand-accent block leading-none mb-1.5">100</span>
+            <p class="text-xs text-brand-muted leading-snug">минимальный объём для договора</p>
+          </div>
+          <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-4">
+            <span class="text-2xl font-bold font-mono text-brand-accent block leading-none mb-1.5">1%</span>
+            <p class="text-xs text-brand-muted leading-snug">комиссия с оборотных средств</p>
+          </div>
+          <div class="rounded-2xl border border-brand-border bg-brand-surface px-5 py-4">
+            <span class="text-2xl font-bold font-mono text-brand-accent block leading-none mb-1.5">0</span>
+            <p class="text-xs text-brand-muted leading-snug">банов клиентов за 3 года</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href={PRICING_CHAT_URL} class="btn-primary" data-cta="tseny_hero_primary">
+            Рассчитать под мою карточку
+            <ArrowRight size={16} />
+          </a>
+          <a href="#vhodit" class="btn-ghost">
+            Сначала разобраться, что входит
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ТАРИФЫ =========================== -->
+  <section id="tariffs" class="section section-alt">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Стоимость выкупов</div>
+        <h2 class="text-brand-text mb-4">Три тарифа в зависимости от объёма</h2>
+        <p class="text-brand-muted text-lg">
+          Чем больше выкупов в стратегии — тем ниже цена за единицу. Это работает потому что фиксированная
+          часть инфраструктуры (профили, ПВЗ, водители, склад) одинаково загружена при объёме 100 и 1000.
+        </p>
+      </div>
+
+      <!-- 3 тарифа -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10">
+        {tiers.map((t) => (
+          <div class={`relative rounded-2xl p-6 text-center flex flex-col items-center gap-2 transition-all ${
+            t.popular
+              ? 'bg-brand-accent border-2 border-brand-accent-2 shadow-[0_0_48px_rgba(61,142,248,0.55)] sm:scale-[1.06] z-10'
+              : 'card'
+          }`}>
+            {t.popular && (
+              <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 text-xs font-bold bg-emerald-500 text-white px-3.5 py-1 rounded-full uppercase tracking-wide whitespace-nowrap">
+                Популярный
+              </span>
+            )}
+            <span class={`text-[0.7rem] font-mono uppercase tracking-widest ${t.popular ? 'text-white/70' : 'text-brand-accent'}`}>
+              {t.label}
+            </span>
+            <span class={`text-xs font-medium ${t.popular ? 'text-white/80' : 'text-brand-muted'}`}>
+              {t.volume}
+            </span>
+            <div class="flex items-end gap-1">
+              <span class={`text-4xl font-bold font-mono ${t.popular ? 'text-white' : 'text-brand-text'}`}>
+                {t.price}
+              </span>
+              <span class={`text-sm mb-2 ${t.popular ? 'text-white/60' : 'text-brand-muted'}`}>
+                ₽/шт
+              </span>
+            </div>
+            <p class={`text-xs leading-snug ${t.popular ? 'text-white/75' : 'text-brand-muted'}`}>
+              {t.hint}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <!-- доп-карточка отзывы -->
+      <div class="max-w-md mx-auto rounded-2xl border border-brand-accent/25 bg-brand-accent-dim p-5 text-center mb-10">
+        <div class="flex items-center justify-center gap-1.5 mb-2">
+          <Star size={14} class="text-brand-accent-2" />
+          <p class="text-sm font-semibold text-brand-text">
+            Отзывы — <span class="text-brand-accent">+100 ₽/шт</span> (опция)
+          </p>
+        </div>
+        <p class="text-xs text-brand-muted leading-relaxed">
+          Подключите к выкупам — и карточка получает и позиции, и конверсию одновременно.
+          Отзывы пишут реальные покупатели после получения товара в ПВЗ.
+        </p>
+      </div>
+
+      <!-- полоса доверия -->
+      <div class="flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs text-brand-muted">
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-brand-accent shrink-0" /> Договор до старта работ</span>
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-brand-accent shrink-0" /> Счёт на оплату для бухгалтерии</span>
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-brand-accent shrink-0" /> Акты после каждой партии</span>
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-brand-accent shrink-0" /> Работаем с ИП и ООО</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ЧТО ВХОДИТ В ЦЕНУ =========================== -->
+  <section id="vhodit" class="section">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Полный цикл</div>
+        <h2 class="text-brand-text mb-4">Что входит в стоимость одного выкупа</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          Каждый выкуп — это не «1 клик в приложении». Это 6 этапов с участием 4–5 живых людей.
+          От поиска по ключевому слову до возврата товара на ваш склад WB. Никаких скрытых платежей —
+          всё в одной цене.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        {flowSteps.map(({ Icon, n, title, text }) => (
+          <div class="rounded-2xl border border-brand-border bg-brand-surface p-6 hover:border-brand-border-2 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center shrink-0">
+                <Icon size={18} class="text-brand-accent" />
+              </span>
+              <span class="font-mono text-xs text-brand-muted">{n}</span>
+            </div>
+            <h3 class="text-brand-text text-base font-semibold leading-snug mb-2">{title}</h3>
+            <p class="text-brand-muted text-sm leading-relaxed">{text}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="max-w-3xl mx-auto mt-10 rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-5">
+        <p class="text-brand-text text-sm leading-relaxed">
+          💡 <strong>Всё это — в одной цене за выкуп.</strong> Дополнительно оплачивается только упаковочный
+          материал — у каждого товара своя специфика, поэтому это отдельной строкой в смете.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ПОЧЕМУ 500 ≠ 100 =========================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Важно понимать</div>
+        <h2 class="text-brand-text mb-4">Почему дешёвые самовыкупы в 2026 обходятся дороже</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          На рынке есть предложения от 100–150 ₽ за выкуп. Если смотреть только на ценник — это в 3–5 раз
+          дешевле нас. Если смотреть на риск-профиль и реальную стоимость владения — это лотерея,
+          в которой проигрыш стоит магазина.
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <!-- дешёвые -->
+          <div class="rounded-2xl border border-red-500/20 bg-red-500/5 p-7">
+            <div class="flex items-center gap-2 mb-6">
+              <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
+              <span class="text-sm font-semibold text-red-400 uppercase tracking-wider">Дешёвые сервисы · 100–150 ₽</span>
+            </div>
+            <ul class="space-y-4">
+              {compareThem.map((c) => (
+                <li class="text-sm leading-relaxed">
+                  <span class="block text-[0.65rem] font-mono uppercase tracking-widest text-brand-muted mb-1">{c.row}</span>
+                  <span class="flex items-start gap-2 text-brand-muted">
+                    <span class="text-red-400/80 shrink-0 mt-0.5">✗</span>
+                    <span>{c.val}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- UBuyer -->
+          <div class="rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7">
+            <div class="flex items-center gap-2 mb-6">
+              <span class="w-2 h-2 rounded-full bg-brand-accent-2 shrink-0"></span>
+              <span class="text-sm font-semibold text-brand-accent-2 uppercase tracking-wider">UBuyer · 450–500 ₽</span>
+            </div>
+            <ul class="space-y-4">
+              {compareUs.map((c) => (
+                <li class="text-sm leading-relaxed">
+                  <span class="block text-[0.65rem] font-mono uppercase tracking-widest text-brand-muted mb-1">{c.row}</span>
+                  <span class="flex items-start gap-2 text-brand-text">
+                    <span class="text-emerald-400 shrink-0 mt-0.5">✓</span>
+                    <span>{c.val}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- info-box -->
+        <div class="rounded-2xl border border-brand-border-2 bg-brand-surface p-6 mb-8">
+          <p class="text-brand-text/90 leading-relaxed text-sm">
+            ⚠️ <strong>WB отменил денежные штрафы за выкупы в октябре 2024</strong>, но <strong>заменил их на «тихую пессимизацию»</strong> —
+            снятие СПП на 30 дней, обвал органики −50–80%, каскадное удаление отзывов (включая настоящие),
+            блокировка выплат. Это новая реальность 2026, которую конкуренты-софты не успели отработать.
+          </p>
+        </div>
+
+        <a href="/soft-vs-zhivye/" class="group block rounded-2xl border-2 border-brand-accent/40 bg-gradient-to-br from-brand-accent-dim to-brand-surface-2 hover:border-brand-accent transition-all duration-200 px-7 py-6">
+          <div class="flex items-center gap-5">
+            <span class="shrink-0 w-12 h-12 rounded-xl bg-brand-accent/20 border border-brand-accent/40 flex items-center justify-center">
+              <FileText size={22} class="text-brand-accent" />
+            </span>
+            <div class="flex-1 min-w-0">
+              <div class="text-[11px] uppercase tracking-widest text-brand-accent-2 mb-1.5 font-mono">
+                Полный разбор · 23 параметра · 9 минут чтения
+              </div>
+              <div class="text-brand-text font-semibold leading-snug text-base sm:text-lg">
+                Живые vs софт-самовыкупы на WB в 2026: что изменилось после отмены штрафов
+              </div>
+            </div>
+            <span class="shrink-0 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-accent group-hover:translate-x-0.5 transition-transform">
+              Читать
+              <ArrowRight size={14} />
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ОБОРОТНЫЕ СРЕДСТВА =========================== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Ваши деньги под вашим контролем</div>
+        <h2 class="text-brand-text mb-4">Оборотные средства — отдельно от цены услуги</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          Помимо оплаты услуг, нужны деньги на сами покупки товара на Wildberries. Эти деньги не наши —
+          они уходят на ваш кабинет WB через реальные покупки. Логика максимально прозрачна.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-8">
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mb-4">
+            <Wallet size={18} class="text-emerald-400" />
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2">Деньги идут вам, не нам</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            Оборотные средства проходят через реальные покупки на Wildberries. На ваш кабинет, не к нам.
+            Это деньги вашего же магазина — просто временно в обороте выкупов.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mb-4">
+            <span class="text-emerald-400 font-mono font-bold text-sm">1%</span>
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2">Комиссия — только 1%</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            Только от фактически потраченной суммы. Не от плана, не от объёма, не от стоимости услуг —
+            а от живых рублей, которые прошли через кассу WB.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center mb-4">
+            <CheckCircle2 size={18} class="text-emerald-400" />
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2">Остаток возвращается</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            Если стратегия закончилась раньше или объём был меньше запланированного — все неизрасходованные
+            оборотные средства возвращаются. Без комиссий за «недоосвоение».
+          </p>
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs text-brand-muted">
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-emerald-400" /> Каждое движение в Google-таблице ежедневно</span>
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-emerald-400" /> Видно по артикулам, ПВЗ, датам</span>
+        <span class="flex items-center gap-1.5"><CheckCircle2 size={12} class="text-emerald-400" /> Условия фиксируются в договоре до старта</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== CTA ПРОМЕЖУТОЧНЫЙ =========================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-3xl mx-auto rounded-2xl border border-brand-cta/40 bg-gradient-to-br from-brand-cta/10 to-brand-surface px-7 py-8 sm:px-10 sm:py-10">
+        <div class="flex items-start gap-5">
+          <span class="relative shrink-0 w-14 h-14 rounded-full overflow-hidden ring-1 ring-brand-cta/50 shadow-[0_0_18px_rgba(16,185,129,0.35)]">
+            <img src="/images/anastasiya.jpg" alt="Анастасия — AI-менеджер UBuyer" loading="lazy" class="w-full h-full object-cover" />
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-brand-cta ring-2 ring-brand-surface"></span>
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="text-[11px] uppercase tracking-widest text-brand-cta mb-2 font-mono">
+              Расчёт за 15 минут
+            </div>
+            <h2 class="text-brand-text text-xl sm:text-2xl font-semibold mb-3 leading-snug">
+              Сколько выкупов нужно именно вашей карточке?
+            </h2>
+            <p class="text-brand-muted text-sm sm:text-base leading-relaxed mb-5">
+              Анастасия задаст 4–5 вопросов о товаре и нише. За 15 минут менеджер вернётся с расчётом
+              стратегии: объём, сроки, тариф, стоимость.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <a href={PRICING_CHAT_URL} class="btn-primary" data-cta="tseny_mid_primary">
+                Получить расчёт под нишу
+                <ArrowRight size={16} />
+              </a>
+              <a href={tg} target="_blank" rel="noopener" class="btn-ghost">
+                <MessageCircle size={16} />
+                Сразу написать менеджеру
+              </a>
+            </div>
+            <p class="text-xs text-brand-muted mt-4">
+              Бесплатно · Ответ за 15 минут · Первые изменения позиций — через 1–2 недели после старта
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== КАКОЙ ТАРИФ ВАМ =========================== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Ориентиры по объёму</div>
+        <h2 class="text-brand-text mb-4">Какой тариф под вашу задачу</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          Несколько типичных сценариев — чтобы понимать порядок цифр до разговора с менеджером.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto mb-10">
+        {scenarios.map(({ Icon, badge, tariff, price, desc, case: caseText, budget }) => (
+          <div class="rounded-2xl border border-brand-border bg-brand-surface p-6 hover:border-brand-border-2 transition-colors flex flex-col">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center shrink-0">
+                <Icon size={18} class="text-brand-accent" />
+              </span>
+              <span class="text-[0.65rem] font-mono uppercase tracking-widest text-brand-accent">{badge}</span>
+            </div>
+
+            <h3 class="text-brand-text text-lg font-semibold mb-1">{tariff}</h3>
+            <p class="font-mono text-sm text-brand-accent-2 mb-4">{price}</p>
+
+            <p class="text-brand-muted text-sm leading-relaxed mb-5 flex-grow">{desc}</p>
+
+            <div class="space-y-3 pt-4 border-t border-brand-border">
+              <div>
+                <p class="text-[0.65rem] font-mono uppercase tracking-widest text-brand-muted mb-1">Реальный кейс</p>
+                <p class="text-brand-text text-sm leading-snug">{caseText}</p>
+              </div>
+              <div>
+                <p class="text-[0.65rem] font-mono uppercase tracking-widest text-brand-muted mb-1">Бюджет</p>
+                <p class="text-brand-text text-sm">{budget}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="max-w-3xl mx-auto text-center">
+        <a href="/kejsy/" class="inline-flex items-center gap-2 text-brand-accent hover:text-brand-accent-2 transition-colors text-sm font-semibold">
+          Смотреть все 5 разобранных кейсов
+          <ArrowRight size={14} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ЧТО НЕ ВХОДИТ =========================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Честно</div>
+        <h2 class="text-brand-text mb-4">Что оплачивается отдельно</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          Чтобы потом не было сюрпризов — сразу обозначаем, что не покрывается тарифом за выкуп.
+          Все три пункта обсуждаем до договора и фиксируем.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <Package size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2">Упаковочный материал</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            По фактическим затратам. У каждого товара своя специфика — хрупкое требует пенки, текстиль
+            едет в обычной плёнке. Это смета конкретного товара.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <Wallet size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2">Оборотные средства</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            1% комиссии от потраченной суммы. Деньги на сами покупки товара — это не услуга,
+            это ваш оборот. Подробно разобрано выше.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <Star size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold mb-2">Отзывы (опция)</h3>
+          <p class="text-brand-muted text-sm leading-relaxed">
+            +100 ₽/шт по желанию. Можно подключить к стратегии или нет — это выбор клиента.
+            Отзывы дают карточке и позиции, и конверсию одновременно.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== ОФИЦИАЛЬНО =========================== -->
+  <section class="section">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Юридическая прозрачность</div>
+        <h2 class="text-brand-text mb-4">Работаем официально — для бухгалтерии и юристов</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          Не «договорились в Telegram». Полный пакет документов, безналичный расчёт,
+          прозрачность по каждому платежу.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto mb-8">
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <FileText size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold text-sm mb-2">Договор до старта</h3>
+          <p class="text-brand-muted text-xs leading-relaxed">
+            Письменно фиксируем объём, сроки, тариф, ответственность, оборотные средства. До рубля.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <Receipt size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold text-sm mb-2">Счёт для бухгалтерии</h3>
+          <p class="text-brand-muted text-xs leading-relaxed">
+            Спокойно проходит у бухгалтера через любые внутренние согласования.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <ShieldCheck size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold text-sm mb-2">Акты после партии</h3>
+          <p class="text-brand-muted text-xs leading-relaxed">
+            После каждой партии выкупов — акт. С детализацией: что, сколько, когда, какой склад.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
+          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
+            <Building2 size={18} class="text-brand-accent" />
+          </div>
+          <h3 class="text-brand-text font-semibold text-sm mb-2">ИП и ООО</h3>
+          <p class="text-brand-muted text-xs leading-relaxed">
+            Безналичный расчёт, расчётный счёт, НДС/УСН — обсуждаем под вашу систему.
+          </p>
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto rounded-2xl border border-brand-border bg-brand-surface p-5 text-center">
+        <p class="text-brand-muted text-sm">
+          ИП Кирилюк Никита Сергеевич · ИНН 920253709740 · ОГРНИП 323920000002117
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== СРОКИ РЕЗУЛЬТАТА =========================== -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Что ожидать</div>
+        <h2 class="text-brand-text mb-4">Когда видны результаты</h2>
+        <p class="text-brand-muted text-lg leading-relaxed">
+          Самовыкупы — не «волшебная кнопка», а механика прокачки алгоритма.
+          Скорость зависит от ниши, объёма и состояния карточки.
+        </p>
+      </div>
+
+      <div class="max-w-3xl mx-auto space-y-3 mb-8">
+        {timing.map((t) => (
+          <div class="grid grid-cols-[140px_1fr] sm:grid-cols-[200px_1fr] gap-4 rounded-2xl border border-brand-border bg-brand-surface px-5 py-4 sm:px-6 sm:py-5">
+            <div class="font-mono text-sm text-brand-accent font-semibold">{t.period}</div>
+            <div class="text-brand-text/85 text-sm leading-relaxed">{t.text}</div>
+          </div>
+        ))}
+      </div>
+
+      <div class="max-w-3xl mx-auto rounded-2xl border border-yellow-500/20 bg-yellow-500/5 p-5">
+        <p class="text-brand-text/90 text-sm leading-relaxed">
+          ⚠️ <strong>Карточка должна быть готова до старта стратегии.</strong> Если выкупы поднимут товар в ТОП,
+          а CTR фото 2%, описание слабое и отзывов нет — органика не закрепится. Поэтому до старта Анастасия
+          проверяет готовность карточки.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== FAQ =========================== -->
+  <section class="section" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="container">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <div class="tag mb-5">Частые вопросы по ценам</div>
+        <h2 class="text-brand-text">Что спрашивают чаще всего</h2>
+      </div>
+
+      <div class="max-w-3xl mx-auto space-y-3">
+        {faqs.map((item) => (
+          <details
+            class="group rounded-2xl border border-brand-border bg-brand-surface open:border-brand-border-2 transition-all"
+            itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"
+          >
+            <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none text-brand-text font-medium select-none hover:text-brand-accent transition-colors">
+              <span itemprop="name">{item.q}</span>
+              <span class="shrink-0 w-6 h-6 rounded-full border border-brand-border-2 flex items-center justify-center text-brand-muted text-sm group-open:rotate-45 group-open:border-brand-accent group-open:text-brand-accent transition-all duration-200">
+                +
+              </span>
+            </summary>
+            <div class="px-6 pb-5" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <p class="text-brand-muted text-sm leading-relaxed" itemprop="text">{item.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== BOTTOM CTA =========================== -->
+  <section class="section section-alt relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] rounded-full opacity-20 blur-[140px] bg-gradient-to-t from-brand-accent to-transparent"></div>
+    </div>
+    <div class="container relative">
+      <div class="max-w-3xl mx-auto rounded-3xl border border-brand-border bg-brand-surface-2 p-8 sm:p-12 lg:p-16 text-center">
+        <div class="tag mb-6 mx-auto !inline-flex">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-accent-2 animate-glow-pulse"></span>
+          Готовы посчитать?
+        </div>
+        <h2 class="text-brand-text mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+          Расскажите про вашу карточку —<br />
+          <span class="text-brand-accent text-glow">рассчитаем стратегию</span>
+        </h2>
+        <p class="text-brand-muted text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+          Анастасия задаст 4–5 вопросов о товаре и нише. За 15 минут менеджер вернётся с конкретным
+          расчётом: объём, тариф, оборотные средства, сроки, прогноз результата.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href={PRICING_CHAT_URL} class="btn-primary" data-cta="tseny_bottom_primary">
+            Получить расчёт под нишу
+            <ArrowRight size={16} />
+          </a>
+          <a href="/kejsy/" class="btn-ghost">
+            Сначала смотреть кейсы клиентов
+          </a>
+        </div>
+        <p class="text-xs text-brand-muted mt-5">
+          Бесплатно · Ответ за 15 минут · Договор до старта · 0 банов за 3 года
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

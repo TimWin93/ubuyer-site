@@ -25,7 +25,7 @@ export const MIN_ORDER = {
 
 export const NAV_LINKS = [
   { href: '/#kak-rabotaem', label: 'Как работаем' },
-  { href: '/#pricing', label: 'Цены' },
+  { href: '/tseny/', label: 'Цены' },
   { href: '/polki/', label: 'Полки' },
   { href: '/kejsy/', label: 'Кейсы' },
   { href: '/#faq', label: 'FAQ' },
