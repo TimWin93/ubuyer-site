@@ -616,48 +616,83 @@ const faqEntities = faqs.map((f) => ({
     </div>
   </section>
 
-  <!-- =========================== ЧТО НЕ ВХОДИТ =========================== -->
+  <!-- =========================== ОТЗЫВЫ — ОПЦИЯ =========================== -->
   <section class="section section-alt">
     <div class="container">
       <div class="max-w-2xl mx-auto text-center mb-12">
-        <div class="tag mb-5">Честно</div>
-        <h2 class="text-brand-text mb-4">Что оплачивается отдельно</h2>
+        <div class="tag mb-5">Опция к выкупам</div>
+        <h2 class="text-brand-text mb-4">Отзывы — оплачиваются отдельно</h2>
         <p class="text-brand-muted text-lg leading-relaxed">
-          Чтобы потом не было сюрпризов — сразу обозначаем, что не покрывается тарифом за выкуп.
-          Все три пункта обсуждаем до договора и фиксируем.
+          Единственная доплата сверх тарифа за выкуп. По желанию — можно подключить, можно нет.
+          Но именно отзывы превращают «карточку в ТОПе» в «карточку, которую заказывают».
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
-        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
-          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
-            <Package size={18} class="text-brand-accent" />
+      <div class="max-w-5xl mx-auto rounded-2xl border border-brand-accent/30 bg-brand-accent-dim p-7 sm:p-10">
+        <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 lg:gap-12 items-center">
+
+          <!-- Цена слева -->
+          <div class="text-center lg:text-left">
+            <div class="inline-flex lg:flex flex-col items-center lg:items-start">
+              <div class="flex items-end gap-1.5 mb-2">
+                <span class="text-5xl sm:text-6xl font-bold font-mono text-brand-accent leading-none">+100</span>
+                <span class="text-lg text-brand-muted mb-1.5">₽/шт</span>
+              </div>
+              <p class="text-xs font-mono uppercase tracking-widest text-brand-accent-2">
+                к стоимости выкупа
+              </p>
+            </div>
+            <div class="mt-5 inline-flex items-center gap-2 text-sm text-brand-muted">
+              <Star size={14} class="text-brand-accent-2" />
+              Реальные отзывы от наших покупателей в ПВЗ
+            </div>
           </div>
-          <h3 class="text-brand-text font-semibold mb-2">Упаковочный материал</h3>
-          <p class="text-brand-muted text-sm leading-relaxed">
-            По фактическим затратам. У каждого товара своя специфика — хрупкое требует пенки, текстиль
-            едет в обычной плёнке. Это смета конкретного товара.
-          </p>
-        </div>
-        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
-          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
-            <Wallet size={18} class="text-brand-accent" />
+
+          <!-- Ценность справа -->
+          <div>
+            <h3 class="text-brand-text text-lg sm:text-xl font-semibold mb-5 leading-snug">
+              Что даёт отзыв на 100 ₽ — и почему его берут к каждой второй стратегии:
+            </h3>
+            <ul class="space-y-3.5">
+              <li class="flex items-start gap-3">
+                <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+                <span class="text-brand-text/85 text-sm sm:text-base leading-relaxed">
+                  <strong class="text-brand-text">Конверсия в корзину растёт</strong> — социальное
+                  доказательство работает: товар без отзывов покупают неохотно, даже если он в ТОПе.
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+                <span class="text-brand-text/85 text-sm sm:text-base leading-relaxed">
+                  <strong class="text-brand-text">CTR из выдачи выше</strong> — звёзды и количество
+                  отзывов видны прямо в каталоге, повышают кликабельность по сравнению с конкурентами.
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+                <span class="text-brand-text/85 text-sm sm:text-base leading-relaxed">
+                  <strong class="text-brand-text">Алгоритм WB ранжирует выше</strong> — количество
+                  и качество отзывов один из факторов ранжирования карточки в выдаче.
+                </span>
+              </li>
+              <li class="flex items-start gap-3">
+                <CheckCircle2 size={16} class="text-brand-accent shrink-0 mt-0.5" />
+                <span class="text-brand-text/85 text-sm sm:text-base leading-relaxed">
+                  <strong class="text-brand-text">С фото и видео — лучше всего</strong> — наш покупатель
+                  реально получил товар в ПВЗ, может снять и написать развёрнутый отзыв, а не «всё ок, спасибо».
+                </span>
+              </li>
+            </ul>
+
+            <div class="mt-6 pt-5 border-t border-brand-border-2">
+              <p class="text-sm text-brand-muted leading-relaxed">
+                💡 <strong class="text-brand-text">Логика связки:</strong> позиции в ТОПе без отзывов = карточка
+                видна, но не покупают. Отзывы без позиций = некому показывать. Выкупы + отзывы вместе закрывают
+                обе стороны — карточка получает и трафик, и конверсию одновременно.
+              </p>
+            </div>
           </div>
-          <h3 class="text-brand-text font-semibold mb-2">Оборотные средства</h3>
-          <p class="text-brand-muted text-sm leading-relaxed">
-            1% комиссии от потраченной суммы. Деньги на сами покупки товара — это не услуга,
-            это ваш оборот. Подробно разобрано выше.
-          </p>
-        </div>
-        <div class="rounded-2xl border border-brand-border bg-brand-surface p-6">
-          <div class="w-10 h-10 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center mb-4">
-            <Star size={18} class="text-brand-accent" />
-          </div>
-          <h3 class="text-brand-text font-semibold mb-2">Отзывы (опция)</h3>
-          <p class="text-brand-muted text-sm leading-relaxed">
-            +100 ₽/шт по желанию. Можно подключить к стратегии или нет — это выбор клиента.
-            Отзывы дают карточке и позиции, и конверсию одновременно.
-          </p>
+
         </div>
       </div>
     </div>
