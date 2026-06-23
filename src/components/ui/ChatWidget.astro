@@ -739,6 +739,52 @@ const PILL_PHRASES = [
     border-radius: 16px;
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
     animation: msgIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
+  }
+  /* Подсветка формы когда клиент нажал «Получить расчёт» в nudge —
+     визуальный якорь куда смотреть */
+  .chat-contact-request.chat-contact-request-highlighted {
+    border-color: rgba(232,185,107,0.85);
+    box-shadow: 0 0 0 3px rgba(232,185,107,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+    transform: scale(1.012);
+  }
+
+  /* Nudge: статичный блок с 2 кнопками после 40 сек тишины */
+  .chat-nudge-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .nudge-btn {
+    appearance: none;
+    border: 1px solid rgba(108,128,170,0.45);
+    background: rgba(20,30,55,0.55);
+    color: rgba(228,236,255,0.92);
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+    line-height: 1.2;
+  }
+  .nudge-btn:hover {
+    background: rgba(36,52,90,0.7);
+    border-color: rgba(140,160,200,0.6);
+  }
+  .nudge-btn:active {
+    transform: scale(0.97);
+  }
+  .nudge-btn-primary {
+    background: linear-gradient(135deg, rgba(232,185,107,0.92) 0%, rgba(212,160,80,0.92) 100%);
+    border-color: rgba(232,185,107,0.7);
+    color: #1a1410;
+    font-weight: 600;
+  }
+  .nudge-btn-primary:hover {
+    background: linear-gradient(135deg, rgba(244,200,125,1) 0%, rgba(226,175,95,1) 100%);
+    border-color: rgba(244,200,125,0.85);
   }
   .contact-trust-title {
     font-size: 11px;
@@ -1227,6 +1273,19 @@ const PILL_PHRASES = [
   const STORAGE_SUBMITTED = 'ubuyer_chat_submitted_v3';
   const STORAGE_WELCOMED  = 'ubuyer_chat_welcomed_v3';
   const STORAGE_STATE     = 'ubuyer_chat_state_v3'; // closed | minimized (open не сохраняется — каждый заход = closed)
+  const STORAGE_NUDGE     = 'ubuyer_chat_nudge_v1'; // '1' если nudge уже показан в этой сессии
+
+  // Контакт-nudge: статический текст + 2 быстрые кнопки. Показывается ОДИН раз
+  // через 40 сек после показа CONTACT_REQUEST если клиент так и не нажал
+  // кнопку выбора (Telegram/Phone) и ничего не ввёл. Цель — снять давление,
+  // дать выход через готовый вопрос либо подтверждение готовности.
+  const NUDGE_DELAY_MS = 40_000;
+  const NUDGE_TEXT = `Может остались вопросы? Спрашивайте прямо здесь — про безопасность для алгоритма WB, экономику под ваш бюджет, кейсы по вашей нише.
+
+Мы 3 года поднимаем в топ сотни карточек в разных нишах. Клиенты получают органический трафик, платят за рекламу в разы меньше и работают спокойно — за всё время ни одного штрафа или пессимизации.
+
+На бесплатном созвоне менеджер всё покажет под ваш конкретный товар — с цифрами и примерами из практики.`;
+  const NUDGE_BUDGET_QUERY = 'Какой бюджет нужен под мою задачу?';
 
   const WELCOME_LINE_1 = 'По какому вопросу помочь?';
   const WELCOME_LINE_2 = 'Подскажу по тарифам, кейсам и стратегии под вашу нишу.';
@@ -1392,6 +1451,86 @@ const PILL_PHRASES = [
 
       messagesEl.appendChild(block);
       scrollToBottom();
+
+      // Стартуем nudge-таймер: если за 40 сек клиент не выбрал способ контакта
+      // и ничего не ввёл — Анастасия пришлёт мягкое доп-сообщение с 2
+      // кнопками (бюджет / получить расчёт).
+      scheduleContactNudge();
+    }
+
+    let nudgeTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function clearNudgeTimer(): void {
+      if (nudgeTimer) { clearTimeout(nudgeTimer); nudgeTimer = null; }
+    }
+
+    function scheduleContactNudge(): void {
+      clearNudgeTimer();
+      // Уже показывали в этой сессии — не дублируем (психологически: один nudge ОК, два — спам)
+      if (localStorage.getItem(STORAGE_NUDGE) === '1') return;
+      // Если контакт уже получен — nudge не нужен
+      if (leadSubmitted) return;
+
+      nudgeTimer = setTimeout(() => {
+        nudgeTimer = null;
+        // Перед показом ещё раз проверяем актуальные условия — за 40 сек
+        // могло поменяться: клиент кликнул кнопку, начал печатать, оставил
+        // контакт, или окно вообще закрыто.
+        if (localStorage.getItem(STORAGE_NUDGE) === '1') return;
+        if (leadSubmitted) return;
+        // Форма CONTACT_REQUEST уже исчезла — клиент пошёл дальше
+        if (!messagesEl.querySelector('.chat-contact-request')) return;
+        // Клиент начал что-то печатать — не лезем
+        if (input.value.trim().length > 0) return;
+        // Клиент уже выбрал режим (TG/Phone активна) — не лезем, форма
+        // ждёт ввод
+        if (messagesEl.querySelector('.chat-contact-request .qr-active')) return;
+
+        renderContactNudge();
+      }, NUDGE_DELAY_MS);
+    }
+
+    function renderContactNudge(): void {
+      const row = document.createElement('div');
+      row.className = 'chat-msg chat-msg-assistant chat-nudge-row';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble chat-bubble-assistant';
+      bubble.innerHTML = renderMarkdown(NUDGE_TEXT);
+
+      const actions = document.createElement('div');
+      actions.className = 'chat-nudge-actions';
+      actions.innerHTML = `
+        <button data-nudge="budget" class="nudge-btn">💰 Какой бюджет нужен?</button>
+        <button data-nudge="ready" class="nudge-btn nudge-btn-primary">✅ Получить расчёт</button>`;
+
+      actions.querySelectorAll<HTMLButtonElement>('[data-nudge]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const action = btn.dataset.nudge;
+          // Кнопки одноразовые — после клика удаляем actions, текст nudge остаётся
+          fadeOutRemove(actions);
+          if (action === 'budget') {
+            (window as any).ymGoal?.('chat_nudge_click_budget');
+            void send(NUDGE_BUDGET_QUERY);
+          } else if (action === 'ready') {
+            (window as any).ymGoal?.('chat_nudge_click_ready');
+            const contactReq = messagesEl.querySelector<HTMLElement>('.chat-contact-request');
+            if (contactReq) {
+              contactReq.classList.add('chat-contact-request-highlighted');
+              contactReq.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              setTimeout(() => contactReq.classList.remove('chat-contact-request-highlighted'), 1800);
+              input.focus();
+            }
+          }
+        });
+      });
+
+      bubble.appendChild(actions);
+      row.appendChild(bubble);
+      messagesEl.appendChild(row);
+      scrollToBottom();
+      localStorage.setItem(STORAGE_NUDGE, '1');
+      (window as any).ymGoal?.('chat_nudge_shown');
     }
 
     // ──── PILL: динамическая ротация фраз ────
