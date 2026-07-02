@@ -1379,10 +1379,13 @@ const PILL_PHRASES = [
         btn.type = 'button';
         btn.className = 'chat-qr-btn';
         btn.textContent = opt;
-        btn.addEventListener('click', () => {
-          // Fix F: плавно убираем row перед отправкой — не «съезжает»
+        btn.addEventListener('click', async () => {
+          // Убираем кнопки на время запроса (чтобы не тыкнуть дважды).
           fadeOutRemove(row);
-          void send(opt);
+          const ok = await send(opt);
+          // Сеть упала / ответ не пришёл — возвращаем кнопки, чтобы клиент
+          // мог выбрать повторно, а не остался в тупике без кнопок и без ответа.
+          if (!ok) renderQrButtons(options);
         });
         row.appendChild(btn);
       });
@@ -1750,11 +1753,12 @@ const PILL_PHRASES = [
     // вопрос, пока ждёт ответ на предыдущий.
     let isSending = false;
 
-    async function send(text: string): Promise<void> {
+    async function send(text: string): Promise<boolean> {
       const trimmed = text.trim();
-      if (!trimmed) return;
-      if (isSending) return;  // уже летит запрос — игнорируем повторный submit
+      if (!trimmed) return false;
+      if (isSending) return false;  // уже летит запрос — игнорируем повторный submit
       isSending = true;
+      let replied = false;  // true только если пришёл реальный ответ ассистента
       clearIdle();
       // Убираем idle-подсказку и старый contact-request блок если есть
       messagesEl.querySelector('.chat-idle-prompt')?.remove();
@@ -1877,13 +1881,14 @@ const PILL_PHRASES = [
         if (!assistantText.trim()) {
           mountBubble();
           bubble.textContent = 'Связь временно недоступна. Попробуйте ещё раз.';
-          return;
+          return false;
         }
 
         // Срезаем технический маркер из сохраняемой истории (визуально его и так не было)
         const cleanedReply = assistantText.replace(CONTACT_MARKER_RE, ' ').trim();
         history.push({ role: 'assistant', content: cleanedReply });
         saveHistory(history);
+        replied = true;  // реальный ответ получен — успех
 
         // Если чат свёрнут — Анастасия только что ответила, но клиент не видит.
         // Инкрементим badge непрочитанных + pulse-анимация на pill привлечёт внимание.
@@ -1939,6 +1944,7 @@ const PILL_PHRASES = [
         // НЕ фокусируем input принудительно — клиент мог уже сам набрать
         // следующий вопрос пока ждал ответ, фокус-смена сбила бы каретку.
       }
+      return replied;
     }
 
     function resetChat(): void {
@@ -1995,7 +2001,10 @@ const PILL_PHRASES = [
     // если: чат уже открыт / юзер уже общался / лид сабмиттед / закрытие
     // pill юзером (он не хочет видеть pill — не дёргаем nudge'ом).
     const NUDGE_KEY = 'ubuyer_chat_nudge_shown_v1';
-    const NUDGE_DELAY_MS = 12000;
+    // Переименовано из NUDGE_DELAY_MS (была коллизия имён с контакт-nudge 40с).
+    // 12с было слишком быстро — подсказка выскакивала навязчиво. 25с даёт
+    // человеку осмотреться, но всё ещё вовлекает.
+    const PROACTIVE_NUDGE_MS = 25000;
     function maybeShowProactiveNudge(): void {
       if (localStorage.getItem(NUDGE_KEY) === '1') return;
       if (widget!.dataset.state === 'open') return;
@@ -2029,7 +2038,7 @@ const PILL_PHRASES = [
       nudge.addEventListener('click', () => dismiss(true));
       (window as any).ymGoal?.('chat_nudge_shown');
     }
-    setTimeout(maybeShowProactiveNudge, NUDGE_DELAY_MS);
+    setTimeout(maybeShowProactiveNudge, PROACTIVE_NUDGE_MS);
 
     // ──── Перехват ВСЕХ CTA-кнопок сайта на менеджеров ────
     // Все ссылки на личные чаты менеджеров UBuyer открывают виджет с контекстом.
