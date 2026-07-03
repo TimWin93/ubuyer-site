@@ -63,6 +63,7 @@
     "rewrites": [
       { "source": "/api/chat", "function": { "functionId": "chat", "region": "us-central1" } },
       { "source": "/api/polki-lead", "function": { "functionId": "polkiLeadIntake", "region": "us-central1" } },
+      { "source": "/api/form-lead", "function": { "functionId": "formLeadIntake", "region": "us-central1" } },
       { "source": "/404", "destination": "/404.html" }
     ],
     "redirects": [

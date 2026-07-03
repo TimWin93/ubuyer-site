@@ -8,7 +8,7 @@
       <div class="tag mb-5">Подбор стратегии</div>
       <h2 class="text-brand-text mb-4">Рассчитаем стратегию самовыкупов<br class="hidden sm:block"> под вашу задачу — бесплатно</h2>
       <p class="text-brand-muted leading-relaxed">
-        Выберите до 3 целей — менеджер пришлёт готовый расчёт за 15 минут. Без форм и ожидания.
+        Выберите до 3 целей — оставьте контакт, и менеджер пришлёт готовый расчёт за 15 минут.
       </p>
     </div>
 
@@ -82,27 +82,66 @@
 
         </div>
 
-        <!-- CTA — always visible, disabled until goal selected -->
+        <!-- CTA — открывает модалку контакта (без чата). Disabled, пока нет цели. -->
         <div class="mt-8">
-          <a id="quiz-tg-btn"
-             href="https://t.me/Manager_UBuyer"
-             target="_blank" rel="noopener noreferrer"
-             class="quiz-final-cta qcta-disabled"
-             aria-disabled="true">
+          <button id="quiz-cta-btn" type="button" class="quiz-final-cta qcta-disabled" disabled>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="white" class="shrink-0">
               <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.41 13.982l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.738.577z"/>
             </svg>
             <div>
-              <div class="font-bold text-base leading-tight">Получить расчёт в Telegram</div>
+              <div class="font-bold text-base leading-tight">Получить расчёт</div>
               <div class="cta-sub">БЕСПЛАТНО · ОТВЕТ ЗА 15 МИНУТ</div>
             </div>
-          </a>
+          </button>
         </div>
 
       </div>
 
     </div><!-- /quiz card -->
 
+  </div>
+
+  <!-- ─────────── МОДАЛКА КОНТАКТА (без чата) ─────────── -->
+  <div id="quiz-modal" class="qmodal" hidden>
+    <div class="qmodal-overlay" data-close></div>
+
+    <div class="qmodal-card" role="dialog" aria-modal="true" aria-labelledby="qmodal-title">
+      <button class="qmodal-close" type="button" data-close aria-label="Закрыть">✕</button>
+
+      <!-- Форма -->
+      <div id="qmodal-form">
+        <div class="qmodal-title" id="qmodal-title">Пришлём расчёт под ваши цели</div>
+        <p class="qmodal-sub">Менеджер напишет первым в течение ~15 минут — с объёмом выкупов и планом под вашу задачу.</p>
+
+        <div id="qmodal-goals" class="qmodal-goals"></div>
+
+        <div class="qmodal-tabs" role="tablist">
+          <button type="button" class="qmodal-tab qmodal-tab-active" data-channel="telegram">Telegram-ник</button>
+          <button type="button" class="qmodal-tab" data-channel="phone">Телефон</button>
+        </div>
+
+        <input id="qmodal-input" class="qmodal-input" type="text" autocomplete="off"
+               spellcheck="false" aria-label="Контакт" />
+        <div id="qmodal-hint" class="qmodal-hint"></div>
+
+        <button id="qmodal-submit" class="qmodal-submit" type="button" disabled>
+          Отправить контакт →
+        </button>
+
+        <div class="qmodal-privacy">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1L2 3v3.5c0 2 1.5 4 4 4.5 2.5-.5 4-2.5 4-4.5V3L6 1z" stroke-linejoin="round"/></svg>
+          Не передаём третьим, спам не шлём
+        </div>
+      </div>
+
+      <!-- Успех -->
+      <div id="qmodal-success" class="qmodal-success" hidden>
+        <div class="qmodal-success-icon">✓</div>
+        <div class="qmodal-success-title">Готово!</div>
+        <p class="qmodal-success-text">Менеджер напишет вам первым в течение ~15 минут — с расчётом под ваши цели.</p>
+        <button class="qmodal-submit" type="button" data-close>Закрыть</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -121,28 +160,21 @@
     other:      'Другая задача',
   };
 
+  const ymGoal = (goal: string) => {
+    const w = window as any;
+    if (w.ym && w.__ymId) w.ym(w.__ymId, 'reachGoal', goal);
+  };
+
   const selectedGoals = new Set<GoalId>();
 
-  function buildTgUrl(): string {
-    const goals = Array.from(selectedGoals).map(g => GOAL_TITLES[g]).join(', ');
-    // Только сам запрос — без «Здравствуйте» и без «Источник: сайт …»
-    // (контекст «квиз» уходит на бэк через ctaContext отдельно).
-    const text = `Хочу стратегию под цели: ${goals}`;
-    return `https://t.me/Manager_UBuyer?text=${encodeURIComponent(text)}`;
-  }
+  // ──── Выбор целей ────
+  const ctaBtn = document.getElementById('quiz-cta-btn') as HTMLButtonElement | null;
 
-  function syncCta() {
-    const cta = document.getElementById('quiz-tg-btn') as HTMLAnchorElement | null;
-    if (!cta) return;
+  function syncCta(): void {
+    if (!ctaBtn) return;
     const ok = selectedGoals.size > 0;
-    if (ok) {
-      cta.href = buildTgUrl();
-      cta.classList.remove('qcta-disabled');
-      cta.removeAttribute('aria-disabled');
-    } else {
-      cta.classList.add('qcta-disabled');
-      cta.setAttribute('aria-disabled', 'true');
-    }
+    ctaBtn.disabled = !ok;
+    ctaBtn.classList.toggle('qcta-disabled', !ok);
   }
 
   document.querySelectorAll<HTMLButtonElement>('.qgoal-card').forEach(card => {
@@ -161,12 +193,189 @@
     });
   });
 
-  const ymGoal = (goal: string) => { if (window.ym && window.__ymId) window.ym(window.__ymId, 'reachGoal', goal); };
+  // ──── Модалка контакта ────
+  const modal      = document.getElementById('quiz-modal') as HTMLDivElement | null;
+  const formEl     = document.getElementById('qmodal-form') as HTMLDivElement | null;
+  const successEl  = document.getElementById('qmodal-success') as HTMLDivElement | null;
+  const goalsEl    = document.getElementById('qmodal-goals') as HTMLDivElement | null;
+  const input      = document.getElementById('qmodal-input') as HTMLInputElement | null;
+  const hintEl     = document.getElementById('qmodal-hint') as HTMLDivElement | null;
+  const submitBtn  = document.getElementById('qmodal-submit') as HTMLButtonElement | null;
+  const tabs       = Array.from(document.querySelectorAll<HTMLButtonElement>('.qmodal-tab'));
 
-  document.getElementById('quiz-tg-btn')?.addEventListener('click', e => {
-    const el = e.currentTarget as HTMLAnchorElement;
-    if (el.classList.contains('qcta-disabled')) { e.preventDefault(); return; }
+  let channel: 'telegram' | 'phone' = 'telegram';
+  let sending = false;
+  let lastFocused: HTMLElement | null = null;
+
+  function formatPhone(raw: string): string {
+    const digits = raw.replace(/\D/g, '').replace(/^[78]/, '').slice(0, 10);
+    let f = '+7';
+    if (digits.length > 0) f += ' ' + digits.slice(0, 3);
+    if (digits.length > 3) f += ' ' + digits.slice(3, 6);
+    if (digits.length > 6) f += ' ' + digits.slice(6, 8);
+    if (digits.length > 8) f += ' ' + digits.slice(8, 10);
+    return f;
+  }
+
+  function validity(): { valid: boolean; hint: string; state: 'ok' | 'pending' | 'error' } {
+    if (!input) return { valid: false, hint: '', state: 'pending' };
+    const v = input.value.trim();
+    if (channel === 'telegram') {
+      const valid = /^@[a-zA-Z0-9_]{5,32}$/.test(v);
+      if (valid) return { valid: true, hint: '✓ Ник корректный', state: 'ok' };
+      if (v.length > 1 && v.length < 6)
+        return { valid: false, hint: `Ещё ${6 - v.length} символ(а) — Telegram требует минимум 5`, state: 'pending' };
+      if (v.length > 1)
+        return { valid: false, hint: 'Только латиница, цифры и подчёркивание', state: 'error' };
+      return { valid: false, hint: 'Где взять: Telegram → Настройки → Имя пользователя', state: 'pending' };
+    }
+    const digits = v.replace(/\D/g, '').replace(/^[78]/, '').slice(0, 10);
+    if (digits.length === 10) return { valid: true, hint: '✓ Номер полный', state: 'ok' };
+    const left = 10 - digits.length;
+    const word = left === 1 ? 'цифра' : left < 5 ? 'цифры' : 'цифр';
+    return { valid: false, hint: `Ещё ${left} ${word} номера`, state: 'pending' };
+  }
+
+  function refresh(): void {
+    if (!input || !hintEl || !submitBtn) return;
+    // Держим формат в зависимости от канала
+    if (channel === 'telegram') {
+      let v = input.value.replace(/[^@a-zA-Z0-9_]/g, '');
+      if (!v.startsWith('@')) v = '@' + v.replace(/^@+/, '');
+      if (v.length > 33) v = v.slice(0, 33);
+      input.value = v;
+    } else {
+      input.value = formatPhone(input.value);
+    }
+    const { valid, hint, state } = validity();
+    hintEl.textContent = hint;
+    hintEl.dataset.state = state;
+    submitBtn.disabled = !valid || sending;
+  }
+
+  function setChannel(ch: 'telegram' | 'phone'): void {
+    if (!input) return;
+    channel = ch;
+    tabs.forEach(t => t.classList.toggle('qmodal-tab-active', t.dataset.channel === ch));
+    if (ch === 'telegram') {
+      input.value = '@';
+      input.placeholder = '@ваш_ник';
+      input.setAttribute('inputmode', 'text');
+    } else {
+      input.value = '+7 ';
+      input.placeholder = '+7 ___ ___ __ __';
+      input.setAttribute('inputmode', 'tel');
+    }
+    // blur→focus форсит переключение экранной клавиатуры на iOS/Android
+    input.blur();
+    input.focus();
+    const len = input.value.length;
+    input.setSelectionRange(len, len);
+    refresh();
+  }
+
+  function renderGoals(): void {
+    if (!goalsEl) return;
+    goalsEl.innerHTML = '';
+    Array.from(selectedGoals).forEach(g => {
+      const chip = document.createElement('span');
+      chip.className = 'qmodal-goal-chip';
+      chip.textContent = GOAL_TITLES[g];
+      goalsEl.appendChild(chip);
+    });
+  }
+
+  function openModal(): void {
+    if (!modal || selectedGoals.size === 0) return;
+    lastFocused = document.activeElement as HTMLElement;
+    renderGoals();
+    if (formEl) formEl.hidden = false;
+    if (successEl) successEl.hidden = true;
+    modal.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    setChannel('telegram');
+    ymGoal('quiz_form_open');
+  }
+
+  function closeModal(): void {
+    if (!modal) return;
+    modal.hidden = true;
+    document.documentElement.style.overflow = '';
+    sending = false;
+    if (submitBtn) submitBtn.textContent = 'Отправить контакт →';
+    lastFocused?.focus?.();
+  }
+
+  async function submit(): Promise<void> {
+    if (!input || !submitBtn) return;
+    const { valid } = validity();
+    if (!valid || sending) return;
+    sending = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправляем…';
+
+    const goals = Array.from(selectedGoals).map(g => GOAL_TITLES[g]);
+    try {
+      // Content-Type: text/plain — «простой» CORS-запрос без preflight.
+      // /api/form-lead → hosting rewrite на функцию formLeadIntake (свой домен,
+      // надёжнее в РФ, чем прямой .run.app).
+      const res = await fetch('/api/form-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify({ contact: input.value.trim(), channel, goals, source: 'quiz' }),
+        cache: 'no-store',
+      });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      ymGoal('quiz_form_submit');
+      if (formEl) formEl.hidden = true;
+      if (successEl) successEl.hidden = false;
+    } catch (e) {
+      sending = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Отправить ещё раз →';
+      if (hintEl) { hintEl.textContent = 'Не удалось отправить. Попробуйте ещё раз.'; hintEl.dataset.state = 'error'; }
+    }
+  }
+
+  // Wiring
+  ctaBtn?.addEventListener('click', () => {
+    if (selectedGoals.size === 0) return;
     ymGoal('quiz_complete');
+    openModal();
+  });
+
+  tabs.forEach(t => t.addEventListener('click', () => {
+    const ch = t.dataset.channel as 'telegram' | 'phone';
+    setChannel(ch);
+    ymGoal(ch === 'telegram' ? 'quiz_form_channel_tg' : 'quiz_form_channel_phone');
+  }));
+
+  input?.addEventListener('input', refresh);
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); void submit(); }
+  });
+  submitBtn?.addEventListener('click', () => void submit());
+
+  modal?.querySelectorAll<HTMLElement>('[data-close]').forEach(el =>
+    el.addEventListener('click', closeModal),
+  );
+
+  // Esc + простой фокус-трап внутри модалки
+  document.addEventListener('keydown', (e) => {
+    if (!modal || modal.hidden) return;
+    if (e.key === 'Escape') { closeModal(); return; }
+    if (e.key === 'Tab') {
+      const card = modal.querySelector('.qmodal-card');
+      if (!card) return;
+      const focusables = Array.from(
+        card.querySelectorAll<HTMLElement>('button, input, [tabindex]:not([tabindex="-1"])'),
+      ).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
 </script>
 
@@ -209,6 +418,8 @@
     background: linear-gradient(135deg, #229ED9 0%, #1a7ab8 100%);
     color: white;
     text-decoration: none;
+    border: 0;
+    cursor: pointer;
     transition: opacity 0.2s, transform 0.15s;
   }
   .quiz-final-cta:not(.qcta-disabled):hover {
@@ -227,5 +438,188 @@
     text-transform: uppercase;
     opacity: 0.75;
     margin-top: 0.2rem;
+    text-align: left;
+  }
+
+  /* ─────────── МОДАЛКА ─────────── */
+  .qmodal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .qmodal[hidden] { display: none; }
+  .qmodal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 6, 20, 0.72);
+    backdrop-filter: blur(4px);
+  }
+  .qmodal-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    background: #0B0C10;
+    border: 1px solid #1A2B4A;
+    border-radius: 20px;
+    padding: 1.75rem 1.5rem 1.5rem;
+    box-shadow: 0 32px 64px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(61,142,248,0.12);
+    animation: qmodalIn 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes qmodalIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .qmodal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 9999px;
+    background: rgba(228,236,255,0.06);
+    color: rgba(228,236,255,0.7);
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .qmodal-close:hover { background: rgba(228,236,255,0.12); color: #fff; }
+  .qmodal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    padding-right: 2rem;
+  }
+  .qmodal-sub {
+    font-size: 0.8125rem;
+    color: #8FA3C4;
+    line-height: 1.5;
+    margin-top: 0.5rem;
+  }
+  .qmodal-goals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.9rem;
+  }
+  .qmodal-goal-chip {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #3D8EF8;
+    background: rgba(61,142,248,0.12);
+    border: 1px solid rgba(61,142,248,0.25);
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+  }
+  .qmodal-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 1.1rem;
+  }
+  .qmodal-tab {
+    flex: 1;
+    padding: 0.6rem 0.5rem;
+    border-radius: 10px;
+    border: 1px solid rgba(61,142,248,0.28);
+    background: rgba(61,142,248,0.06);
+    color: #C9D6EF;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.16s;
+  }
+  .qmodal-tab-active {
+    background: rgba(61,142,248,0.22);
+    border-color: rgba(61,142,248,0.75);
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(61,142,248,0.3);
+  }
+  .qmodal-input {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 12px;
+    border: 1px solid #24385F;
+    background: #04091A;
+    color: #E4ECFF;
+    font-size: 16px; /* ≥16px — гасит авто-zoom на iOS */
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .qmodal-input:focus {
+    border-color: rgba(61,142,248,0.6);
+    box-shadow: 0 0 0 3px rgba(61,142,248,0.16);
+  }
+  .qmodal-hint {
+    min-height: 16px;
+    margin-top: 0.4rem;
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    color: #6680A8;
+  }
+  .qmodal-hint[data-state="ok"]    { color: #10B981; }
+  .qmodal-hint[data-state="error"] { color: #F87171; }
+  .qmodal-submit {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.85rem 1rem;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3D8EF8 0%, #2B7AE8 100%);
+    color: #fff;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.12s;
+  }
+  .qmodal-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .qmodal-submit:not(:disabled):hover { opacity: 0.93; }
+  .qmodal-submit:not(:disabled):active { transform: scale(0.98); }
+  .qmodal-privacy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 0.85rem;
+    font-size: 0.6875rem;
+    color: #6680A8;
+  }
+  .qmodal-privacy svg { width: 11px; height: 11px; color: rgba(61,142,248,0.6); }
+
+  .qmodal-success { text-align: center; padding: 0.5rem 0 0.25rem; }
+  .qmodal-success-icon {
+    width: 52px; height: 52px;
+    margin: 0 auto 0.75rem;
+    border-radius: 9999px;
+    background: rgba(16,185,129,0.15);
+    color: #10B981;
+    font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .qmodal-success-title { font-size: 1.15rem; font-weight: 700; color: #fff; }
+  .qmodal-success-text { font-size: 0.8125rem; color: #8FA3C4; line-height: 1.5; margin: 0.5rem 0 1.1rem; }
+
+  /* Мобилка — bottom-sheet */
+  @media (max-width: 640px) {
+    .qmodal { align-items: flex-end; padding: 0; }
+    .qmodal-card {
+      max-width: 100%;
+      border-radius: 20px 20px 0 0;
+      padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+      animation: qsheetIn 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes qsheetIn {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
   }
 </style>

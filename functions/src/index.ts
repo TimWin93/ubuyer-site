@@ -11,6 +11,9 @@ initializeApp();
 // Endpoint лендинга /polki — приём формы с лидмагнитом «Рекомендательные полки»
 export { polkiLeadIntake } from "./polkiLeadIntake.js";
 
+// Endpoint форм-модалок сайта (квиз и т.п.) — приём контакта БЕЗ AI-чата
+export { formLeadIntake } from "./formLeadIntake.js";
+
 const ANTHROPIC_API_KEY = defineSecret("ANTHROPIC_API_KEY");
 const TELEGRAM_BOT_TOKEN = defineSecret("TELEGRAM_BOT_TOKEN");
 const TELEGRAM_LEAD_CHAT_ID = defineSecret("TELEGRAM_LEAD_CHAT_ID");
