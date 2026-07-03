@@ -264,10 +264,8 @@ const PILL_PHRASES = [
     </div>
 
     <!-- ─── Input zone ─── -->
-    <!-- Fix E: pb-7 + position-relative для trust-bar:absolute снизу формы.
-         Раньше trust-bar шёл flow'ом после textarea-wrap → при autoResize
-         textarea растёт и trust-bar сдвигается. Теперь bar пришпилен внизу. -->
-    <form id="chat-form" class="chat-input-zone relative px-4 pt-3 pb-7 border-t border-brand-border bg-brand-surface">
+    <!-- relative — якорь для absolute tg/phone-hint внутри inputWrap. -->
+    <form id="chat-form" class="chat-input-zone relative px-4 pt-3 pb-3 border-t border-brand-border bg-brand-surface">
       <div id="chat-input-wrap" class="chat-input-wrap relative flex items-end gap-2
                                        bg-brand-surface-2 border border-brand-border
                                        rounded-2xl px-3 py-2.5
@@ -880,39 +878,6 @@ const PILL_PHRASES = [
     border-color: rgba(61,142,248,0.65);
   }
 
-  /* Direct-TG — тоже на всю ширину, но с VPN-предупреждением */
-  .contact-quick-replies .qr-direct-tg {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-    padding: 12px 14px;
-    background: rgba(228,236,255,0.04);
-    border-color: rgba(228,236,255,0.15);
-    color: #E4ECFF;
-  }
-  .contact-quick-replies .qr-direct-tg:hover {
-    background: rgba(228,236,255,0.08);
-    border-color: rgba(228,236,255,0.30);
-  }
-  .contact-quick-replies .qr-direct-tg .qr-icon {
-    background: rgba(228,236,255,0.10);
-    color: rgba(228,236,255,0.75);
-  }
-  .qr-direct-tg-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .qr-direct-tg-title {
-    font-size: 13.5px;
-    font-weight: 500;
-  }
-  .qr-direct-tg-warn {
-    font-size: 11px;
-    color: rgba(251,191,36,0.95);
-    padding-left: 38px;
-    line-height: 1.35;
-  }
   .contact-privacy-note {
     font-size: 10.5px;
     color: rgba(228,236,255,0.5);
@@ -967,35 +932,6 @@ const PILL_PHRASES = [
     color: rgba(228,236,255,0.75);
     font-style: italic;
     animation: msgIn 320ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  /* ============== TRUST BAR ============== */
-  .trust-bar {
-    user-select: none;
-    /* Fix E: pinned absolute снизу формы — textarea (autoResize) не толкает */
-    position: absolute;
-    left: 16px;
-    right: 16px;
-    bottom: 6px;
-  }
-  .trust-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 10.5px;
-    color: rgba(228,236,255,0.55);
-    letter-spacing: 0.01em;
-    font-weight: 500;
-  }
-  .trust-item svg {
-    width: 11px; height: 11px;
-    color: rgba(61,142,248,0.65);
-    flex-shrink: 0;
-  }
-  .trust-dot {
-    width: 2px; height: 2px;
-    border-radius: 50%;
-    background: rgba(228,236,255,0.2);
   }
 
   /* ============== PROACTIVE NUDGE (#1) ============== */
@@ -1169,10 +1105,6 @@ const PILL_PHRASES = [
       height: 36px;
     }
 
-    /* Trust-bar чуть компактнее */
-    .trust-bar { gap: 8px; }
-    .trust-item { font-size: 10px; }
-
     /* Welcome-card отступы поменьше */
     .chat-welcome-card {
       padding: 18px 18px 14px 22px;
@@ -1282,9 +1214,9 @@ const PILL_PHRASES = [
   const NUDGE_DELAY_MS = 40_000;
   const NUDGE_TEXT = `Может остались вопросы? Спрашивайте прямо здесь — про безопасность для алгоритма WB, экономику под ваш бюджет, кейсы по вашей нише.
 
-Мы 3 года поднимаем в топ сотни карточек в разных нишах. Клиенты получают органический трафик, платят за рекламу в разы меньше и работают спокойно — за всё время ни одного штрафа или пессимизации.
+Мы 3 года поднимаем в топ сотни карточек в разных нишах: рост органического трафика, снижение ДРР, за всё время — 0 пессимизаций и 0 блокировок у клиентов.
 
-На бесплатном созвоне менеджер всё покажет под ваш конкретный товар — с цифрами и примерами из практики.`;
+Менеджер разберёт ваш товар в переписке и пришлёт расчёт под вашу нишу — с цифрами и примерами из практики.`;
   const NUDGE_BUDGET_QUERY = 'Какой бюджет нужен под мою задачу?';
 
   const WELCOME_LINE_1 = 'По какому вопросу помочь?';
@@ -1863,9 +1795,9 @@ const PILL_PHRASES = [
           if (payload.error) throw new Error(payload.error);
         } catch (e) {
           const msg = e instanceof Error
-            ? (e.name === 'AbortError' ? 'Превышено время ожидания (30 сек)' : e.message)
+            ? (e.name === 'AbortError' ? 'Превышено время ожидания (60 сек)' : e.message)
             : String(e);
-          throw new Error(`fetch failed: ${msg}`);
+          throw new Error(msg);
         }
 
         assistantText = (payload.reply ?? '').trim();
@@ -1900,12 +1832,14 @@ const PILL_PHRASES = [
         const hasMarker = CONTACT_MARKER_RE.test(assistantText);
         CONTACT_MARKER_RE.lastIndex = 0;  // сброс — regex с /g сохраняет state
         const lowered = assistantText.toLowerCase();
+        // Узкие триггеры: только явный призыв оставить контакт. Одиночное
+        // упоминание «telegram-ник» / «номер телефона» убрано — оно ложно
+        // срабатывало на объяснениях (напр. «менеджер напишет в Telegram»).
+        // Основной канал — маркер [CONTACT_REQUEST] от модели; это лишь страховка.
         const hasContactHint =
           /как удобнее связаться/.test(lowered) ||
           /как с вами связаться/.test(lowered) ||
-          /оставьте.{0,20}(контакт|telegram|телефон|ник)/.test(lowered) ||
-          /(telegram-?ник|telegram\s+ник|телеграм-?ник)/.test(lowered) ||
-          (/номер телефона/.test(lowered) && /telegram/.test(lowered));
+          /оставьте.{0,20}(контакт|telegram|телефон|ник)/.test(lowered);
 
         if ((hasMarker || hasContactHint) && !leadSubmitted) {
           renderContactRequest();
@@ -2089,8 +2023,35 @@ const PILL_PHRASES = [
       // 'tel' даёт раскладку с * # + 0–9 — самый удобный вариант для телефона.
       el.setAttribute('inputmode', 'tel');
       el.setAttribute('autocomplete', 'tel');
-      phoneMaskHandler = () => { el.value = formatPhoneMask(el.value); updateSendState(); };
+      phoneMaskHandler = () => {
+        el.value = formatPhoneMask(el.value);
+        // Полный РФ-номер = 10 цифр (без ведущей 7/8). Send активна только на
+        // полном номере — иначе «+7 999» уходит как лид (битый контакт менеджеру
+        // + завышенная метрика chat_lead_submitted).
+        const digits = el.value.replace(/\D/g, '').replace(/^[78]/, '').slice(0, 10);
+        const valid = digits.length === 10;
+        sendBtn.disabled = !valid;
+        inputWrap.classList.toggle('chat-input-invalid', !valid && digits.length > 0);
+        // Переиспользуем стиль tg-hint (ok/pending/error) под инпутом.
+        let hintEl = inputWrap.querySelector('.chat-tg-hint') as HTMLDivElement | null;
+        if (!hintEl) {
+          hintEl = document.createElement('div');
+          hintEl.className = 'chat-tg-hint';
+          inputWrap.appendChild(hintEl);
+        }
+        if (valid) {
+          hintEl.textContent = '✓ Номер полный — можно отправлять';
+          hintEl.dataset.state = 'ok';
+        } else {
+          const left = 10 - digits.length;
+          const word = left === 1 ? 'цифра' : left < 5 ? 'цифры' : 'цифр';
+          hintEl.textContent = `Ещё ${left} ${word} номера`;
+          hintEl.dataset.state = 'pending';
+        }
+      };
       el.addEventListener('input', phoneMaskHandler);
+      // Стартовая подсказка + сразу блокируем send до полного номера
+      phoneMaskHandler(new Event('input'));
     }
     function disablePhoneMask(el: HTMLTextAreaElement): void {
       if (phoneMaskHandler) {
@@ -2101,6 +2062,8 @@ const PILL_PHRASES = [
       // Возвращаем стандартный текстовый режим при выходе из phone-mask
       el.removeAttribute('inputmode');
       el.removeAttribute('autocomplete');
+      inputWrap.classList.remove('chat-input-invalid');
+      inputWrap.querySelector('.chat-tg-hint')?.remove();
     }
 
     // Telegram-ник: автоматически держим '@' префиксом, валидируем формат
