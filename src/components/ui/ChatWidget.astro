@@ -2167,7 +2167,8 @@ const PILL_PHRASES = [
       if (dataCta === 'hero_primary') {
         source = 'hero';
         autoSend = !!prefill;  // если в href есть ?text=... → шлём автоматом
-      } else if (dataCta === 'pricing_primary') {
+      } else if (dataCta === 'pricing_primary' || /^tseny_/.test(dataCta)) {
+        // /tseny кнопки (tseny_hero/mid/bottom_primary) — тоже контекст цен.
         source = 'pricing';
         autoSend = !!prefill;
       } else if (dataCta === 'final_primary') {
@@ -2234,8 +2235,8 @@ const PILL_PHRASES = [
       // Welcome card подменяем в зависимости от источника
       const welcomeMap: Record<CtaContext['source'], { title: string; text: string }> = {
         pricing: {
-          title: 'Помогу с расчётом стоимости',
-          text: 'Подскажите, что продаёте и какая задача — посчитаю масштаб под вашу нишу.',
+          title: 'Посчитаем объём и цену под вашу карточку',
+          text: 'Цена фиксированная по объёму. Скажите, что продаёте — прикинем масштаб под вашу задачу.',
         },
         quiz: {
           title: 'Принял ваш запрос',
