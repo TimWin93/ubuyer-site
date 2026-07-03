@@ -1,10 +1,8 @@
 ---
-import { CONTACTS } from '@/consts';
 import CheckCircle2 from '@lucide/astro/icons/circle-check';
 import Star from '@lucide/astro/icons/star';
 import Wallet from '@lucide/astro/icons/wallet';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
-import MessageCircle from '@lucide/astro/icons/message-circle';
 
 const tiers = [
   { volume: 'от 100 выкупов', price: '500', popular: false },
@@ -127,19 +125,13 @@ const PRICING_CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(
     </div>
 
     <!-- CTA -->
-    <div class="max-w-2xl mx-auto text-center">
-      <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href={PRICING_CHAT_URL} data-cta="pricing_primary" class="btn-primary"
-           onclick="if(window.ymGoal)window.ymGoal('pricing_cta_click')">
-          Посчитать для моей карточки
-          <ArrowRight size={16} />
-        </a>
-        <a href={CONTACTS.telegram} target="_blank" rel="noopener" class="btn-ghost"
-           onclick="if(window.ymGoal)window.ymGoal('pricing_cta_click')">
-          <MessageCircle size={16} />
-          Написать в Telegram
-        </a>
-      </div>
+    <div class="max-w-md mx-auto text-center">
+      <a href={PRICING_CHAT_URL} data-cta="pricing_primary"
+         class="btn-primary inline-flex justify-center w-full text-base px-8 py-4"
+         onclick="if(window.ymGoal)window.ymGoal('pricing_cta_click')">
+        Посчитать для моей карточки
+        <ArrowRight size={16} />
+      </a>
       <p class="text-xs text-brand-muted mt-4">Бесплатно · Ответим за 15 минут</p>
       <p class="text-xs text-brand-muted/60 mt-1.5">Первые изменения позиций — через 1–2 недели после старта</p>
     </div>
