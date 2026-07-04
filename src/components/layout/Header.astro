@@ -1,5 +1,9 @@
 ---
 import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
+
+// Кнопка «Получить расчёт» в шапке ведёт в чат и СРАЗУ отправляет запрос —
+// Анастасия отвечает ценным первым сообщением (контекст pricing), без меню.
+const RASCHET_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent('Хочу получить бесплатный расчёт под мою карточку')}`;
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-brand-border bg-brand-bg/90 backdrop-blur-md">
@@ -44,7 +48,7 @@ import { NAV_LINKS, SITE_NAME, CONTACTS } from '@/consts';
       </a>
 
       <!-- desktop CTA -->
-      <a href={CONTACTS.telegram} target="_blank" rel="noopener"
+      <a href={RASCHET_URL} data-cta="pricing_primary" target="_blank" rel="noopener"
          class="hidden md:inline-flex btn-primary text-sm py-2.5 px-5">
         Получить расчёт
       </a>

@@ -2194,8 +2194,6 @@ const PILL_PHRASES = [
         source = 'faq';
       } else if (sectionId === 'pricing' || /рассчит|стоимост|тариф|цен/i.test(labelLower)) {
         source = 'pricing';
-      } else if (/получить расчёт|получить расчет/i.test(labelLower)) {
-        source = 'quiz';
       } else if (sectionId === 'hero' || link.closest('section')?.querySelector('h1')) {
         source = 'hero';
       }
@@ -2239,8 +2237,8 @@ const PILL_PHRASES = [
           text: 'Цена фиксированная по объёму. Скажите, что продаёте — прикинем масштаб под вашу задачу.',
         },
         quiz: {
-          title: 'Принял ваш запрос',
-          text: 'Сейчас уточню пару деталей и передам менеджеру с расчётом.',
+          title: 'Помогу с расчётом',
+          text: 'Опишите товар или задачу — соберём расчёт под вашу карточку.',
         },
         hero: {
           title: 'Стратегия роста под ваш товар',
