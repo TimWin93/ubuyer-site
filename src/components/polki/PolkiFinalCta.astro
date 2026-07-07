@@ -2,7 +2,6 @@
 import ArrowRight from '@lucide/astro/icons/arrow-right';
 import CheckCircle2 from '@lucide/astro/icons/circle-check';
 import MessageCircle from '@lucide/astro/icons/message-circle';
-import Shield from '@lucide/astro/icons/shield';
 import { polkiData } from '@/data/polki';
 
 const d = polkiData.finalCta;
@@ -60,29 +59,6 @@ const CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(d.chatMe
           <p class="text-brand-muted text-sm leading-relaxed mt-5 max-w-md mx-auto">
             {d.primaryCtaSub}
           </p>
-        </div>
-      </div>
-
-      <!-- second-tier CTA — для тех кто сразу к менеджеру (минует Анастасию, идёт в TG напрямую) -->
-      <div class="text-center mt-8">
-        <p class="text-brand-muted text-sm leading-relaxed">
-          {d.secondaryCtaPre}
-          <a
-            href={`https://t.me/Manager_UBuyer?text=${encodeURIComponent(d.chatMessage)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-brand-accent hover:text-brand-accent-hover transition-colors font-medium"
-          >
-            {d.secondaryCtaLink} →
-          </a>
-        </p>
-
-        <!-- VPN-подсказка для российских пользователей -->
-        <div class="mt-3 inline-flex items-center gap-2 rounded-full border border-brand-border bg-brand-surface px-4 py-1.5">
-          <Shield size={13} class="text-brand-accent-2" />
-          <span class="text-brand-muted text-xs leading-snug">
-            {d.secondaryCtaVpnNote}
-          </span>
         </div>
       </div>
 

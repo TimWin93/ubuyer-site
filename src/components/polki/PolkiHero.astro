@@ -54,14 +54,11 @@ const POLKI_CHAT_URL = `https://t.me/Manager_UBuyer?text=${encodeURIComponent(PO
         ))}
       </ul>
 
-      <!-- CTA -->
-      <div class="flex flex-col sm:flex-row sm:items-center gap-4 reveal mb-12" style="animation-delay:0.3s">
+      <!-- CTA — одна кнопка (обе ссылки вели в один AI-чат, вторая путала) -->
+      <div class="reveal mb-12" style="animation-delay:0.3s">
         <a href={POLKI_CHAT_URL} data-magnetic data-cta="hero_primary" class="btn-primary">
           {d.primaryCta}
           <ArrowRight size={16} />
-        </a>
-        <a href={POLKI_CHAT_URL} data-cta="hero_primary" class="text-brand-accent text-sm hover:text-brand-accent-hover transition-colors">
-          {d.secondaryCta} →
         </a>
       </div>
 
