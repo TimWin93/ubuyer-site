@@ -878,6 +878,51 @@ const PILL_PHRASES = [
     border-color: rgba(61,142,248,0.65);
   }
 
+  /* Поле контакта прямо в блоке (появляется после выбора канала) */
+  .contact-field-panel { margin-top: 10px; }
+  .contact-field-panel[hidden] { display: none; }
+  .contact-field-input {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 12px;
+    border: 1px solid #24385F;
+    background: #04091A;
+    color: #E4ECFF;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .contact-field-input:focus {
+    border-color: rgba(61,142,248,0.6);
+    box-shadow: 0 0 0 3px rgba(61,142,248,0.16);
+  }
+  .contact-field-hint {
+    min-height: 15px;
+    margin: 6px 2px 0;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: rgba(228,236,255,0.55);
+  }
+  .contact-field-hint[data-state="ok"]    { color: #10B981; }
+  .contact-field-hint[data-state="error"] { color: #F87171; }
+  .contact-field-submit {
+    width: 100%;
+    margin-top: 8px;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3D8EF8 0%, #2B7AE8 100%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 16px rgba(61,142,248,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+    transition: opacity 0.15s, transform 0.12s;
+  }
+  .contact-field-submit:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+  .contact-field-submit:not(:disabled):hover { opacity: 0.93; }
+  .contact-field-submit:not(:disabled):active { transform: scale(0.98); }
+
   .contact-privacy-note {
     font-size: 10.5px;
     color: rgba(228,236,255,0.5);
@@ -1362,40 +1407,93 @@ const PILL_PHRASES = [
           <button data-qr="telegram" class="qr-recommended"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M14 2L1.5 7l4 1.5L12 4 7 9l-.5 4 3-3 4 2.5z"/></svg></span>Telegram-ник</button>
           <button data-qr="phone" class="qr-recommended"><span class="qr-icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4c0-1 1-2 2-2h1l2 3-1.5 1.5c1 2 2 3 4 4L12 9l3 2v1c0 1-1 2-2 2C8 14 2 8 2 4z"/></svg></span>Телефон</button>
         </div>
+        <div class="contact-field-panel" hidden>
+          <input class="contact-field-input" type="text" autocomplete="off" spellcheck="false" aria-label="Контакт" />
+          <div class="contact-field-hint"></div>
+          <button type="button" class="contact-field-submit" disabled>Получить расчёт →</button>
+        </div>
         <div class="contact-privacy-note">
           <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1L2 3v3.5c0 2 1.5 4 4 4.5 2.5-.5 4-2.5 4-4.5V3L6 1z" stroke-linejoin="round"/></svg>
           Не передаём третьим, спам не шлём
         </div>`;
 
-      // Кнопки контактов — клиент может переключаться между TG/Phone.
-      // Блок НЕ исчезает после выбора (UX: возможность передумать).
-      // Активная кнопка подсвечивается классом qr-active.
-      const qrBtns = block.querySelectorAll<HTMLButtonElement>('[data-qr]');
+      // Кнопки-табы канала. По клику раскрывается поле ПРЯМО В БЛОКЕ (не внизу,
+      // не окно) + своя кнопка отправки. Контакт уходит через общий send() —
+      // так markLeadSubmitted и аналитика работают ровно как раньше.
+      const qrBtns    = block.querySelectorAll<HTMLButtonElement>('[data-qr]');
+      const fieldPanel  = block.querySelector('.contact-field-panel')  as HTMLDivElement;
+      const fieldInput  = block.querySelector('.contact-field-input')  as HTMLInputElement;
+      const fieldHint   = block.querySelector('.contact-field-hint')   as HTMLDivElement;
+      const fieldSubmit = block.querySelector('.contact-field-submit') as HTMLButtonElement;
+      let channel: 'telegram' | 'phone' | null = null;
+
+      function validateField(): boolean {
+        const v = fieldInput.value.trim();
+        let valid = false, hint = '', state = 'pending';
+        if (channel === 'telegram') {
+          valid = TG_USERNAME_RE.test(v);
+          if (valid) { hint = '✓ Ник корректный'; state = 'ok'; }
+          else if (v.length > 1 && v.length < 6) { hint = `Ещё ${6 - v.length} символ(а) — минимум 5`; }
+          else if (v.length > 1) { hint = 'Только латиница, цифры и _'; state = 'error'; }
+          else { hint = 'Где взять: Telegram → Настройки → Имя пользователя'; }
+        } else if (channel === 'phone') {
+          const digits = v.replace(/\D/g, '').replace(/^[78]/, '').slice(0, 10);
+          valid = digits.length === 10;
+          if (valid) { hint = '✓ Номер полный'; state = 'ok'; }
+          else { const left = 10 - digits.length; hint = `Ещё ${left} ${left === 1 ? 'цифра' : left < 5 ? 'цифры' : 'цифр'} номера`; }
+        }
+        fieldHint.textContent = hint;
+        fieldHint.dataset.state = state;
+        fieldSubmit.disabled = !valid;
+        return valid;
+      }
+
+      function setChannel(ch: 'telegram' | 'phone'): void {
+        channel = ch;
+        fieldPanel.hidden = false;
+        if (ch === 'telegram') { fieldInput.value = '@'; fieldInput.placeholder = '@ваш_ник'; fieldInput.setAttribute('inputmode', 'text'); }
+        else { fieldInput.value = '+7 '; fieldInput.placeholder = '+7 ___ ___ __ __'; fieldInput.setAttribute('inputmode', 'tel'); }
+        // blur→focus форсит правильную клавиатуру на iOS/Android
+        fieldInput.blur(); fieldInput.focus();
+        const len = fieldInput.value.length; fieldInput.setSelectionRange(len, len);
+        validateField();
+        scrollToBottom();
+      }
+
+      function submitField(): void {
+        if (!channel || !validateField()) return;
+        const v = fieldInput.value.trim();
+        // Прогоняем через общий send(): выставляем режим, чтобы send зафиксировал
+        // лид (wasContactMode) + отправил аналитику + отдал контакт на бэкенд.
+        input.dataset.inputMode = channel;
+        void send(v);
+      }
+
       qrBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-          const action = btn.dataset.qr;
-
-          // Telegram / Phone — переключаем режим input'а, помечаем кнопку
-          // active, остальные deactivate. Клиент может тыкнуть обратно.
+          const action = btn.dataset.qr as 'telegram' | 'phone';
           qrBtns.forEach(b => b.classList.remove('qr-active'));
           btn.classList.add('qr-active');
-
-          if (action === 'telegram') {
-            enableTelegramValidation(input);
-            (window as any).ymGoal?.('chat_picked_telegram');
-          } else if (action === 'phone') {
-            enablePhoneMask(input);
-            (window as any).ymGoal?.('chat_picked_phone');
-          }
-          // iOS/Android не переключают экранную клавиатуру при смене inputmode
-          // на уже сфокусированном поле — форсим пересборку через blur→focus,
-          // иначе на «Telegram-ник» остаётся цифровая раскладка от «Телефон».
-          input.blur();
-          input.focus();
-          input.setSelectionRange(input.value.length, input.value.length);
-          updateSendState();
+          setChannel(action);
+          (window as any).ymGoal?.(action === 'telegram' ? 'chat_picked_telegram' : 'chat_picked_phone');
         });
       });
+
+      fieldInput.addEventListener('input', () => {
+        if (channel === 'telegram') {
+          let v = fieldInput.value.replace(/[^@a-zA-Z0-9_]/g, '');
+          if (!v.startsWith('@')) v = '@' + v.replace(/^@+/, '');
+          if (v.length > 33) v = v.slice(0, 33);
+          fieldInput.value = v;
+        } else if (channel === 'phone') {
+          fieldInput.value = formatPhoneMask(fieldInput.value);
+        }
+        validateField();
+      });
+      fieldInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); submitField(); }
+      });
+      fieldSubmit.addEventListener('click', submitField);
 
       messagesEl.appendChild(block);
       scrollToBottom();
