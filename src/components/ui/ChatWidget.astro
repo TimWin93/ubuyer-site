@@ -1940,19 +1940,37 @@ const PILL_PHRASES = [
       // свободный ввод клиента (доп. вопросы) — этот блок для него не сработает.
       const opener = OPENERS[trimmed];
       if (opener) {
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // 1) индикатор «печатает» (~1.2с), в шапке — статус «Печатает…»
         typingEl.classList.remove('hidden');
         setHeaderTyping(true);
         scrollToBottom();
-        await sleep(700);
+        await sleep(reduceMotion ? 400 : 1200);
         typingEl.classList.add('hidden');
-        setHeaderTyping(false);
+        // готовим бабл ассистента
         const oRow = document.createElement('div');
         oRow.className = 'chat-msg chat-msg-assistant';
         const oBubble = document.createElement('div');
         oBubble.className = 'chat-bubble chat-bubble-assistant';
-        oBubble.innerHTML = renderMarkdown(opener);
         oRow.appendChild(oBubble);
         messagesEl.appendChild(oRow);
+        // 2) печатаем по словам (~2.5с) — ощущение живого менеджера
+        if (reduceMotion) {
+          oBubble.innerHTML = renderMarkdown(opener);
+          scrollToBottom();
+        } else {
+          oBubble.style.whiteSpace = 'pre-wrap';  // сохраняем переносы при печати
+          const words = opener.split(' ');
+          const perWord = Math.max(16, Math.min(45, Math.round(2500 / words.length)));
+          for (let i = 0; i < words.length; i++) {
+            oBubble.textContent = words.slice(0, i + 1).join(' ');
+            if (i % 3 === 0) scrollToBottom();
+            await sleep(perWord);
+          }
+          oBubble.style.whiteSpace = '';
+          oBubble.innerHTML = renderMarkdown(opener);  // финальный рендер
+        }
+        setHeaderTyping(false);
         history.push({ role: 'assistant', content: opener });
         saveHistory(history);
         scrollToBottom();
