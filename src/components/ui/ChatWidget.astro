@@ -1941,11 +1941,11 @@ const PILL_PHRASES = [
       const opener = OPENERS[trimmed];
       if (opener) {
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        // 1) индикатор «печатает» (~1.2с), в шапке — статус «Печатает…»
+        // 1) индикатор «печатает» (~3с), в шапке — статус «Печатает…»
         typingEl.classList.remove('hidden');
         setHeaderTyping(true);
         scrollToBottom();
-        await sleep(reduceMotion ? 400 : 1200);
+        await sleep(reduceMotion ? 400 : 3000);
         typingEl.classList.add('hidden');
         // готовим бабл ассистента
         const oRow = document.createElement('div');
