@@ -13,9 +13,9 @@ const stats = [
     sub: '1 заказ = 1 точка = 1 район Москвы',
   },
   {
-    value: 100,
-    suffix: '+',
-    label: 'человек в живой команде',
+    value: 'Своя',
+    suffix: '',
+    label: 'живая команда',
     sub: 'Кликеры, водители, склад — всё своё',
   },
   {
@@ -45,7 +45,7 @@ const stats = [
             class="text-4xl md:text-5xl font-bold text-brand-text mb-1.5 font-mono counter"
             data-target={s.value}
             data-suffix={s.suffix}
-          >0{s.suffix}</span>
+          >{typeof s.value === 'number' ? `0${s.suffix}` : s.value}</span>
 
           <span class="text-sm font-medium text-brand-text leading-snug mb-1">{s.label}</span>
           <span class="text-xs text-brand-muted leading-snug">{s.sub}</span>
@@ -57,8 +57,10 @@ const stats = [
 
 <script>
   function animateCounter(el: HTMLElement) {
-    const target = parseInt(el.dataset.target || '0');
+    const raw = el.dataset.target || '0';
+    const target = parseInt(raw);
     const suffix = el.dataset.suffix || '';
+    if (Number.isNaN(target)) { el.textContent = raw; return; }
     const duration = 1800;
     const start = performance.now();
     function step(now: number) {
